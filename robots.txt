@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://zentor.in/sitemap.xml
