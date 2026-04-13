@@ -100,46 +100,25 @@
 
     .reward-text { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
 
-    .form-section { padding: 2rem 1rem 6rem; }
+    .form-section { padding: 2rem 1rem 6rem; width: 100%; }
     .form-container {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
       border-radius: 16px;
       padding: 1.5rem;
       backdrop-filter: blur(20px);
-      max-width: 900px;
+      width: 100%;
+      max-width: 1000px;
       margin: 0 auto;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
-      width: 100%;
     }
-    .form-container > div:first-child {
-      width: 100% !important;
-      height: 600px !important;
-      min-height: 400px;
-    }
-    .form-container iframe { border-radius: 8px; width: 100%; }
-    .form-container a, .form-container button { min-height: 44px; min-width: 44px; }
+.form-container > div:first-child { width: 100% !important; height: 900px !important; min-height: 700px; }
 
-    @media (min-width: 1024px) {
-      .form-container { padding: 2rem; }
-      .form-container > div:first-child { height: 700px !important; }
-    }
-
-    @media (max-width: 480px) {
-      .form-section { padding: 1rem 0.75rem 4rem; }
-      .form-container { 
-        padding: 1rem; 
-        border-radius: 12px;
-      }
-      .form-container > div:first-child {
-        height: 500px !important;
-        min-height: 350px;
-      }
-    }
-
-    @media (hover: none) and (pointer: coarse) {
-      .reward-card:hover { transform: none; }
-    }
+    @media (min-width: 768px) { .form-container > div:first-child { height: 950px !important; } }
+    @media (min-width: 1024px) { .form-container { padding: 2rem; max-width: 1100px; } .form-container > div:first-child { height: 1000px !important; } }
+    @media (min-width: 1440px) { .form-container { max-width: 1200px; } .form-container > div:first-child { height: 1100px !important; } }
+    @media (max-width: 480px) { .form-section { padding: 1rem 0.75rem 4rem; } .form-container { padding: 1rem; border-radius: 12px; } .form-container > div:first-child { height: 750px !important; min-height: 600px; } }
+    @media (hover: none) and (pointer: coarse) { .reward-card:hover { transform: none; } }
 
     footer { position: relative; z-index: 2; text-align: center; padding: 4rem 1.5rem 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.1em; }
 
@@ -214,10 +193,11 @@
         </div>
       </div>
 
-      <section class="form-section" id="referral-form">
+      <section class="form-section">
         <div class="form-container">
-          <div style="width:100%;height:500px;" data-fillout-id="fc8pNeR8HWus" data-fillout-embed-type="standard" data-fillout-inherit-parameters data-fillout-dynamic-resize></div>
-          <script src="https://server.fillout.com/embed/v1/"></script>
+          <iframe src="https://zentor.fillout.com/referral_form" 
+            style="width:100%;height:900px;border:none;border-radius:8px;background:#fff;"
+            title="Referral Form"></iframe>
         </div>
       </section>
     </section>
