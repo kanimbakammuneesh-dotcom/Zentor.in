@@ -10,14 +10,15 @@
           <br>
           <span class="hl-gen">for GenZ</span>
         </h1>
-        <p class="tagline">Education, Reimagined</p>
+        <p class="tagline">Your Future Starts Here</p>
         <p class="sub-headline">
-          Your AI-powered mentor for finding the perfect college, 
-          getting direct admissions, and building your future in Chennai & Bengaluru.
+          India's most trusted AI-powered college admission platform. Get personalized college matches, 
+          direct admissions to top institutions in Chennai & Bengaluru, and expert counseling—everything 
+          you need to unlock your potential and build a successful career.
         </p>
         <div class="cta-wrap">
-          <a href="https://zentor.in/admissions/" class="btn-cta" aria-label="Get started with Zentor admissions" target="_self">
-            Get Started
+          <a href="https://zentor.in/admissions/" class="btn-cta" aria-label="Start your college admission journey with Zentor" target="_self">
+            Apply Now
             <span class="btn-arrow" aria-hidden="true">→</span>
           </a>
         </div>
@@ -29,25 +30,80 @@
       <div class="motivational-grid">
         <article class="motif-card">
           <div class="motif-icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
-          <h3 class="motif-title">Smart Matching</h3>
-          <p class="motif-text">AI-powered recommendations that understand your goals, scores, and aspirations.</p>
+          <h3 class="motif-title">AI-Powered Matching</h3>
+          <p class="motif-text">Our advanced AI analyzes your academic score, preferences, and career goals to recommend the perfect colleges tailored just for you.</p>
         </article>
         <article class="motif-card">
           <div class="motif-icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           </div>
           <h3 class="motif-title">Direct Admissions</h3>
-          <p class="motif-text">Skip the entrance exam stress. Get direct admission guidance to top colleges.</p>
+          <p class="motif-text">Skip the entrance exam stress. Get guaranteed direct admission guidance to India's top colleges in Chennai and Bengaluru.</p>
         </article>
         <article class="motif-card">
           <div class="motif-icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
-          <h3 class="motif-title">Expert Support</h3>
-          <p class="motif-text">One-on-one counseling from experts who care about your success.</p>
+          <h3 class="motif-title">Expert Counselors</h3>
+          <p class="motif-text">One-on-one sessions with experienced education experts who understand your aspirations and guide you to the right path.</p>
         </article>
+      </div>
+    </section>
+
+    <section class="stats" aria-labelledby="stats-heading">
+      <h2 id="stats-heading" class="sr-only">Zentor Success Metrics</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-number">500+</span>
+          <span class="stat-label">Colleges Partnered</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">10,000+</span>
+          <span class="stat-label">Students Placed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">95%</span>
+          <span class="stat-label">Success Rate</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="process" aria-labelledby="process-heading">
+      <h2 id="process-heading" class="section-title">How It Works</h2>
+      <div class="process-grid">
+        <article class="process-card">
+          <div class="process-step">1</div>
+          <h3 class="process-title">Share Your Details</h3>
+          <p class="process-text">Fill out a simple form with your academic scores, preferences, and career interests.</p>
+        </article>
+        <article class="process-card">
+          <div class="process-step">2</div>
+          <h3 class="process-title">Get AI Recommendations</h3>
+          <p class="process-text">Our smart algorithm matches you with colleges that fit your profile perfectly.</p>
+        </article>
+        <article class="process-card">
+          <div class="process-step">3</div>
+          <h3 class="process-title">Expert Counseling</h3>
+          <p class="process-text">Connect with our counselors to choose the best option and navigate the admission process.</p>
+        </article>
+        <article class="process-card">
+          <div class="process-step">4</div>
+          <h3 class="process-title">Secure Your Seat</h3>
+          <p class="process-text">Complete your admission with our step-by-step guidance and start your journey.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta-section" aria-labelledby="cta-heading">
+      <h2 id="cta-heading" class="sr-only">Ready to Start</h2>
+      <div class="cta-content">
+        <h3>Ready to Find Your Dream College?</h3>
+        <p>Join thousands of students who found their perfect college with Zentor</p>
+        <a href="https://zentor.in/admissions/" class="btn-cta-secondary" aria-label="Start your admission journey now">
+          Get Started Free
+        </a>
       </div>
     </section>
   </div>
@@ -57,24 +113,21 @@
 import { onMounted } from 'vue'
 
 onMounted(() => {
-  document.title = 'Zentor — AI-Powered College Guidance for Gen Z Students in India'
+  document.title = 'Zentor - AI-Powered College Admission Platform | Direct Admissions in Chennai & Bengaluru'
   
   const metaTags = [
-    { name: 'description', content: 'Find your dream college in Chennai & Bengaluru with AI-powered matching, direct admissions support, and expert counseling. Built for Gen Z students in India.' },
-    { property: 'og:title', content: 'Zentor — Mentor for GenZ' },
-    { property: 'og:description', content: 'Your AI-powered mentor for finding the perfect college, getting direct admissions, and building your future in India.' },
+    { name: 'description', content: 'Zentor is India\'s leading AI-powered college admission platform. Get personalized college matching, direct admissions to top colleges in Chennai & Bengaluru, and expert counseling. For 12th pass students seeking higher education.' },
+    { property: 'og:title', content: 'Zentor - AI College Admission Platform | Direct Admissions Chennai Bengaluru' },
+    { property: 'og:description', content: 'Find your dream college with AI-powered matching. Direct admissions, expert counseling, and personalized guidance for 12th pass students in India.' },
     { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { property: 'og:url', content: 'https://zentor.in' },
     { property: 'og:type', content: 'website' },
     { property: 'og:site_name', content: 'Zentor' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Zentor — Mentor for GenZ' },
-    { name: 'twitter:description', content: 'AI-powered college guidance for Gen Z students in India. Find your dream college in Chennai & Bengaluru.' },
+    { name: 'twitter:title', content: 'Zentor - AI College Admission Platform | Direct Admissions Chennai Bengaluru' },
+    { name: 'twitter:description', content: 'AI-powered college admission platform for Gen Z. Direct admissions, expert counseling, personalized matching.' },
     { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { name: 'twitter:site', content: '@zentoredu' },
-    { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
-    { name: 'geo.region', content: 'IN' },
-    { name: 'geo.placename', content: 'India' },
   ]
   
   metaTags.forEach(tag => {
@@ -105,82 +158,75 @@ onMounted(() => {
 
 .hero {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 4rem;
-  padding-top: 8rem;
-  padding-bottom: 4rem;
+  text-align: center;
+  padding-top: 10rem;
+  padding-bottom: 6rem;
 }
 
 .hero-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: left;
-  width: 100%;
+  align-items: center;
+  max-width: 900px;
+  text-align: center;
 }
 
 .eyebrow {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'DM Sans', sans-serif;
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--muted);
   border: 1px solid var(--glass-border);
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.25rem;
   border-radius: 100px;
   background: var(--glass-bg);
   backdrop-filter: blur(20px);
-  margin-bottom: 2rem;
-  white-space: wrap;
+  margin-bottom: 2.5rem;
 }
 
 .eyebrow-slash {
   color: var(--magenta);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .headline {
   font-family: 'Unbounded', sans-serif;
-  font-size: clamp(3rem, 7vw, 7.5rem);
+  font-size: clamp(3rem, 8vw, 7rem);
   font-weight: 900;
-  line-height: 0.95;
-  letter-spacing: -0.05em;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
-  margin-bottom: 1.5rem;
-  word-break: break-word;
+  margin-bottom: 2rem;
 }
 
-.hl-zen {
-  color: var(--text);
-}
-
-.hl-gen {
-  color: var(--acid);
-}
+.hl-zen { color: var(--text); }
+.hl-gen { color: var(--acid); }
 
 .tagline {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
   color: var(--cyan);
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-  text-transform: uppercase;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
 }
 
 .sub-headline {
-  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  font-size: clamp(1.125rem, 1.5vw, 1.25rem);
   color: var(--muted);
-  max-width: 500px;
-  line-height: 1.6;
-  font-weight: 500;
-  margin-bottom: 2.5rem;
+  max-width: 700px;
+  line-height: 1.7;
+  font-weight: 400;
+  margin-bottom: 3rem;
 }
 
 .cta-wrap {
@@ -188,106 +234,249 @@ onMounted(() => {
 }
 
 .btn-cta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   color: var(--bg);
   padding: 1.25rem 3rem;
-  border-radius: 4px;
+  border-radius: 8px;
   background: var(--acid);
   text-decoration: none;
   transition: all 0.3s;
   display: inline-flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .btn-cta:hover {
   background: var(--cyan);
-  box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
-  transform: scale(1.02);
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
+  transform: translateY(-2px);
 }
 
-.btn-arrow {
-  transition: transform 0.3s;
-}
-
-.btn-cta:hover .btn-arrow {
-  transform: translateX(4px);
-}
+.btn-arrow { transition: transform 0.3s; }
+.btn-cta:hover .btn-arrow { transform: translateX(6px); }
 
 .features {
-  padding-bottom: 4rem;
+  padding: 4rem 1rem 6rem;
+  width: 100%;
 }
 
 .motivational-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .motif-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  border-radius: 6px;
-  padding: 2rem;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
   backdrop-filter: blur(20px);
-  text-align: left;
+  text-align: center;
   transition: all 0.3s;
 }
 
 .motif-card:hover {
   border-color: var(--acid);
-  transform: translateY(-4px);
-  box-shadow: 0 10px 40px rgba(212, 255, 0, 0.1);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(212, 255, 0, 0.15);
 }
 
 .motif-icon {
   color: var(--acid);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 .motif-title {
   font-family: 'Unbounded', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .motif-text {
-  font-size: 0.95rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.stats {
+  padding: 4rem 1rem;
+  background: var(--glass-bg);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat-number {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--acid);
+}
+
+.stat-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.process {
+  padding: 6rem 1rem;
+}
+
+.section-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.process-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(20px);
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.process-card:hover {
+  border-color: var(--cyan);
+  transform: translateY(-4px);
+}
+
+.process-step {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--acid);
+  color: var(--bg);
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+}
+
+.process-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.process-text {
+  font-size: 0.9rem;
   color: var(--muted);
   line-height: 1.5;
 }
 
+.cta-section {
+  padding: 6rem 1rem;
+  background: linear-gradient(135deg, rgba(75, 0, 255, 0.2) 0%, rgba(212, 255, 0, 0.1) 100%);
+  border-top: 1px solid var(--glass-border);
+}
+
+.cta-content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cta-content h3 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.cta-content p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.btn-cta-secondary {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+  padding: 1.25rem 3rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 2px solid var(--acid);
+  text-decoration: none;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-cta-secondary:hover {
+  background: var(--acid);
+  color: var(--bg);
+}
+
+@media (max-width: 1024px) {
+  .motivational-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 768px) {
-  .hero {
-    grid-template-columns: 1fr;
-    padding-top: 6rem;
-    padding-bottom: 3rem;
-    min-height: auto;
-  }
-
-  .hero-content {
-    align-items: center;
-    text-align: center;
-  }
-
-  .motivational-grid {
-    grid-template-columns: 1fr;
-  }
+  .motivational-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .process-grid { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .motif-card,
-  .btn-cta {
-    transition: none;
-  }
+  .motif-card, .btn-cta, .process-card, .btn-cta-secondary { transition: none; }
 }
 </style>
