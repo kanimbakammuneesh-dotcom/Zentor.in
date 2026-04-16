@@ -53,7 +53,6 @@
         role="region"
         aria-label="Admission application form"
       ></div>
-      <script src="https://server.fillout.com/embed/v1/"></script>
     </div>
   </section>
 </template>
@@ -92,6 +91,11 @@ onMounted(() => {
     }
     meta.setAttribute('content', tag.content)
   })
+
+  const script = document.createElement('script')
+  script.src = 'https://server.fillout.com/embed/v1/'
+  script.async = true
+  document.body.appendChild(script)
 })
 </script>
 
