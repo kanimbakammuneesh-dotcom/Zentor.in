@@ -1,63 +1,65 @@
 <template>
-  <section class="hero">
-    <div class="hero-content">
-      <span class="eyebrow">
-        <span class="eyebrow-slash">/</span>Refer & Earn
-      </span>
-      <h1 class="headline">
-        <span class="hl-refer">Refer</span>
-        <span class="hl-earn">Earn</span>
-        <br>Together
-      </h1>
-      <p class="tagline">Share the Opportunity</p>
-      <p class="sub-headline">
-        Know someone looking for college admissions? Share Zentor with your friends
-        and family. When they enroll, you both win rewards!
-      </p>
-    </div>
-  </section>
+  <div class="page">
+    <section class="hero">
+      <div class="hero-content">
+        <span class="eyebrow">
+          <span class="eyebrow-slash">/</span>Refer & Earn
+        </span>
+        <h1 class="headline">
+          <span class="hl-refer">Refer</span>
+          <span class="hl-earn">Earn</span>
+          <br>Together
+        </h1>
+        <p class="tagline">Share the Opportunity</p>
+        <p class="sub-headline">
+          Know someone looking for college admissions? Share Zentor with your friends
+          and family. When they enroll, you both win rewards!
+        </p>
+      </div>
+    </section>
 
-  <section class="rewards" aria-labelledby="rewards-heading">
-    <h2 id="rewards-heading" class="sr-only">Referral Rewards</h2>
-    <div class="rewards-grid">
-      <article class="reward-card">
-        <div class="reward-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"/><path d="M12 12V3"/><path d="M8 7l4-4 4 4"/></svg>
-        </div>
-        <h3 class="reward-title">Bonus Rewards</h3>
-        <p class="reward-text">Earn exclusive rewards for every successful referral. The more you share, the more you earn!</p>
-      </article>
-      <article class="reward-card">
-        <div class="reward-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h3 class="reward-title">Help Friends</h3>
-        <p class="reward-text">Give your friends a head start in their college journey with expert guidance and support.</p>
-      </article>
-      <article class="reward-card">
-        <div class="reward-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        </div>
-        <h3 class="reward-title">Unlock Perks</h3>
-        <p class="reward-text">Top referrers get access to exclusive webinars, priority counseling, and special merchandise.</p>
-      </article>
-    </div>
-  </section>
+    <section class="rewards" aria-labelledby="rewards-heading">
+      <h2 id="rewards-heading" class="sr-only">Referral Rewards</h2>
+      <div class="rewards-grid">
+        <article class="reward-card">
+          <div class="reward-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"/><path d="M12 12V3"/><path d="M8 7l4-4 4 4"/></svg>
+          </div>
+          <h3 class="reward-title">Bonus Rewards</h3>
+          <p class="reward-text">Earn exclusive rewards for every successful referral. The more you share, the more you earn!</p>
+        </article>
+        <article class="reward-card">
+          <div class="reward-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="reward-title">Help Friends</h3>
+          <p class="reward-text">Give your friends a head start in their college journey with expert guidance and support.</p>
+        </article>
+        <article class="reward-card">
+          <div class="reward-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h3 class="reward-title">Unlock Perks</h3>
+          <p class="reward-text">Top referrers get access to exclusive webinars, priority counseling, and special merchandise.</p>
+        </article>
+      </div>
+    </section>
 
-  <section class="form-section" aria-labelledby="referral-form-heading">
-    <h2 id="referral-form-heading" class="sr-only">Referral Form</h2>
-    <div class="form-container">
-      <iframe 
-        id="referral-iframe" 
-        src="https://zentor.fillout.com/referral_form"
-        style="width:100%;height:900px;border:none;border-radius:8px;background:#fff;"
-        title="Zentor Referral Form"
-        allow="clipboard-read; clipboard-write"
-        loading="eager"
-        aria-label="Referral signup form"
-      ></iframe>
-    </div>
-  </section>
+    <section class="form-section" aria-labelledby="referral-form-heading">
+      <h2 id="referral-form-heading" class="sr-only">Referral Form</h2>
+      <div class="form-container">
+        <iframe 
+          id="referral-iframe" 
+          src="https://zentor.fillout.com/referral_form"
+          style="width:100%;height:900px;border:none;border-radius:8px;background:#fff;"
+          title="Zentor Referral Form"
+          allow="clipboard-read; clipboard-write"
+          loading="eager"
+          aria-label="Referral signup form"
+        ></iframe>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script setup>

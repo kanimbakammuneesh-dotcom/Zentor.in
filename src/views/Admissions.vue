@@ -1,60 +1,62 @@
 <template>
-  <section class="hero">
-    <div class="hero-content">
-      <span class="eyebrow">
-        <span class="eyebrow-slash">/</span> Admissions 2026
-      </span>
-      <h1 class="headline">
-        <span class="hl-your">Your</span>
-        <span class="hl-future">Future</span>
-        <br>Starts Here
-      </h1>
-      <p class="tagline">Find Your Dream College</p>
-      <p class="sub-headline">
-        Get personalized college matching, direct admission support, and expert counseling for your higher education journey in Chennai & Bengaluru.
-      </p>
-    </div>
-  </section>
+  <div class="page">
+    <section class="hero">
+      <div class="hero-content">
+        <span class="eyebrow">
+          <span class="eyebrow-slash">/</span> Admissions 2026
+        </span>
+        <h1 class="headline">
+          <span class="hl-your">Your</span>
+          <span class="hl-future">Future</span>
+          <br>Starts Here
+        </h1>
+        <p class="tagline">Find Your Dream College</p>
+        <p class="sub-headline">
+          Get personalized college matching, direct admission support, and expert counseling for your higher education journey in Chennai & Bengaluru.
+        </p>
+      </div>
+    </section>
 
-  <section class="features" aria-labelledby="admissions-features-heading">
-    <h2 id="admissions-features-heading" class="sr-only">What We Offer</h2>
-    <div class="motivational-grid">
-      <article class="motif-card">
-        <div class="motif-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        </div>
-        <h3 class="motif-title">Personalized Matching</h3>
-        <p class="motif-text">AI-powered college recommendations based on your score, preferences, and career goals.</p>
-      </article>
-      <article class="motif-card">
-        <div class="motif-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </div>
-        <h3 class="motif-title">Direct Admissions</h3>
-        <p class="motif-text">Skip the entrance exam stress. Get direct admission guidance to top colleges.</p>
-      </article>
-      <article class="motif-card">
-        <div class="motif-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <h3 class="motif-title">Expert Counseling</h3>
-        <p class="motif-text">One-on-one sessions with education experts who understand your aspirations.</p>
-      </article>
-    </div>
-  </section>
+    <section class="features" aria-labelledby="admissions-features-heading">
+      <h2 id="admissions-features-heading" class="sr-only">What We Offer</h2>
+      <div class="motivational-grid">
+        <article class="motif-card">
+          <div class="motif-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <h3 class="motif-title">Personalized Matching</h3>
+          <p class="motif-text">AI-powered college recommendations based on your score, preferences, and career goals.</p>
+        </article>
+        <article class="motif-card">
+          <div class="motif-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3 class="motif-title">Direct Admissions</h3>
+          <p class="motif-text">Skip the entrance exam stress. Get direct admission guidance to top colleges.</p>
+        </article>
+        <article class="motif-card">
+          <div class="motif-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3 class="motif-title">Expert Counseling</h3>
+          <p class="motif-text">One-on-one sessions with education experts who understand your aspirations.</p>
+        </article>
+      </div>
+    </section>
 
-  <section class="form-section" id="apply-form" aria-labelledby="form-heading">
-    <h2 id="form-heading" class="sr-only">Apply for Admissions</h2>
-    <div class="form-container">
-      <div 
-        data-fillout-id="674b9de46e91d0478aa199" 
-        data-fillout-embed-type="standard" 
-        data-fillout-iframe-height="900px"
-        role="region"
-        aria-label="Admission application form"
-      ></div>
-    </div>
-  </section>
+    <section class="form-section" id="apply-form" aria-labelledby="form-heading">
+      <h2 id="form-heading" class="sr-only">Apply for Admissions</h2>
+      <div class="form-container">
+        <div 
+          data-fillout-id="674b9de46e91d0478aa199" 
+          data-fillout-embed-type="standard" 
+          data-fillout-iframe-height="900px"
+          role="region"
+          aria-label="Admission application form"
+        ></div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script setup>
