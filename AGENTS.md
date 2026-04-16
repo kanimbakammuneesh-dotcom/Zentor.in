@@ -12,6 +12,31 @@
 
 ---
 
+## Tech Stack
+
+| Component | Technology |
+|-----------|-------------|
+| Framework | Vue 3 (Composition API) |
+| Build Tool | Vite |
+| Routing | Vue Router |
+| SEO | @unhead/vue |
+| Hosting | Cloudflare Pages (via GitHub Pages) |
+| Forms | Fillout |
+
+---
+
+## Run Commands
+
+```bash
+npm run dev      # Start local development server
+npm run build    # Build for production (outputs to dist/)
+npm run preview  # Preview production build locally
+```
+
+**Deployment:** Push to GitHub — Cloudflare Pages auto-deploys from `dist/` folder.
+
+---
+
 ## Design Theme
 
 ### Color Palette (CSS Variables)
@@ -43,18 +68,200 @@
 
 ---
 
+## SEO Optimization (Vue.js)
+
+### Core SEO Principles
+
+All Vue views use `@unhead/vue` for meta tag management. Every page MUST include:
+
+#### 1. Title Tags
+- Format: `Page Name — Zentor` or `Page Name | Zentor`
+- Length: 50-60 characters
+- Unique per page (no duplicates)
+- Include primary keyword
+
+```vue
+useSeoMeta({
+  title: 'Admissions 2026 — Apply Now | Zentor',
+})
+```
+
+#### 2. Meta Descriptions
+- Length: 120-160 characters
+- Include primary & secondary keywords
+- Clear call-to-action when appropriate
+- Unique per page
+
+```vue
+useSeoMeta({
+  description: 'Apply for direct admissions to top colleges in Chennai & Bengaluru...',
+})
+```
+
+#### 3. Open Graph Tags (Social Sharing)
+```vue
+useSeoMeta({
+  ogTitle: 'Page Title',
+  ogDescription: 'Description for social sharing',
+  ogImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
+  ogUrl: 'https://zentor.in/page/',
+  ogType: 'website',
+  ogSiteName: 'Zentor',
+})
+```
+
+#### 4. Twitter Card Tags
+```vue
+useSeoMeta({
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Page Title',
+  twitterDescription: 'Description (max 200 chars)',
+  twitterImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
+  twitterSite: '@zentoredu',
+})
+```
+
+#### 5. Canonical URLs
+```vue
+useSeoMeta({
+  canonical: 'https://zentor.in/page/',
+})
+```
+
+#### 6. Robots Directives
+```vue
+useSeoMeta({
+  robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+})
+```
+
+#### 7. 404 Pages (Noindex)
+```vue
+useSeoMeta({
+  robots: 'noindex, nofollow',
+  googlebot: 'noindex, nofollow',
+})
+```
+
+### Schema.org Structured Data
+
+Add JSON-LD in `App.vue` for Organization and WebSite schema:
+
+```vue
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Organization',
+            '@id': 'https://zentor.in/#organization',
+            name: 'Zentor',
+            url: 'https://zentor.in',
+            // ... additional properties
+          },
+          {
+            '@type': 'WebSite',
+            '@id': 'https://zentor.in/#website',
+            url: 'https://zentor.in',
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: 'https://zentor.in/admissions/?q={search_term_string}',
+              'query-input': 'required name=search_term_string'
+            }
+          }
+        ]
+      })
+    }
+  ]
+})
+```
+
+### SEO Meta Template (Copy-Paste for New Pages)
+
+```vue
+<script setup>
+import { useSeoMeta } from '@unhead/vue'
+
+const route = useRoute()
+const currentUrl = `https://zentor.in${route.path}`
+
+useSeoMeta({
+  title: 'Page Title | Zentor',
+  ogTitle: 'Page Title',
+  description: 'Unique description for this page (120-160 chars)...',
+  ogDescription: 'Social sharing description...',
+  ogImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
+  ogUrl: currentUrl,
+  ogType: 'website',
+  ogSiteName: 'Zentor',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Page Title',
+  twitterDescription: 'Twitter description...',
+  twitterImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
+  twitterSite: '@zentoredu',
+  canonical: currentUrl,
+  robots: 'index, follow, max-image-preview:large, max-snippet:-1',
+  'article:published_time': '2025-01-01',
+  'article:modified_time': new Date().toISOString(),
+  'article:author': 'https://zentor.in/#organization',
+  'article:section': 'Section Name',
+  'article:tag': ['tag1', 'tag2', 'tag3']
+})
+</script>
+```
+
+### Accessibility Requirements (Critical for SEO)
+
+1. **Semantic HTML** - Use proper heading hierarchy (h1 → h2 → h3)
+2. **Skip Links** - Include `#main-content` for keyboard navigation
+3. **Alt Text** - All images must have descriptive alt text
+4. **ARIA Labels** - Add `aria-label` to icon-only buttons
+5. **Focus States** - Visible focus rings on all interactive elements
+6. **Reduced Motion** - Respect `prefers-reduced-motion`
+
+```vue
+<nav>
+  <router-link to="/" class="nav-logo">Zentor</router-link>
+</nav>
+
+<main id="main-content">
+  <h1>Page Title</h1>
+  <section aria-labelledby="section-heading">
+    <h2 id="section-heading">Section Heading</h2>
+  </section>
+</main>
+```
+
+### Performance for SEO
+
+Core Web Vitals targets (Google ranking factors):
+- **LCP** (Largest Contentful Paint): < 2.5s
+- **INP** (Interaction to Next Paint): < 200ms
+- **CLS** (Cumulative Layout Shift): < 0.1
+
+Best practices:
+- Lazy load below-fold images with `loading="lazy"`
+- Preload critical fonts
+- Minimize JavaScript bundle size
+- Use `will-change` sparingly for animations
+
+---
+
 ## Reusable Components
 
 ### 1. Navigation Bar
 ```html
 <nav>
-  <a href="../" class="nav-logo">Zentor</a>
-  <a href="admissions/" class="nav-pill">Admissions</a>
+  <router-link to="/" class="nav-logo">Zentor</router-link>
+  <div class="nav-links">
+    <router-link to="/admissions/" class="nav-link">Admissions</router-link>
+    <router-link to="/referrals/" class="nav-pill">Refer & Earn</router-link>
+  </div>
 </nav>
 ```
-- Fixed position, gradient background, backdrop blur
-- Logo with animated acid-green dot
-- Pill-shaped CTA button in acid green
 
 ### 2. Hero Section
 - Eyebrow text with glassmorphism pill (e.g., `/ Admissions 2026`)
@@ -65,100 +272,69 @@
 ### 3. Glass Cards (Grid)
 ```html
 <div class="motivational-grid">
-  <div class="motif-card">
-    <div class="motif-icon">🚀</div>
+  <article class="motif-card">
+    <div class="motif-icon">
+      <!-- SVG icon, NOT emoji -->
+    </div>
     <h3 class="motif-title">Title</h3>
     <p class="motif-text">Description</p>
-  </div>
+  </article>
 </div>
 ```
-- Use for feature/benefit sections
-- Hover: border glows with `--acid`, subtle lift
 
 ### 4. Form Container (for Fillout embeds)
 ```html
-<section class="form-section">
+<section class="form-section" aria-labelledby="form-heading">
+  <h2 id="form-heading" class="sr-only">Form Title</h2>
   <div class="form-container">
-    <div style="width:100%;height:600px;" data-fillout-id="ID" ...></div>
+    <div data-fillout-id="ID" ...></div>
     <script src="https://server.fillout.com/embed/v1/"></script>
   </div>
 </section>
 ```
-- Max-width: 900px, centered
-- Height: 600px desktop, 500px mobile
-- Glassmorphism border styling
 
 ### 5. Footer
 ```html
 <footer>
   <p>Zentor — Mentor for GenZ</p>
-  <a href="referrals/" class="secret-refer">Refer & Earn</a>
+  <router-link to="/referrals/" class="secret-refer">Refer & Earn</router-link>
 </footer>
 ```
-- Small text, muted color
-- Secret referral link (subtle styling)
 
 ---
 
 ## Page Structure Template
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>Page Title — Zentor</title>
-  <meta name="description" content="...">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=JetBrains+Mono:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
-  <style>
-    /* CSS variables & base styles */
-  </style>
-</head>
-<body>
-  <canvas id="bg-canvas"></canvas>
-  <div class="noise-bg"></div>
-  <div class="radial-glow"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
+```vue
+<template>
+  <section class="hero">
+    <span class="eyebrow">
+      <span class="eyebrow-slash">/</span>Page Name
+    </span>
+    <h1>Page <span class="hl-accent">Headline</span></h1>
+    <p class="tagline">Key Message</p>
+    <p class="sub-headline">Description...</p>
+  </section>
+  
+  <section aria-labelledby="features-heading">
+    <h2 id="features-heading" class="sr-only">Section Name</h2>
+    <!-- Cards grid -->
+  </section>
+</template>
 
-  <nav>
-    <a href="../" class="nav-logo">Zentor</a>
-    <a href="../" class="nav-pill">Home</a>
-  </nav>
+<script setup>
+import { useSeoMeta } from '@unhead/vue'
 
-  <main class="page">
-    <!-- Hero -->
-    <section class="hero">
-      <!-- Content -->
-    </section>
+useSeoMeta({
+  title: 'Page Title | Zentor',
+  description: 'Unique description...',
+  // ... other SEO tags
+})
+</script>
 
-    <!-- Features/Cards -->
-    <section>
-      <div class="motivational-grid">
-        <!-- Cards -->
-      </div>
-    </section>
-
-    <!-- Form (if needed) -->
-    <section class="form-section">
-      <div class="form-container">
-        <!-- Fillout embed -->
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>Zentor — Mentor for GenZ</p>
-  </footer>
-
-  <script>
-    // Particle animation
-  </script>
-</body>
-</html>
+<style scoped>
+/* Mobile-first styles */
+</style>
 ```
 
 ---
@@ -166,13 +342,14 @@
 ## Development Rules
 
 ### Must Follow
-1. **Clean URLs** - Use folder structure: `page/index.html` → `site.com/page/`
+1. **Clean URLs** - Use trailing slashes: `/page/`
 2. **Mobile-first** - Test on 375px first, then scale up
 3. **Touch targets** - Minimum 44px for buttons/links
-4. **Responsive iframes** - Set explicit heights, use `!important` for Fillout embeds
-5. **Accessibility** - Proper heading hierarchy, alt text, keyboard navigation
+4. **SEO meta** - Every page needs unique title, description, OG tags
+5. **Accessibility** - Proper heading hierarchy, alt text, keyboard nav
 6. **Reduced motion** - Add `@media (prefers-reduced-motion)` support
-7. **No build steps** - Plain HTML/CSS/JS only for GitHub Pages
+7. **SVG icons** - Use SVG components, NOT emojis for icons
+8. **Schema.org** - Add JSON-LD structured data for rich snippets
 
 ### Keep Consistent
 1. Same header/footer across all pages
@@ -182,24 +359,83 @@
 5. Same border-radius values (6px cards, 16px forms)
 
 ### Avoid
-1. New fonts (stick to Unbounded, JetBrains Mono, DM Sans)
-2. Light backgrounds
-3. Complex JavaScript frameworks
+1. **New fonts** - Stick to Unbounded, JetBrains Mono, DM Sans
+2. **Light backgrounds** - Dark mode only
+3. **Emojis as icons** - Use SVG instead
+4. **Duplicate meta** - Every page needs unique tags
+5. **Blocking renders** - Load third-party scripts async/defer
 
 ---
 
 ## File Structure
 ```
 /
-├── index.html          # Landing page
-├── admissions/         # Admissions page
-│   └── index.html
-├── referrals/         # Refer & Earn page
-│   └── index.html
-├── sitemap.xml        # SEO
-├── robots.txt         # SEO
-└── AGENTS.md          # This file
+├── index.html          # Entry HTML with fallback SEO meta
+├── src/
+│   ├── main.js         # Vue app initialization + head setup
+│   ├── App.vue         # Root component + Schema.org JSON-LD
+│   ├── views/          # Page components
+│   │   ├── Home.vue
+│   │   ├── Admissions.vue
+│   │   ├── Referrals.vue
+│   │   └── Error.vue   # 404 page
+│   ├── components/     # Reusable components
+│   │   ├── NavBar.vue
+│   │   └── Footer.vue
+│   └── assets/
+│       └── main.css
+├── public/
+│   └── logos/          # OG images
+├── dist/               # Build output (auto-deployed)
+├── sitemap.xml         # XML sitemap
+├── robots.txt          # Crawler directives
+├── _headers            # Cloudflare headers
+├── vite.config.js      # Build configuration
+├── package.json
+└── AGENTS.md           # This file
 ```
+
+---
+
+## SEO Files Reference
+
+### sitemap.xml
+- Update `{{lastmod}}` before deployment with current date (ISO 8601)
+- Include image tags for OG images
+- Add hreflang for language variants
+
+### robots.txt
+- Allows all AI crawlers (GPTBot, Claude, Perplexity)
+- Blocks known scrapers
+- Points to sitemap
+
+### _headers (Cloudflare)
+- Security headers (X-Frame-Options, CSP, etc.)
+- Cache-Control for static assets
+- Short TTL for HTML, long TTL for assets
+
+---
+
+## Pre-Launch SEO Checklist
+
+Before deploying, verify:
+
+- [ ] Unique title tags on every page (< 60 chars)
+- [ ] Unique meta descriptions on every page (120-160 chars)
+- [ ] Open Graph tags set correctly
+- [ ] Twitter Card tags set correctly
+- [ ] Canonical URLs configured
+- [ ] Schema.org JSON-LD validates (test at https://validator.schema.org/)
+- [ ] sitemap.xml accessible at `/sitemap.xml`
+- [ ] robots.txt accessible at `/robots.txt`
+- [ ] OG images exist and are 1200x630px minimum
+- [ ] `<html lang="en-IN">` set correctly
+- [ ] `<main id="main-content">` exists for skip links
+- [ ] Headings follow h1 → h2 → h3 hierarchy
+- [ ] All images have alt text
+- [ ] No duplicate meta descriptions
+- [ ] Google Search Console verified
+- [ ] Sitemap submitted to Google Search Console
 
 ---
 
@@ -217,3 +453,22 @@
 - [ ] Navigation links work correctly
 - [ ] No horizontal scroll
 - [ ] Touch targets ≥44px
+- [ ] SEO meta visible in "View Source"
+- [ ] Lighthouse SEO score > 90
+- [ ] Core Web Vitals pass (LCP < 2.5s, INP < 200ms, CLS < 0.1)
+
+---
+
+## External Resources
+
+### SEO Testing
+- [Google Search Console](https://search.google.com/search-console)
+- [Schema.org Validator](https://validator.schema.org/)
+- [Google Rich Results Test](https://search.google.com/test/rich-results)
+- [Lighthouse](https://developer.chrome.com/docs/lighthouse/)
+- [Facebook Debugger](https://developers.facebook.com/tools/debug/)
+
+### Vue SEO
+- [@unhead/vue Documentation](https://unhead.unjs.io/)
+- [Vue.js SEO Guide](https://nuxtseo.com/learn-seo/vue)
+- [2026 SEO Checklist for Vue](https://nuxtseo.com/learn-seo/checklist)
