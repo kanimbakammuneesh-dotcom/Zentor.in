@@ -60,9 +60,9 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, nextTick } from 'vue'
 
-onMounted(() => {
+onMounted(async () => {
   document.title = 'Admissions 2026 — Apply Now | Zentor'
   
   const metaTags = [
@@ -94,10 +94,26 @@ onMounted(() => {
     meta.setAttribute('content', tag.content)
   })
 
-  const script = document.createElement('script')
-  script.src = 'https://server.fillout.com/embed/v1/'
-  script.async = true
-  document.body.appendChild(script)
+  await nextTick()
+
+  if (window.location.hash === '#apply-form') {
+    setTimeout(() => {
+      const formSection = document.getElementById('apply-form')
+      if (formSection) {
+        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }, 100)
+  }
+
+  setTimeout(() => {
+    const existingScript = document.querySelector('script[src*="fillout"]')
+    if (!existingScript) {
+      const script = document.createElement('script')
+      script.src = 'https://server.fillout.com/embed/v1/'
+      script.async = true
+      document.body.appendChild(script)
+    }
+  }, 300)
 })
 </script>
 
