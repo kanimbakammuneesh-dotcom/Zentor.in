@@ -146,10 +146,7 @@ onMounted(() => {
   margin-bottom: 2rem;
 }
 
-.eyebrow-slash {
-  color: var(--cyan);
-  font-weight: 800;
-}
+.eyebrow-slash { color: var(--cyan); font-weight: 800; }
 
 .headline {
   font-family: 'Unbounded', sans-serif;
@@ -161,14 +158,8 @@ onMounted(() => {
   margin-bottom: 1.5rem;
 }
 
-.hl-refer {
-  color: var(--acid);
-}
-
-.hl-earn {
-  color: transparent;
-  -webkit-text-stroke: 2px var(--magenta);
-}
+.hl-refer { color: var(--acid); }
+.hl-earn { color: transparent; -webkit-text-stroke: 2px var(--magenta); }
 
 .tagline {
   font-family: 'JetBrains Mono', monospace;
@@ -188,9 +179,7 @@ onMounted(() => {
   margin-bottom: 3rem;
 }
 
-.rewards {
-  padding-bottom: 4rem;
-}
+.rewards { padding-bottom: 4rem; }
 
 .rewards-grid {
   display: grid;
@@ -216,10 +205,7 @@ onMounted(() => {
   box-shadow: 0 10px 40px rgba(255, 0, 85, 0.1);
 }
 
-.reward-icon {
-  color: var(--magenta);
-  margin-bottom: 1rem;
-}
+.reward-icon { color: var(--magenta); margin-bottom: 1rem; }
 
 .reward-title {
   font-family: 'Unbounded', sans-serif;
@@ -256,60 +242,35 @@ onMounted(() => {
 .form-container iframe {
   width: 100% !important;
   height: 900px !important;
+  border: none;
+  border-radius: 8px;
 }
 
 @media (min-width: 768px) {
-  .form-container iframe {
-    height: 950px !important;
-  }
+  .form-container iframe { height: 950px !important; }
 }
 
 @media (min-width: 1024px) {
-  .form-container {
-    padding: 2rem;
-    max-width: 1100px;
-  }
-
-  .form-container iframe {
-    height: 1000px !important;
-  }
+  .form-container { padding: 2rem; max-width: 1100px; }
+  .form-container iframe { height: 1000px !important; }
 }
 
 @media (min-width: 1440px) {
-  .form-container {
-    max-width: 1200px;
-  }
-
-  .form-container iframe {
-    height: 1100px !important;
-  }
+  .form-container { max-width: 1200px; }
+  .form-container iframe { height: 1100px !important; }
 }
 
 @media (max-width: 480px) {
-  .form-section {
-    padding: 1rem 0.75rem 4rem;
-  }
-
-  .form-container {
-    padding: 1rem;
-    border-radius: 12px;
-  }
-
-  .form-container iframe {
-    height: 750px !important;
-    min-height: 600px;
-  }
+  .form-section { padding: 1rem 0.75rem 4rem; }
+  .form-container { padding: 1rem; border-radius: 12px; }
+  .form-container iframe { height: 750px !important; min-height: 600px; }
 }
 
 @media (hover: none) and (pointer: coarse) {
-  .reward-card:hover {
-    transform: none;
-  }
+  .reward-card:hover { transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reward-card {
-    transition: none;
-  }
+  .reward-card { transition: none; }
 }
 </style>

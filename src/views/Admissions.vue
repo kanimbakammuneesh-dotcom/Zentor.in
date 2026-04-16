@@ -47,22 +47,22 @@
     <section class="form-section" id="apply-form" aria-labelledby="form-heading">
       <h2 id="form-heading" class="sr-only">Apply for Admissions</h2>
       <div class="form-container">
-        <div 
-          data-fillout-id="674b9de46e91d0478aa199" 
-          data-fillout-embed-type="standard" 
-          data-fillout-iframe-height="900px"
-          role="region"
+        <iframe 
+          id="admission-iframe"
+          src="https://zentor.fillout.com/admission_interest"
+          title="Zentor Admission Form"
+          loading="eager"
           aria-label="Admission application form"
-        ></div>
+        ></iframe>
       </div>
     </section>
   </div>
 </template>
 
 <script setup>
-import { onMounted, nextTick } from 'vue'
+import { onMounted } from 'vue'
 
-onMounted(async () => {
+onMounted(() => {
   document.title = 'Admissions 2026 — Apply Now | Zentor'
   
   const metaTags = [
@@ -78,9 +78,6 @@ onMounted(async () => {
     { name: 'twitter:description', content: 'Direct admissions to top colleges in Chennai & Bengaluru. AI-powered matching and expert counseling.' },
     { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { name: 'twitter:site', content: '@zentoredu' },
-    { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
-    { name: 'geo.region', content: 'IN-TN' },
-    { name: 'geo.placename', content: 'Chennai, Bengaluru' },
   ]
   
   metaTags.forEach(tag => {
@@ -93,27 +90,6 @@ onMounted(async () => {
     }
     meta.setAttribute('content', tag.content)
   })
-
-  await nextTick()
-
-  if (window.location.hash === '#apply-form') {
-    setTimeout(() => {
-      const formSection = document.getElementById('apply-form')
-      if (formSection) {
-        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-    }, 100)
-  }
-
-  setTimeout(() => {
-    const existingScript = document.querySelector('script[src*="fillout"]')
-    if (!existingScript) {
-      const script = document.createElement('script')
-      script.src = 'https://server.fillout.com/embed/v1/'
-      script.async = true
-      document.body.appendChild(script)
-    }
-  }, 300)
 })
 </script>
 
@@ -181,14 +157,8 @@ onMounted(async () => {
   margin-bottom: 1.5rem;
 }
 
-.hl-your {
-  color: var(--text);
-}
-
-.hl-future {
-  color: transparent;
-  -webkit-text-stroke: 2px var(--acid);
-}
+.hl-your { color: var(--text); }
+.hl-future { color: transparent; -webkit-text-stroke: 2px var(--acid); }
 
 .tagline {
   font-family: 'JetBrains Mono', monospace;
@@ -235,10 +205,7 @@ onMounted(async () => {
   box-shadow: 0 10px 40px rgba(212, 255, 0, 0.1);
 }
 
-.motif-icon {
-  color: var(--acid);
-  margin-bottom: 1rem;
-}
+.motif-icon { color: var(--acid); margin-bottom: 1rem; }
 
 .motif-title {
   font-family: 'Unbounded', sans-serif;
@@ -272,23 +239,15 @@ onMounted(async () => {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.form-container :deep(div:first-child) {
+.form-container iframe {
   width: 100% !important;
   height: 900px !important;
-  min-height: 700px;
-}
-
-.form-container :deep(iframe) {
+  border: none;
   border-radius: 8px;
-  width: 100%;
-  display: block;
-  max-width: 100%;
 }
 
 @media (min-width: 768px) {
-  .form-container :deep(div:first-child) {
-    height: 950px !important;
-  }
+  .form-container iframe { height: 950px !important; }
 }
 
 @media (min-width: 1024px) {
@@ -296,47 +255,25 @@ onMounted(async () => {
     padding: 2rem;
     max-width: 1100px;
   }
-
-  .form-container :deep(div:first-child) {
-    height: 1000px !important;
-  }
+  .form-container iframe { height: 1000px !important; }
 }
 
 @media (min-width: 1440px) {
-  .form-container {
-    max-width: 1200px;
-  }
-
-  .form-container :deep(div:first-child) {
-    height: 1100px !important;
-  }
+  .form-container { max-width: 1200px; }
+  .form-container iframe { height: 1100px !important; }
 }
 
 @media (max-width: 480px) {
-  .form-section {
-    padding: 1rem 0.75rem 4rem;
-  }
-
-  .form-container {
-    padding: 1rem;
-    border-radius: 12px;
-  }
-
-  .form-container :deep(div:first-child) {
-    height: 750px !important;
-    min-height: 600px;
-  }
+  .form-section { padding: 1rem 0.75rem 4rem; }
+  .form-container { padding: 1rem; border-radius: 12px; }
+  .form-container iframe { height: 750px !important; min-height: 600px; }
 }
 
 @media (hover: none) and (pointer: coarse) {
-  .motif-card:hover {
-    transform: none;
-  }
+  .motif-card:hover { transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .motif-card {
-    transition: none;
-  }
+  .motif-card { transition: none; }
 }
 </style>
