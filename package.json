@@ -10,8 +10,6 @@
     "deploy": "npm run build && npx wrangler deploy"
   },
   "dependencies": {
-    "@unhead/schema": "^3.0.4",
-    "@unhead/vue": "^3.0.4",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },

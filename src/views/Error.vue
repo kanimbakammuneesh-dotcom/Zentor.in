@@ -16,14 +16,26 @@
 </template>
 
 <script setup>
-import { useSeoMeta } from '@unhead/vue'
+import { onMounted } from 'vue'
 
-useSeoMeta({
-  title: '404 — Page Not Found | Zentor',
-  titleTemplate: '%s',
-  description: 'The page you were looking for could not be found. Return to the Zentor homepage.',
-  robots: 'noindex, nofollow',
-  googlebot: 'noindex, nofollow'
+onMounted(() => {
+  document.title = '404 — Page Not Found | Zentor'
+  
+  const metaTags = [
+    { name: 'description', content: 'The page you were looking for could not be found. Return to the Zentor homepage.' },
+    { name: 'robots', content: 'noindex, nofollow' },
+    { name: 'googlebot', content: 'noindex, nofollow' },
+  ]
+  
+  metaTags.forEach(tag => {
+    let meta = document.querySelector(`meta[name="${tag.name}"]`)
+    if (!meta) {
+      meta = document.createElement('meta')
+      meta.setAttribute('name', tag.name)
+      document.head.appendChild(meta)
+    }
+    meta.setAttribute('content', tag.content)
+  })
 })
 </script>
 

@@ -59,33 +59,39 @@
 </template>
 
 <script setup>
-import { useSeoMeta } from '@unhead/vue'
+import { onMounted } from 'vue'
 
-useSeoMeta({
-  title: 'Admissions 2026 — Apply Now | Zentor',
-  titleTemplate: '%s',
-  ogTitle: 'Apply for Admissions 2026 — Zentor',
-  description: 'Apply for direct admissions to top colleges in Chennai & Bengaluru. AI-powered college matching, expert counseling, and personalized guidance for your higher education journey.',
-  ogDescription: 'Your future starts here. Apply for admissions to top colleges in Chennai & Bengaluru with personalized guidance and direct admission support.',
-  ogImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
-  ogUrl: 'https://zentor.in/admissions/',
-  ogType: 'website',
-  ogSiteName: 'Zentor',
-  twitterCard: 'summary_large_image',
-  twitterTitle: 'Apply for Admissions 2026 — Zentor',
-  twitterDescription: 'Direct admissions to top colleges in Chennai & Bengaluru. AI-powered matching and expert counseling.',
-  twitterImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
-  twitterSite: '@zentoredu',
-  canonical: 'https://zentor.in/admissions/',
-  robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-  'article:published_time': '2025-01-01',
-  'article:modified_time': new Date().toISOString(),
-  'article:author': 'https://zentor.in/#organization',
-  'article:section': 'Admissions',
-  'article:tag': ['admissions', 'college', 'India', 'Chennai', 'Bengaluru', 'higher education', 'direct admission'],
-  'og:special_languages': 'en-IN, ta-IN, te-IN, kn-IN',
-  'geo.region': 'IN-TN',
-  'geo.placename': 'Chennai, Bengaluru'
+onMounted(() => {
+  document.title = 'Admissions 2026 — Apply Now | Zentor'
+  
+  const metaTags = [
+    { name: 'description', content: 'Apply for direct admissions to top colleges in Chennai & Bengaluru. AI-powered college matching, expert counseling, and personalized guidance for your higher education journey.' },
+    { property: 'og:title', content: 'Apply for Admissions 2026 — Zentor' },
+    { property: 'og:description', content: 'Your future starts here. Apply for admissions to top colleges in Chennai & Bengaluru with personalized guidance and direct admission support.' },
+    { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
+    { property: 'og:url', content: 'https://zentor.in/admissions/' },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:site_name', content: 'Zentor' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'Apply for Admissions 2026 — Zentor' },
+    { name: 'twitter:description', content: 'Direct admissions to top colleges in Chennai & Bengaluru. AI-powered matching and expert counseling.' },
+    { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
+    { name: 'twitter:site', content: '@zentoredu' },
+    { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
+    { name: 'geo.region', content: 'IN-TN' },
+    { name: 'geo.placename', content: 'Chennai, Bengaluru' },
+  ]
+  
+  metaTags.forEach(tag => {
+    let meta = document.querySelector(`meta[${tag.property ? 'property' : 'name'}="${tag.property || tag.name}"]`)
+    if (!meta) {
+      meta = document.createElement('meta')
+      if (tag.property) meta.setAttribute('property', tag.property)
+      else meta.setAttribute('name', tag.name)
+      document.head.appendChild(meta)
+    }
+    meta.setAttribute('content', tag.content)
+  })
 })
 </script>
 

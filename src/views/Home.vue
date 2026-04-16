@@ -52,37 +52,39 @@
 </template>
 
 <script setup>
-import { useSeoMeta } from '@unhead/vue'
-import { useRoute } from 'vue-router'
+import { onMounted } from 'vue'
 
-const route = useRoute()
-
-useSeoMeta({
-  title: 'Zentor — AI-Powered College Guidance for Gen Z Students in India',
-  titleTemplate: '%s',
-  ogTitle: 'Zentor — Mentor for GenZ',
-  description: 'Find your dream college in Chennai & Bengaluru with AI-powered matching, direct admissions support, and expert counseling. Built for Gen Z students in India.',
-  ogDescription: 'Your AI-powered mentor for finding the perfect college, getting direct admissions, and building your future in India.',
-  ogImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
-  ogUrl: 'https://zentor.in',
-  ogType: 'website',
-  ogSiteName: 'Zentor',
-  twitterCard: 'summary_large_image',
-  twitterTitle: 'Zentor — Mentor for GenZ',
-  twitterDescription: 'AI-powered college guidance for Gen Z students in India. Find your dream college in Chennai & Bengaluru.',
-  twitterImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
-  twitterSite: '@zentoredu',
-  canonical: 'https://zentor.in',
-  robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-  'article:published_time': '2025-01-01',
-  'article:modified_time': new Date().toISOString(),
-  'article:author': 'https://zentor.in/#organization',
-  'article:section': 'Education',
-  'article:tag': ['education', 'college admissions', 'India', 'Gen Z', 'Chennai', 'Bengaluru'],
-  'geo.region': 'IN',
-  'geo.placename': 'India',
-  'geo.position': '13.0827;80.2707',
-  'ICBM': '13.0827, 80.2707'
+onMounted(() => {
+  document.title = 'Zentor — AI-Powered College Guidance for Gen Z Students in India'
+  
+  const metaTags = [
+    { name: 'description', content: 'Find your dream college in Chennai & Bengaluru with AI-powered matching, direct admissions support, and expert counseling. Built for Gen Z students in India.' },
+    { property: 'og:title', content: 'Zentor — Mentor for GenZ' },
+    { property: 'og:description', content: 'Your AI-powered mentor for finding the perfect college, getting direct admissions, and building your future in India.' },
+    { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
+    { property: 'og:url', content: 'https://zentor.in' },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:site_name', content: 'Zentor' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'Zentor — Mentor for GenZ' },
+    { name: 'twitter:description', content: 'AI-powered college guidance for Gen Z students in India. Find your dream college in Chennai & Bengaluru.' },
+    { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
+    { name: 'twitter:site', content: '@zentoredu' },
+    { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
+    { name: 'geo.region', content: 'IN' },
+    { name: 'geo.placename', content: 'India' },
+  ]
+  
+  metaTags.forEach(tag => {
+    let meta = document.querySelector(`meta[${tag.property ? 'property' : 'name'}="${tag.property || tag.name}"]`)
+    if (!meta) {
+      meta = document.createElement('meta')
+      if (tag.property) meta.setAttribute('property', tag.property)
+      else meta.setAttribute('name', tag.name)
+      document.head.appendChild(meta)
+    }
+    meta.setAttribute('content', tag.content)
+  })
 })
 </script>
 

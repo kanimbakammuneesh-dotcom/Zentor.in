@@ -1,5 +1,4 @@
 import { createApp } from 'vue'
-import { createUnhead } from '@unhead/vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import './assets/main.css'
@@ -28,9 +27,6 @@ const router = createRouter({
   }
 })
 
-const head = createUnhead()
-
 const app = createApp(App)
 app.use(router)
-app.use(head)
 app.mount('#app')

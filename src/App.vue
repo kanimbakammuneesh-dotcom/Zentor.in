@@ -17,109 +17,106 @@
 </template>
 
 <script setup>
-import { useHead } from '@unhead/vue'
 import { onMounted } from 'vue'
 import NavBar from './components/NavBar.vue'
 import SiteFooter from './components/Footer.vue'
 
-useHead({
-  script: [
-    {
-      type: 'application/ld+json',
-      children: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@graph': [
-          {
-            '@type': 'Organization',
-            '@id': 'https://zentor.in/#organization',
-            name: 'Zentor',
-            url: 'https://zentor.in',
-            logo: {
-              '@type': 'ImageObject',
-              url: 'https://zentor.in/logos/zentor_for_darkbg.png',
-              width: 400,
-              height: 150
-            },
-            description: 'AI-powered education platform for Gen Z students in India. Find your dream college in Chennai & Bengaluru with personalized matching, direct admissions, and expert counseling.',
-            foundingDate: '2025',
-            areaServed: {
-              '@type': 'Place',
-              name: 'India'
-            },
-            contactPoint: {
-              '@type': 'ContactPoint',
-              contactType: 'Admissions',
-              availableLanguage: ['English', 'Hindi', 'Tamil', 'Telugu', 'Kannada']
-            },
-            sameAs: [
-              'https://instagram.com/zentoredu',
-              'https://linkedin.com/company/zentor'
-            ]
-          },
-          {
-            '@type': 'WebSite',
-            '@id': 'https://zentor.in/#website',
-            url: 'https://zentor.in',
-            name: 'Zentor — Mentor for GenZ',
-            publisher: { '@id': 'https://zentor.in/#organization' },
-            potentialAction: {
-              '@type': 'SearchAction',
-              target: 'https://zentor.in/admissions/?q={search_term_string}',
-              'query-input': 'required name=search_term_string'
-            },
-            inLanguage: 'en-IN'
-          },
-          {
-            '@type': 'WebPage',
-            '@id': 'https://zentor.in/#webpage',
-            url: 'https://zentor.in',
-            name: 'Zentor — Mentor for GenZ',
-            isPartOf: { '@id': 'https://zentor.in/#website' },
-            about: { '@id': 'https://zentor.in/#organization' },
-            description: 'AI-powered mentorship for finding the perfect college, getting direct admissions, and building your future in Chennai & Bengaluru.',
-            datePublished: '2025-01-01',
-            dateModified: new Date().toISOString().split('T')[0]
-          },
-          {
-            '@type': 'Service',
-            '@id': 'https://zentor.in/#service',
-            name: 'College Admission Services',
-            serviceType: 'Educational Consulting',
-            provider: { '@id': 'https://zentor.in/#organization' },
-            areaServed: ['Chennai', 'Bengaluru', 'India'],
-            description: 'Personalized college matching, direct admission support, and expert counseling for intermediate students in India.',
-            hasOfferCatalog: {
-              '@type': 'OfferCatalog',
-              name: 'Education Services',
-              itemListElement: [
-                {
-                  '@type': 'Offer',
-                  itemOffered: {
-                    '@type': 'Service',
-                    name: 'AI-Powered College Matching'
-                  }
-                },
-                {
-                  '@type': 'Offer',
-                  itemOffered: {
-                    '@type': 'Service',
-                    name: 'Direct Admission Guidance'
-                  }
-                },
-                {
-                  '@type': 'Offer',
-                  itemOffered: {
-                    '@type': 'Service',
-                    name: 'Expert Counseling'
-                  }
-                }
-              ]
-            }
-          }
+onMounted(() => {
+  const schemaScript = document.createElement('script')
+  schemaScript.type = 'application/ld+json'
+  schemaScript.text = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': 'https://zentor.in/#organization',
+        name: 'Zentor',
+        url: 'https://zentor.in',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://zentor.in/logos/zentor_for_darkbg.png',
+          width: 400,
+          height: 150
+        },
+        description: 'AI-powered education platform for Gen Z students in India. Find your dream college in Chennai & Bengaluru with personalized matching, direct admissions, and expert counseling.',
+        foundingDate: '2025',
+        areaServed: {
+          '@type': 'Place',
+          name: 'India'
+        },
+        contactPoint: {
+          '@type': 'ContactPoint',
+          contactType: 'Admissions',
+          availableLanguage: ['English', 'Hindi', 'Tamil', 'Telugu', 'Kannada']
+        },
+        sameAs: [
+          'https://instagram.com/zentoredu',
+          'https://linkedin.com/company/zentor'
         ]
-      })
-    }
-  ]
+      },
+      {
+        '@type': 'WebSite',
+        '@id': 'https://zentor.in/#website',
+        url: 'https://zentor.in',
+        name: 'Zentor — Mentor for GenZ',
+        publisher: { '@id': 'https://zentor.in/#organization' },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: 'https://zentor.in/admissions/?q={search_term_string}',
+          'query-input': 'required name=search_term_string'
+        },
+        inLanguage: 'en-IN'
+      },
+      {
+        '@type': 'WebPage',
+        '@id': 'https://zentor.in/#webpage',
+        url: 'https://zentor.in',
+        name: 'Zentor — Mentor for GenZ',
+        isPartOf: { '@id': 'https://zentor.in/#website' },
+        about: { '@id': 'https://zentor.in/#organization' },
+        description: 'AI-powered mentorship for finding the perfect college, getting direct admissions, and building your future in Chennai & Bengaluru.',
+        datePublished: '2025-01-01',
+        dateModified: new Date().toISOString().split('T')[0]
+      },
+      {
+        '@type': 'Service',
+        '@id': 'https://zentor.in/#service',
+        name: 'College Admission Services',
+        serviceType: 'Educational Consulting',
+        provider: { '@id': 'https://zentor.in/#organization' },
+        areaServed: ['Chennai', 'Bengaluru', 'India'],
+        description: 'Personalized college matching, direct admission support, and expert counseling for intermediate students in India.',
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: 'Education Services',
+          itemListElement: [
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'AI-Powered College Matching'
+              }
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Direct Admission Guidance'
+              }
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Expert Counseling'
+              }
+            }
+          ]
+        }
+      }
+    ]
+  })
+  document.head.appendChild(schemaScript)
 })
 
 onMounted(() => {

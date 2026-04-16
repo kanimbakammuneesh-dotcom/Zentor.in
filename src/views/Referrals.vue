@@ -61,30 +61,37 @@
 </template>
 
 <script setup>
-import { useSeoMeta } from '@unhead/vue'
+import { onMounted } from 'vue'
 
-useSeoMeta({
-  title: 'Refer & Earn — Share Zentor and Earn Rewards',
-  titleTemplate: '%s',
-  ogTitle: 'Refer & Earn — Zentor',
-  description: 'Share Zentor with friends and earn rewards. Help others find their dream college and unlock exclusive perks, webinars, and priority counseling.',
-  ogDescription: 'Know someone looking for college admissions? Share Zentor with your friends and family. When they enroll, you both win rewards!',
-  ogImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
-  ogUrl: 'https://zentor.in/referrals/',
-  ogType: 'website',
-  ogSiteName: 'Zentor',
-  twitterCard: 'summary_large_image',
-  twitterTitle: 'Refer & Earn — Zentor',
-  twitterDescription: 'Share Zentor with friends and earn rewards. Help others find their dream college.',
-  twitterImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
-  twitterSite: '@zentoredu',
-  canonical: 'https://zentor.in/referrals/',
-  robots: 'index, follow, max-image-preview:large',
-  'article:published_time': '2025-01-01',
-  'article:modified_time': new Date().toISOString(),
-  'article:author': 'https://zentor.in/#organization',
-  'article:section': 'Referrals',
-  'article:tag': ['referral', 'rewards', 'college', 'education', 'earn']
+onMounted(() => {
+  document.title = 'Refer & Earn — Share Zentor and Earn Rewards'
+  
+  const metaTags = [
+    { name: 'description', content: 'Share Zentor with friends and earn rewards. Help others find their dream college and unlock exclusive perks, webinars, and priority counseling.' },
+    { property: 'og:title', content: 'Refer & Earn — Zentor' },
+    { property: 'og:description', content: 'Know someone looking for college admissions? Share Zentor with your friends and family. When they enroll, you both win rewards!' },
+    { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
+    { property: 'og:url', content: 'https://zentor.in/referrals/' },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:site_name', content: 'Zentor' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'Refer & Earn — Zentor' },
+    { name: 'twitter:description', content: 'Share Zentor with friends and earn rewards. Help others find their dream college.' },
+    { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
+    { name: 'twitter:site', content: '@zentoredu' },
+    { name: 'robots', content: 'index, follow, max-image-preview:large' },
+  ]
+  
+  metaTags.forEach(tag => {
+    let meta = document.querySelector(`meta[${tag.property ? 'property' : 'name'}="${tag.property || tag.name}"]`)
+    if (!meta) {
+      meta = document.createElement('meta')
+      if (tag.property) meta.setAttribute('property', tag.property)
+      else meta.setAttribute('name', tag.name)
+      document.head.appendChild(meta)
+    }
+    meta.setAttribute('content', tag.content)
+  })
 })
 </script>
 
