@@ -16,10 +16,10 @@
           getting direct admissions, and building your future in Chennai & Bengaluru.
         </p>
         <div class="cta-wrap">
-          <router-link to="/admissions/#apply-form" class="btn-cta" aria-label="Get started with Zentor admissions">
+          <a href="https://zentor.in/admissions/#apply-form" class="btn-cta" aria-label="Get started with Zentor admissions" target="_self">
             Get Started
             <span class="btn-arrow" aria-hidden="true">→</span>
-          </router-link>
+          </a>
         </div>
       </div>
     </section>
