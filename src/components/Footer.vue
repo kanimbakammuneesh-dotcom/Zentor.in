@@ -5,6 +5,10 @@
       <span>Zentor — Mentor for GenZ</span>
     </div>
     <div class="footer-links">
+      <router-link to="/privacy/" class="nav-link">Privacy</router-link>
+      <router-link to="/terms/" class="nav-link">Terms</router-link>
+      <router-link to="/contact/" class="nav-link">Contact</router-link>
+      <span class="divider">|</span>
       <span class="udyam-wrapper" @click="revealUdyam" title="Click to reveal UDYAM">
         <span v-if="!udyamRevealed" class="udyam-masked">••••••••</span>
         <span v-else class="udyam-code">UDYAM: UDYAM-AP-23-0083180</span>
@@ -57,7 +61,23 @@ footer {
 .footer-links {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: var(--muted);
+  text-decoration: none;
+  opacity: 0.6;
+  transition: all 0.2s;
+}
+
+.nav-link:hover {
+  opacity: 1;
+  color: var(--acid);
+}
+
+.divider {
+  opacity: 0.3;
 }
 
 .udyam-wrapper {
