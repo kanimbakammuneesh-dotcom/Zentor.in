@@ -52,7 +52,6 @@ Zentor uses a component-based architecture. Use existing components before creat
 | `HeroSection` | Hero with eyebrow, headline, tagline, CTA | Pass props for content |
 | `CardGrid` | Grid of feature/benefit cards | Pass `cards` array + `accentColor` |
 | `FormContainer` | Fillout iframe wrapper | Pass `src` for form URL |
-| `StatsSection` | Statistics numbers display | Pass `stats` array |
 | `ProcessSteps` | Step-by-step process flow | Pass `steps` array |
 | `BenefitGrid` | Benefits with emoji icons | Pass `cards` array |
 | `NavBar` | Navigation with PNG logo | Already in App.vue |
@@ -226,6 +225,20 @@ Use Vue Router:
 <router-link to="/admissions/" class="nav-link">Admissions</router-link>
 ```
 
+### Routes
+
+All routes must have trailing slashes:
+
+| Route | Page | Description |
+|-------|------|-------------|
+| `/` | Home | Landing page |
+| `/admissions/` | Admissions | Admission interest form |
+| `/referrals/` | Referrals | Referral program |
+| `/privacy/` | PrivacyPolicy | DPDPA Privacy Policy |
+| `/terms/` | Terms | Terms of Service |
+| `/contact/` | Contact | Contact page |
+| `/*` | Error | 404 page |
+
 ---
 
 ## File Structure
@@ -237,10 +250,13 @@ Use Vue Router:
 │   ├── main.js            # Vue app + router
 │   ├── App.vue            # Root + NavBar + Footer
 │   ├── views/
-│   │   ├── Home.vue       # Uses HeroSection, CardGrid, StatsSection, ProcessSteps
-│   │   ├── Admissions.vue  # Uses HeroSection, CardGrid, BenefitGrid, FormContainer
-│   │   ├── Referrals.vue   # Uses HeroSection, CardGrid, ProcessSteps, FormContainer
-│   │   └── Error.vue       # 404 page
+│   │   ├── Home.vue           # Uses HeroSection, CardGrid, ProcessSteps
+│   │   ├── Admissions.vue     # Uses HeroSection, CardGrid, BenefitGrid, FormContainer
+│   │   ├── Referrals.vue      # Uses HeroSection, CardGrid, ProcessSteps, FormContainer
+│   │   ├── PrivacyPolicy.vue  # Uses HeroSection (DPDPA compliant)
+│   │   ├── Terms.vue          # Uses HeroSection
+│   │   ├── Contact.vue        # Uses HeroSection (email + Instagram)
+│   │   └── Error.vue          # 404 page
 │   └── components/
 │       ├── HeroSection.vue
 │       ├── CardGrid.vue
@@ -283,7 +299,7 @@ Use Vue Router:
 
 ---
 
-## Testing Checklist
+## Testing Checklist 
 
 - [ ] Build passes (`npm run build`)
 - [ ] Works on mobile (375px), tablet (768px), desktop (1024px+)
@@ -293,3 +309,35 @@ Use Vue Router:
 - [ ] Touch targets ≥44px
 - [ ] Console has no errors
 - [ ] Lighthouse SEO > 90
+
+---
+
+## GitHub Workflow
+
+### Creating PRs
+```bash
+# Commit changes
+git add . && git commit -m "feat: description"
+
+# Push to dev
+git push origin dev
+
+# Create PR
+gh pr create --base main --head dev --title "PR Title" --body "Description"
+```
+
+### Merging
+```bash
+# After PR approval
+gh pr merge <pr-number> --admin --merge
+```
+
+---
+
+## Contact Info
+
+| Channel | Details |
+|---------|---------|
+| Email | contact.email@zentor.in |
+| Instagram | @zentor.edtech |
+| Website | zentor.in |
