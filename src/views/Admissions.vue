@@ -121,7 +121,59 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 800px;
+  max-width: 900px;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--glass-border);
+  padding: 0.6rem 1.25rem;
+  border-radius: 100px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  margin-bottom: 2.5rem;
+}
+
+.eyebrow-slash {
+  color: var(--magenta);
+  font-weight: 700;
+}
+
+.headline {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.tagline {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  color: var(--cyan);
+  margin-bottom: 2.5rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sub-headline {
+  font-size: clamp(1.125rem, 1.5vw, 1.25rem);
+  color: var(--muted);
+  max-width: 650px;
+  line-height: 1.7;
+  font-weight: 400;
 }
 
 .eyebrow {
@@ -183,43 +235,62 @@ onMounted(() => {
 
 .motivational-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   width: 100%;
   max-width: 1000px;
+  margin: 0 auto;
 }
 
 .motif-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  border-radius: 6px;
-  padding: 2rem;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
   backdrop-filter: blur(20px);
-  text-align: left;
+  text-align: center;
   transition: all 0.3s;
 }
 
 .motif-card:hover {
   border-color: var(--acid);
-  transform: translateY(-4px);
-  box-shadow: 0 10px 40px rgba(212, 255, 0, 0.1);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(212, 255, 0, 0.15);
 }
 
-.motif-icon { color: var(--acid); margin-bottom: 1rem; }
+.motif-icon {
+  color: var(--acid);
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
 
 .motif-title {
   font-family: 'Unbounded', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .motif-text {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--muted);
-  line-height: 1.5;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .motivational-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .motivational-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .form-section {
