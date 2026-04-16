@@ -1,80 +1,79 @@
 <template>
   <div class="page">
-    <section class="hero">
-      <div class="hero-content">
-        <span class="eyebrow">
-          <span class="eyebrow-slash">/</span> Admissions 2026
-        </span>
-        <h1 class="headline">
-          <span class="hl-your">Your</span>
-          <span class="hl-future">Future</span>
-          <br>Starts Here
-        </h1>
-        <p class="tagline">Find Your Dream College</p>
-        <p class="sub-headline">
-          Get personalized college matching, direct admission support, and expert counseling for your higher education journey in Chennai & Bengaluru.
-        </p>
-      </div>
-    </section>
+    <HeroSection
+      eyebrow="Admissions 2026"
+      eyebrow-slash="/"
+      headline="Your Future"
+      headline-highlight="Starts Here"
+      tagline="Find Your Dream College"
+      subheadline="Take the first step toward your dream career. Get personalized college matching, direct admission guidance, and expert counseling to top institutions in Chennai & Bengaluru. Join thousands of successful students who trusted Zentor with their future."
+    />
 
-    <section class="features" aria-labelledby="admissions-features-heading">
-      <h2 id="admissions-features-heading" class="sr-only">What We Offer</h2>
-      <div class="motivational-grid">
-        <article class="motif-card">
-          <div class="motif-icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-          </div>
-          <h3 class="motif-title">Personalized Matching</h3>
-          <p class="motif-text">AI-powered college recommendations based on your score, preferences, and career goals.</p>
-        </article>
-        <article class="motif-card">
-          <div class="motif-icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          </div>
-          <h3 class="motif-title">Direct Admissions</h3>
-          <p class="motif-text">Skip the entrance exam stress. Get direct admission guidance to top colleges.</p>
-        </article>
-        <article class="motif-card">
-          <div class="motif-icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          </div>
-          <h3 class="motif-title">Expert Counseling</h3>
-          <p class="motif-text">One-on-one sessions with education experts who understand your aspirations.</p>
-        </article>
-      </div>
-    </section>
+    <CardGrid
+      title="Why Choose Zentor for Admissions"
+      :cards="features"
+      accent-color="acid"
+    />
 
-    <section class="form-section" id="apply-form" aria-labelledby="form-heading">
-      <h2 id="form-heading" class="sr-only">Apply for Admissions</h2>
-      <div class="form-container">
-        <iframe 
-          id="admission-iframe"
-          src="https://zentor.fillout.com/admission_interest"
-          title="Zentor Admission Form"
-          loading="eager"
-          aria-label="Admission application form"
-        ></iframe>
-      </div>
-    </section>
+    <BenefitGrid
+      title="What You'll Get"
+      :cards="benefits"
+    />
+
+    <FormContainer
+      title="Apply Now — Secure Your Future"
+      intro="Fill out the form below and our team will contact you within 24 hours to guide you through the admission process."
+      src="https://zentor.fillout.com/admission_interest"
+      aria-label="Admission application form"
+    />
   </div>
 </template>
 
 <script setup>
 import { onMounted } from 'vue'
+import HeroSection from '@/components/HeroSection.vue'
+import CardGrid from '@/components/CardGrid.vue'
+import BenefitGrid from '@/components/BenefitGrid.vue'
+import FormContainer from '@/components/FormContainer.vue'
+
+const features = [
+  {
+    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+    title: 'AI-Powered Matching',
+    text: 'Our intelligent algorithm analyzes your academic score, preferences, and career goals to recommend colleges that perfectly match your profile.'
+  },
+  {
+    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    title: 'Direct Admissions',
+    text: 'Skip the stressful entrance exams. Get direct admission pathways to India\'s top colleges in Chennai and Bengaluru through our established partnerships.'
+  },
+  {
+    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    title: 'Expert Counseling',
+    text: 'One-on-one sessions with experienced education counselors who guide you through every step of the admission process, from application to enrollment.'
+  }
+]
+
+const benefits = [
+  { icon: '🎯', title: 'Personalized College List', text: 'AI-generated list of colleges tailored to your score, preferences, and career aspirations.' },
+  { icon: '📋', title: 'Application Assistance', text: 'Step-by-step guidance through the entire application process with our experts.' },
+  { icon: '🎓', title: 'Scholarship Guidance', text: 'Information on available scholarships and financial aid options to support your education.' },
+  { icon: '🤝', title: 'Direct College Connect', text: 'Direct communication with college admission teams through our network.' }
+]
 
 onMounted(() => {
-  document.title = 'Admissions 2026 — Apply Now | Zentor'
+  document.title = 'Apply for Direct Admissions 2026 | Zentor - Top Colleges Chennai Bengaluru'
   
   const metaTags = [
-    { name: 'description', content: 'Apply for direct admissions to top colleges in Chennai & Bengaluru. AI-powered college matching, expert counseling, and personalized guidance for your higher education journey.' },
-    { property: 'og:title', content: 'Apply for Admissions 2026 — Zentor' },
-    { property: 'og:description', content: 'Your future starts here. Apply for admissions to top colleges in Chennai & Bengaluru with personalized guidance and direct admission support.' },
+    { name: 'description', content: 'Apply for direct admissions to top colleges in Chennai & Bengaluru. AI-powered college matching, expert counseling, scholarship guidance, and personalized admission support. For 12th pass students seeking engineering, medical, arts, and commerce courses.' },
+    { property: 'og:title', content: 'Apply for Direct Admissions 2026 | Zentor - Top Colleges Chennai Bengaluru' },
+    { property: 'og:description', content: 'Your future starts here. Apply for direct admissions to top colleges in Chennai & Bengaluru with AI-powered matching, expert counseling, and guaranteed admission support.' },
     { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { property: 'og:url', content: 'https://zentor.in/admissions/' },
     { property: 'og:type', content: 'website' },
     { property: 'og:site_name', content: 'Zentor' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Apply for Admissions 2026 — Zentor' },
+    { name: 'twitter:title', content: 'Apply for Direct Admissions 2026 | Zentor - Top Colleges Chennai Bengaluru' },
     { name: 'twitter:description', content: 'Direct admissions to top colleges in Chennai & Bengaluru. AI-powered matching and expert counseling.' },
     { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { name: 'twitter:site', content: '@zentoredu' },
@@ -92,259 +91,3 @@ onMounted(() => {
   })
 })
 </script>
-
-<style scoped>
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.hero {
-  min-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding-top: 10rem;
-  padding-bottom: 4rem;
-}
-
-.hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 900px;
-  text-align: center;
-}
-
-.eyebrow {
-  font-family: 'DM Sans', sans-serif;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--muted);
-  border: 1px solid var(--glass-border);
-  padding: 0.6rem 1.25rem;
-  border-radius: 100px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  margin-bottom: 2.5rem;
-}
-
-.eyebrow-slash {
-  color: var(--magenta);
-  font-weight: 700;
-}
-
-.headline {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(2.75rem, 7vw, 5.5rem);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-}
-
-.tagline {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(1.125rem, 2vw, 1.5rem);
-  color: var(--cyan);
-  margin-bottom: 2.5rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.sub-headline {
-  font-size: clamp(1.125rem, 1.5vw, 1.25rem);
-  color: var(--muted);
-  max-width: 650px;
-  line-height: 1.7;
-  font-weight: 400;
-}
-
-.eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.8rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  border: 1px solid var(--glass-border);
-  padding: 0.5rem 1rem;
-  border-radius: 100px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  margin-bottom: 2rem;
-}
-
-.eyebrow-slash {
-  color: var(--magenta);
-  font-weight: 800;
-}
-
-.headline {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
-}
-
-.hl-your { color: var(--text); }
-.hl-future { color: transparent; -webkit-text-stroke: 2px var(--acid); }
-
-.tagline {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  color: var(--cyan);
-  margin-bottom: 2rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.sub-headline {
-  font-size: clamp(1rem, 1.5vw, 1.15rem);
-  color: var(--muted);
-  max-width: 600px;
-  line-height: 1.6;
-  font-weight: 500;
-}
-
-.features {
-  padding-bottom: 4rem;
-}
-
-.motivational-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.motif-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 2.5rem 2rem;
-  backdrop-filter: blur(20px);
-  text-align: center;
-  transition: all 0.3s;
-}
-
-.motif-card:hover {
-  border-color: var(--acid);
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(212, 255, 0, 0.15);
-}
-
-.motif-icon {
-  color: var(--acid);
-  margin-bottom: 1.5rem;
-  display: flex;
-  justify-content: center;
-}
-
-.motif-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.motif-text {
-  font-size: 1rem;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-@media (max-width: 1024px) {
-  .motivational-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .motivational-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.form-section {
-  padding: 2rem 1rem 6rem;
-  width: 100%;
-}
-
-.form-container {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 1.5rem;
-  backdrop-filter: blur(20px);
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.form-container iframe {
-  width: 100% !important;
-  height: 900px !important;
-  border: none;
-  border-radius: 8px;
-}
-
-@media (min-width: 768px) {
-  .form-container iframe { height: 950px !important; }
-}
-
-@media (min-width: 1024px) {
-  .form-container {
-    padding: 2rem;
-    max-width: 1100px;
-  }
-  .form-container iframe { height: 1000px !important; }
-}
-
-@media (min-width: 1440px) {
-  .form-container { max-width: 1200px; }
-  .form-container iframe { height: 1100px !important; }
-}
-
-@media (max-width: 480px) {
-  .form-section { padding: 1rem 0.75rem 4rem; }
-  .form-container { padding: 1rem; border-radius: 12px; }
-  .form-container iframe { height: 750px !important; min-height: 600px; }
-}
-
-@media (hover: none) and (pointer: coarse) {
-  .motif-card:hover { transform: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .motif-card { transition: none; }
-}
-</style>
