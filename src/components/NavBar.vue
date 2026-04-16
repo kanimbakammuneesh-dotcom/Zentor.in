@@ -1,6 +1,8 @@
 <template>
   <nav>
-    <router-link to="/" class="nav-logo">Zentor</router-link>
+    <router-link to="/" class="nav-logo" aria-label="Zentor Home">
+      <img class="logo-img" src="/logos/zentor_for_darkbg.png" alt="Zentor Logo" width="100" height="35" />
+    </router-link>
     <div class="nav-links">
       <router-link to="/admissions/" class="nav-link">Admissions</router-link>
       <router-link to="/referrals/" class="nav-pill">Refer & Earn</router-link>
@@ -25,39 +27,15 @@ nav {
 }
 
 .nav-logo {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 900;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
-  color: var(--text);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   text-decoration: none;
 }
 
-.nav-logo::before {
-  content: '';
+.logo-img {
+  width: 100px;
+  height: auto;
   display: block;
-  width: 12px;
-  height: 12px;
-  background: var(--acid);
-  border-radius: 2px;
-  box-shadow: 0 0 10px var(--acid);
-  animation: pulse-acid 2s infinite alternate;
-  flex-shrink: 0;
-}
-
-@keyframes pulse-acid {
-  from {
-    box-shadow: 0 0 5px var(--acid);
-    transform: scale(0.9);
-  }
-  to {
-    box-shadow: 0 0 20px var(--acid);
-    transform: scale(1.1);
-  }
 }
 
 .nav-links {
@@ -105,8 +83,17 @@ nav {
     padding: 1rem 1.5rem;
   }
 
+  .logo-img {
+    width: 80px;
+  }
+
   .nav-link {
     display: none;
+  }
+
+  .nav-pill {
+    font-size: 0.65rem;
+    padding: 0.35rem 0.75rem;
   }
 }
 </style>

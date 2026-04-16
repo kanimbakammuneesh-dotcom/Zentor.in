@@ -1,54 +1,56 @@
 <template>
-  <section class="hero">
-    <div class="hero-content">
-      <span class="eyebrow">
-        <span class="eyebrow-slash">/</span>Zentor
-      </span>
-      <h1 class="headline">
-        <span class="hl-zen">Zentor</span>
-        <br>
-        <span class="hl-gen">for GenZ</span>
-      </h1>
-      <p class="tagline">Education, Reimagined</p>
-      <p class="sub-headline">
-        Your AI-powered mentor for finding the perfect college, 
-        getting direct admissions, and building your future in Chennai & Bengaluru.
-      </p>
-      <div class="cta-wrap">
-        <router-link to="/admissions/#apply-form" class="btn-cta" aria-label="Get started with Zentor admissions">
-          Get Started
-          <span class="btn-arrow" aria-hidden="true">→</span>
-        </router-link>
+  <div class="page">
+    <section class="hero">
+      <div class="hero-content">
+        <span class="eyebrow">
+          <span class="eyebrow-slash">/</span>Zentor
+        </span>
+        <h1 class="headline">
+          <span class="hl-zen">Zentor</span>
+          <br>
+          <span class="hl-gen">for GenZ</span>
+        </h1>
+        <p class="tagline">Education, Reimagined</p>
+        <p class="sub-headline">
+          Your AI-powered mentor for finding the perfect college, 
+          getting direct admissions, and building your future in Chennai & Bengaluru.
+        </p>
+        <div class="cta-wrap">
+          <a href="https://zentor.in/admissions/" class="btn-cta" aria-label="Get started with Zentor admissions" target="_self">
+            Get Started
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="features" aria-labelledby="features-heading">
-    <h2 id="features-heading" class="sr-only">Why Choose Zentor</h2>
-    <div class="motivational-grid">
-      <article class="motif-card">
-        <div class="motif-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        </div>
-        <h3 class="motif-title">Smart Matching</h3>
-        <p class="motif-text">AI-powered recommendations that understand your goals, scores, and aspirations.</p>
-      </article>
-      <article class="motif-card">
-        <div class="motif-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        </div>
-        <h3 class="motif-title">Direct Admissions</h3>
-        <p class="motif-text">Skip the entrance exam stress. Get direct admission guidance to top colleges.</p>
-      </article>
-      <article class="motif-card">
-        <div class="motif-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <h3 class="motif-title">Expert Support</h3>
-        <p class="motif-text">One-on-one counseling from experts who care about your success.</p>
-      </article>
-    </div>
-  </section>
+    <section class="features" aria-labelledby="features-heading">
+      <h2 id="features-heading" class="sr-only">Why Choose Zentor</h2>
+      <div class="motivational-grid">
+        <article class="motif-card">
+          <div class="motif-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <h3 class="motif-title">Smart Matching</h3>
+          <p class="motif-text">AI-powered recommendations that understand your goals, scores, and aspirations.</p>
+        </article>
+        <article class="motif-card">
+          <div class="motif-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <h3 class="motif-title">Direct Admissions</h3>
+          <p class="motif-text">Skip the entrance exam stress. Get direct admission guidance to top colleges.</p>
+        </article>
+        <article class="motif-card">
+          <div class="motif-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3 class="motif-title">Expert Support</h3>
+          <p class="motif-text">One-on-one counseling from experts who care about your success.</p>
+        </article>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script setup>
