@@ -1,7 +1,4 @@
-
 jobScraper/
 requirements.txt
-.agent/
-.opencode/
-.claude/
-.agents/
+node_modules/
+dist/

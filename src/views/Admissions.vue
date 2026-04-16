@@ -1,0 +1,257 @@
+<template>
+  <section class="hero">
+    <div class="hero-content">
+      <span class="eyebrow">
+        <span class="eyebrow-slash">/</span> Admissions 2026
+      </span>
+      <h1 class="headline">
+        <span class="hl-your">Your</span>
+        <span class="hl-future">Future</span>
+        <br>Starts Here
+      </h1>
+      <p class="tagline">Find Your Dream College</p>
+      <p class="sub-headline">
+        Get personalized college matching, direct admission support, and expert counseling for your higher education journey in Chennai & Bengaluru.
+      </p>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="motivational-grid">
+      <div class="motif-card">
+        <div class="motif-icon">🎯</div>
+        <h3 class="motif-title">Personalized Matching</h3>
+        <p class="motif-text">AI-powered college recommendations based on your score, preferences, and career goals.</p>
+      </div>
+      <div class="motif-card">
+        <div class="motif-icon">📋</div>
+        <h3 class="motif-title">Direct Admissions</h3>
+        <p class="motif-text">Skip the entrance exam stress. Get direct admission guidance to top colleges.</p>
+      </div>
+      <div class="motif-card">
+        <div class="motif-icon">💬</div>
+        <h3 class="motif-title">Expert Counseling</h3>
+        <p class="motif-text">One-on-one sessions with education experts who understand your aspirations.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="form-container">
+      <div data-fillout-id="674b9de46e91d0478aa199" data-fillout-embed-type="standard" data-fillout-iframe-height="900px"></div>
+      <script src="https://server.fillout.com/embed/v1/"></script>
+    </div>
+  </section>
+</template>
+
+<style scoped>
+.hero {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 10rem;
+  padding-bottom: 4rem;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--glass-border);
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  margin-bottom: 2rem;
+}
+
+.eyebrow-slash {
+  color: var(--magenta);
+  font-weight: 800;
+}
+
+.headline {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.hl-your {
+  color: var(--text);
+}
+
+.hl-future {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--acid);
+}
+
+.tagline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: var(--cyan);
+  margin-bottom: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.sub-headline {
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  color: var(--muted);
+  max-width: 600px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.features {
+  padding-bottom: 4rem;
+}
+
+.motivational-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.motif-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: 2rem;
+  backdrop-filter: blur(20px);
+  text-align: left;
+  transition: all 0.3s;
+}
+
+.motif-card:hover {
+  border-color: var(--acid);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px rgba(212, 255, 0, 0.1);
+}
+
+.motif-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.motif-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.motif-text {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.form-section {
+  padding: 2rem 1rem 6rem;
+  width: 100%;
+}
+
+.form-container {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  backdrop-filter: blur(20px);
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.form-container :deep(div:first-child) {
+  width: 100% !important;
+  height: 900px !important;
+  min-height: 700px;
+}
+
+.form-container :deep(iframe) {
+  border-radius: 8px;
+  width: 100%;
+  display: block;
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .form-container :deep(div:first-child) {
+    height: 950px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .form-container {
+    padding: 2rem;
+    max-width: 1100px;
+  }
+
+  .form-container :deep(div:first-child) {
+    height: 1000px !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  .form-container {
+    max-width: 1200px;
+  }
+
+  .form-container :deep(div:first-child) {
+    height: 1100px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-section {
+    padding: 1rem 0.75rem 4rem;
+  }
+
+  .form-container {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .form-container :deep(div:first-child) {
+    height: 750px !important;
+    min-height: 600px;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .motif-card:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motif-card {
+    transition: none;
+  }
+}
+</style>
