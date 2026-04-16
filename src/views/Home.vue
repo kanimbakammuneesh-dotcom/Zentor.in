@@ -18,8 +18,6 @@
       accent-color="acid"
     />
 
-    <StatsSection :stats="stats" />
-
     <ProcessSteps
       title="How It Works"
       :steps="processSteps"
@@ -42,7 +40,6 @@
 import { onMounted } from 'vue'
 import HeroSection from '@/components/HeroSection.vue'
 import CardGrid from '@/components/CardGrid.vue'
-import StatsSection from '@/components/StatsSection.vue'
 import ProcessSteps from '@/components/ProcessSteps.vue'
 
 const features = [
@@ -61,12 +58,6 @@ const features = [
     title: 'Expert Counselors',
     text: 'One-on-one sessions with experienced education experts who understand your aspirations and guide you to the right path.'
   }
-]
-
-const stats = [
-  { number: '500+', label: 'Colleges Partnered' },
-  { number: '10,000+', label: 'Students Placed' },
-  { number: '95%', label: 'Success Rate' }
 ]
 
 const processSteps = [
