@@ -29,16 +29,7 @@ const router = createRouter({
   }
 })
 
-const head = createHead({
-  tags: [
-    { tag: 'link', rel: 'canonical', href: 'https://zentor.in' },
-    { tag: 'link', rel: 'sitemap', type: 'application/xml', href: 'https://zentor.in/sitemap.xml' },
-    { tag: 'meta', name: 'theme-color', content: '#030305' },
-    { tag: 'meta', name: 'color-scheme', content: 'dark' },
-    { tag: 'link', rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-    { tag: 'link', rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }
-  ]
-})
+const head = createUnhead()
 
 const app = createApp(App)
 app.use(router)
