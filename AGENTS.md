@@ -19,27 +19,93 @@
 | Framework | Vue 3 (Composition API) |
 | Build Tool | Vite |
 | Routing | Vue Router |
-| SEO | @unhead/vue |
-| Hosting | Cloudflare Pages (via GitHub Pages) |
+| SEO | Vanilla JS (no external library) |
+| Hosting | Cloudflare Workers |
 | Forms | Fillout |
 
 ---
 
-## Run Commands
+## Development
+
+### Setup
 
 ```bash
-npm run dev      # Start local development server
-npm run build    # Build for production (outputs to dist/)
+npm install
+```
+
+### Run Commands
+
+```bash
+npm run dev      # Start local dev server (http://localhost:5173)
+npm run build    # Build for production → outputs to dist/
 npm run preview  # Preview production build locally
 ```
 
-**Deployment:** Push to GitHub — Cloudflare Pages auto-deploys from `dist/` folder.
+### Local Development Notes
+
+- Development server includes hot module replacement (HMR)
+- Changes to `.vue` files auto-reload
+- No need to manually restart server
+- Test in browser at `http://localhost:5173`
+
+---
+
+## Deployment
+
+### Overview
+
+Deployment uses **GitHub Actions** to build and deploy to **Cloudflare Workers** automatically on every push to `main`.
+
+### How It Works
+
+1. Push code to `main` branch
+2. GitHub Actions workflow triggers
+3. Dependencies installed (`npm ci`)
+4. Production build runs (`npm run build`)
+5. Cloudflare Workers deploys from `dist/` folder
+6. Site live at `https://prod-zentor-in.zentor-admin.workers.dev/`
+
+### Manual Deployment
+
+If GitHub Actions is unavailable:
+
+```bash
+# Build locally
+npm run build
+
+# Deploy to Cloudflare (requires CLOUDFLARE_API_TOKEN)
+npx wrangler deploy
+```
+
+### GitHub Actions Setup
+
+The workflow file is at `.github/workflows/deploy.yml`.
+
+**Required GitHub Secret:**
+- `CLOUDFLARE_API_TOKEN` - Get from https://dash.cloudflare.com/profile/api-tokens
+  - Template: "Edit Cloudflare Workers"
+  - Account: `ddbc773e392179a7f7a4e0a2ad4dd379`
+
+### wrangler.toml Configuration
+
+```toml
+name = "zentor"
+compatibility_date = "2026-04-16"
+account_id = "ddbc773e392179a7f7a4e0a2ad4dd379"
+
+[assets]
+directory = "dist"
+not_found_handling = "single-page-application"
+```
+
+The `not_found_handling = "single-page-application"` setting ensures Vue Router routes work correctly.
 
 ---
 
 ## Design Theme
 
 ### Color Palette (CSS Variables)
+
 ```css
 --acid: #D4FF00        /* Primary accent - buttons, highlights */
 --magenta: #FF0055     /* Secondary accent - rewards, special elements */
@@ -53,6 +119,7 @@ npm run preview  # Preview production build locally
 ```
 
 ### Typography
+
 | Element | Font | Weight |
 |---------|------|--------|
 | Headings | Unbounded | 700, 900 |
@@ -60,6 +127,7 @@ npm run preview  # Preview production build locally
 | Body | DM Sans | 400, 500, 700 |
 
 ### Visual Style
+
 - **Glassmorphism** - Frosted glass cards with `backdrop-filter: blur(20px)`
 - **Dark mode only** - Never use light backgrounds
 - **Neon accents** - Acid green and cyan glow effects on interactive elements
@@ -68,152 +136,109 @@ npm run preview  # Preview production build locally
 
 ---
 
-## SEO Optimization (Vue.js)
+## SEO Optimization
 
-### Core SEO Principles
+### Important: No External SEO Library
 
-All Vue views use `@unhead/vue` for meta tag management. Every page MUST include:
+We use **vanilla JavaScript** for SEO meta tags. Do NOT use `@unhead/vue` or similar libraries - they cause context errors in Vue 3.
 
-#### 1. Title Tags
-- Format: `Page Name — Zentor` or `Page Name | Zentor`
-- Length: 50-60 characters
-- Unique per page (no duplicates)
-- Include primary keyword
+### How SEO Meta Works
 
-```vue
-useSeoMeta({
-  title: 'Admissions 2026 — Apply Now | Zentor',
-})
-```
-
-#### 2. Meta Descriptions
-- Length: 120-160 characters
-- Include primary & secondary keywords
-- Clear call-to-action when appropriate
-- Unique per page
-
-```vue
-useSeoMeta({
-  description: 'Apply for direct admissions to top colleges in Chennai & Bengaluru...',
-})
-```
-
-#### 3. Open Graph Tags (Social Sharing)
-```vue
-useSeoMeta({
-  ogTitle: 'Page Title',
-  ogDescription: 'Description for social sharing',
-  ogImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
-  ogUrl: 'https://zentor.in/page/',
-  ogType: 'website',
-  ogSiteName: 'Zentor',
-})
-```
-
-#### 4. Twitter Card Tags
-```vue
-useSeoMeta({
-  twitterCard: 'summary_large_image',
-  twitterTitle: 'Page Title',
-  twitterDescription: 'Description (max 200 chars)',
-  twitterImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
-  twitterSite: '@zentoredu',
-})
-```
-
-#### 5. Canonical URLs
-```vue
-useSeoMeta({
-  canonical: 'https://zentor.in/page/',
-})
-```
-
-#### 6. Robots Directives
-```vue
-useSeoMeta({
-  robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-})
-```
-
-#### 7. 404 Pages (Noindex)
-```vue
-useSeoMeta({
-  robots: 'noindex, nofollow',
-  googlebot: 'noindex, nofollow',
-})
-```
-
-### Schema.org Structured Data
-
-Add JSON-LD in `App.vue` for Organization and WebSite schema:
-
-```vue
-useHead({
-  script: [
-    {
-      type: 'application/ld+json',
-      children: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@graph': [
-          {
-            '@type': 'Organization',
-            '@id': 'https://zentor.in/#organization',
-            name: 'Zentor',
-            url: 'https://zentor.in',
-            // ... additional properties
-          },
-          {
-            '@type': 'WebSite',
-            '@id': 'https://zentor.in/#website',
-            url: 'https://zentor.in',
-            potentialAction: {
-              '@type': 'SearchAction',
-              target: 'https://zentor.in/admissions/?q={search_term_string}',
-              'query-input': 'required name=search_term_string'
-            }
-          }
-        ]
-      })
-    }
-  ]
-})
-```
-
-### SEO Meta Template (Copy-Paste for New Pages)
+SEO meta tags are set dynamically via `onMounted()` in each view component:
 
 ```vue
 <script setup>
-import { useSeoMeta } from '@unhead/vue'
+import { onMounted } from 'vue'
 
-const route = useRoute()
-const currentUrl = `https://zentor.in${route.path}`
-
-useSeoMeta({
-  title: 'Page Title | Zentor',
-  ogTitle: 'Page Title',
-  description: 'Unique description for this page (120-160 chars)...',
-  ogDescription: 'Social sharing description...',
-  ogImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
-  ogUrl: currentUrl,
-  ogType: 'website',
-  ogSiteName: 'Zentor',
-  twitterCard: 'summary_large_image',
-  twitterTitle: 'Page Title',
-  twitterDescription: 'Twitter description...',
-  twitterImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
-  twitterSite: '@zentoredu',
-  canonical: currentUrl,
-  robots: 'index, follow, max-image-preview:large, max-snippet:-1',
-  'article:published_time': '2025-01-01',
-  'article:modified_time': new Date().toISOString(),
-  'article:author': 'https://zentor.in/#organization',
-  'article:section': 'Section Name',
-  'article:tag': ['tag1', 'tag2', 'tag3']
+onMounted(() => {
+  document.title = 'Page Title | Zentor'
+  
+  const metaTags = [
+    { name: 'description', content: 'Your description here...' },
+    { property: 'og:title', content: 'Social Share Title' },
+    { property: 'og:description', content: 'Social description...' },
+    { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    // Add more as needed
+  ]
+  
+  metaTags.forEach(tag => {
+    let meta = document.querySelector(`meta[${tag.property ? 'property' : 'name'}="${tag.property || tag.name}"]`)
+    if (!meta) {
+      meta = document.createElement('meta')
+      if (tag.property) meta.setAttribute('property', tag.property)
+      else meta.setAttribute('name', tag.name)
+      document.head.appendChild(meta)
+    }
+    meta.setAttribute('content', tag.content)
+  })
 })
 </script>
 ```
 
-### Accessibility Requirements (Critical for SEO)
+### Required Meta Tags Per Page
+
+Every page MUST include:
+
+1. **Title** - 50-60 chars, unique per page
+2. **Description** - 120-160 chars, unique per page
+3. **OG Tags** - og:title, og:description, og:image, og:url, og:type, og:site_name
+4. **Twitter Cards** - twitter:card, twitter:title, twitter:description, twitter:image, twitter:site
+5. **Canonical URL** - Full URL to the page
+
+### Schema.org Structured Data
+
+Add JSON-LD in `App.vue` via `onMounted()`:
+
+```vue
+<script setup>
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  const schemaScript = document.createElement('script')
+  schemaScript.type = 'application/ld+json'
+  schemaScript.text = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': 'https://zentor.in/#organization',
+        name: 'Zentor',
+        url: 'https://zentor.in',
+        // ... additional properties
+      },
+      {
+        '@type': 'WebSite',
+        '@id': 'https://zentor.in/#website',
+        url: 'https://zentor.in',
+        name: 'Zentor — Mentor for GenZ',
+        publisher: { '@id': 'https://zentor.in/#organization' },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: 'https://zentor.in/admissions/?q={search_term_string}',
+          'query-input': 'required name=search_term_string'
+        }
+      }
+    ]
+  })
+  document.head.appendChild(schemaScript)
+})
+</script>
+```
+
+### Static SEO Meta (index.html)
+
+Fallback SEO meta is in `index.html` - this is the static HTML that search engines and social media crawlers see before JavaScript executes.
+
+Update these tags in `index.html` for default page values:
+- Title
+- Meta description
+- OG image
+- Schema.org JSON-LD
+
+---
+
+## Accessibility Requirements
 
 1. **Semantic HTML** - Use proper heading hierarchy (h1 → h2 → h3)
 2. **Skip Links** - Include `#main-content` for keyboard navigation
@@ -235,9 +260,10 @@ useSeoMeta({
 </main>
 ```
 
-### Performance for SEO
+---
 
-Core Web Vitals targets (Google ranking factors):
+## Performance Targets
+
 - **LCP** (Largest Contentful Paint): < 2.5s
 - **INP** (Interaction to Next Paint): < 200ms
 - **CLS** (Cumulative Layout Shift): < 0.1
@@ -246,13 +272,13 @@ Best practices:
 - Lazy load below-fold images with `loading="lazy"`
 - Preload critical fonts
 - Minimize JavaScript bundle size
-- Use `will-change` sparingly for animations
+- Use `will-change` sparingly
 
 ---
 
 ## Reusable Components
 
-### 1. Navigation Bar
+### Navigation Bar
 ```html
 <nav>
   <router-link to="/" class="nav-logo">Zentor</router-link>
@@ -263,13 +289,13 @@ Best practices:
 </nav>
 ```
 
-### 2. Hero Section
+### Hero Section
 - Eyebrow text with glassmorphism pill (e.g., `/ Admissions 2026`)
-- Large headline with stroke effect on accent words (e.g., `--acid`)
+- Large headline with accent words
 - Tagline in cyan monospace
 - Subheadline in muted text
 
-### 3. Glass Cards (Grid)
+### Glass Cards (Grid)
 ```html
 <div class="motivational-grid">
   <article class="motif-card">
@@ -282,18 +308,17 @@ Best practices:
 </div>
 ```
 
-### 4. Form Container (for Fillout embeds)
+### Form Container (Fillout)
 ```html
 <section class="form-section" aria-labelledby="form-heading">
   <h2 id="form-heading" class="sr-only">Form Title</h2>
   <div class="form-container">
-    <div data-fillout-id="ID" ...></div>
-    <script src="https://server.fillout.com/embed/v1/"></script>
+    <iframe src="..." title="Form"></iframe>
   </div>
 </section>
 ```
 
-### 5. Footer
+### Footer
 ```html
 <footer>
   <p>Zentor — Mentor for GenZ</p>
@@ -323,12 +348,27 @@ Best practices:
 </template>
 
 <script setup>
-import { useSeoMeta } from '@unhead/vue'
+import { onMounted } from 'vue'
 
-useSeoMeta({
-  title: 'Page Title | Zentor',
-  description: 'Unique description...',
-  // ... other SEO tags
+onMounted(() => {
+  document.title = 'Page Title | Zentor'
+  
+  const metaTags = [
+    { name: 'description', content: 'Unique description...' },
+    { property: 'og:title', content: 'Page Title' },
+    // ... other tags
+  ]
+  
+  metaTags.forEach(tag => {
+    let meta = document.querySelector(`meta[${tag.property ? 'property' : 'name'}="${tag.property || tag.name}"]`)
+    if (!meta) {
+      meta = document.createElement('meta')
+      if (tag.property) meta.setAttribute('property', tag.property)
+      else meta.setAttribute('name', tag.name)
+      document.head.appendChild(meta)
+    }
+    meta.setAttribute('content', tag.content)
+  })
 })
 </script>
 
@@ -364,35 +404,40 @@ useSeoMeta({
 3. **Emojis as icons** - Use SVG instead
 4. **Duplicate meta** - Every page needs unique tags
 5. **Blocking renders** - Load third-party scripts async/defer
+6. **@unhead/vue** - Use vanilla JS for SEO instead
 
 ---
 
 ## File Structure
+
 ```
 /
-├── index.html          # Entry HTML with fallback SEO meta
+├── index.html              # Entry HTML with fallback SEO meta
 ├── src/
-│   ├── main.js         # Vue app initialization + head setup
-│   ├── App.vue         # Root component + Schema.org JSON-LD
-│   ├── views/          # Page components
+│   ├── main.js            # Vue app initialization + router
+│   ├── App.vue            # Root component + Schema.org JSON-LD
+│   ├── views/             # Page components
 │   │   ├── Home.vue
 │   │   ├── Admissions.vue
 │   │   ├── Referrals.vue
-│   │   └── Error.vue   # 404 page
-│   ├── components/     # Reusable components
+│   │   └── Error.vue      # 404 page
+│   ├── components/        # Reusable components
 │   │   ├── NavBar.vue
 │   │   └── Footer.vue
 │   └── assets/
 │       └── main.css
 ├── public/
-│   └── logos/          # OG images
-├── dist/               # Build output (auto-deployed)
-├── sitemap.xml         # XML sitemap
-├── robots.txt          # Crawler directives
-├── _headers            # Cloudflare headers
-├── vite.config.js      # Build configuration
+│   ├── logos/             # OG images
+│   ├── sitemap.xml        # XML sitemap
+│   └── robots.txt         # Crawler directives
+├── dist/                  # Build output (deployed to Cloudflare)
+├── .github/
+│   └── workflows/
+│       └── deploy.yml     # GitHub Actions deployment
+├── wrangler.toml          # Cloudflare Workers config
+├── vite.config.js         # Vite build config
 ├── package.json
-└── AGENTS.md           # This file
+└── AGENTS.md              # This file
 ```
 
 ---
@@ -409,10 +454,10 @@ useSeoMeta({
 - Blocks known scrapers
 - Points to sitemap
 
-### _headers (Cloudflare)
-- Security headers (X-Frame-Options, CSP, etc.)
-- Cache-Control for static assets
-- Short TTL for HTML, long TTL for assets
+### index.html
+- Contains static fallback SEO meta tags
+- Search engines see this before JavaScript executes
+- Update for default page values
 
 ---
 
@@ -424,7 +469,6 @@ Before deploying, verify:
 - [ ] Unique meta descriptions on every page (120-160 chars)
 - [ ] Open Graph tags set correctly
 - [ ] Twitter Card tags set correctly
-- [ ] Canonical URLs configured
 - [ ] Schema.org JSON-LD validates (test at https://validator.schema.org/)
 - [ ] sitemap.xml accessible at `/sitemap.xml`
 - [ ] robots.txt accessible at `/robots.txt`
@@ -434,18 +478,11 @@ Before deploying, verify:
 - [ ] Headings follow h1 → h2 → h3 hierarchy
 - [ ] All images have alt text
 - [ ] No duplicate meta descriptions
-- [ ] Google Search Console verified
-- [ ] Sitemap submitted to Google Search Console
-
----
-
-## Skills to Use
-- `ui-ux-pro-max` - For UI/UX decisions
-- `frontend-design` - For responsive/accessible design
 
 ---
 
 ## Testing Checklist
+
 - [ ] Works on mobile (375px)
 - [ ] Works on tablet (768px)
 - [ ] Works on desktop (1024px+)
@@ -453,9 +490,9 @@ Before deploying, verify:
 - [ ] Navigation links work correctly
 - [ ] No horizontal scroll
 - [ ] Touch targets ≥44px
-- [ ] SEO meta visible in "View Source"
+- [ ] Browser console has no errors
+- [ ] Vue devtools shows components mounting correctly
 - [ ] Lighthouse SEO score > 90
-- [ ] Core Web Vitals pass (LCP < 2.5s, INP < 200ms, CLS < 0.1)
 
 ---
 
@@ -468,7 +505,11 @@ Before deploying, verify:
 - [Lighthouse](https://developer.chrome.com/docs/lighthouse/)
 - [Facebook Debugger](https://developers.facebook.com/tools/debug/)
 
-### Vue SEO
-- [@unhead/vue Documentation](https://unhead.unjs.io/)
-- [Vue.js SEO Guide](https://nuxtseo.com/learn-seo/vue)
-- [2026 SEO Checklist for Vue](https://nuxtseo.com/learn-seo/checklist)
+### Vue.js
+- [Vue 3 Documentation](https://vuejs.org/)
+- [Vue Router Documentation](https://router.vuejs.org/)
+- [Vite Documentation](https://vitejs.dev/)
+
+### Cloudflare
+- [Cloudflare Workers Docs](https://developers.cloudflare.com/workers/)
+- [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/)
