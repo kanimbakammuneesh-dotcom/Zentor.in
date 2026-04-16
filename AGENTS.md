@@ -185,7 +185,6 @@
 1. New fonts (stick to Unbounded, JetBrains Mono, DM Sans)
 2. Light backgrounds
 3. Complex JavaScript frameworks
-4. Modifying `jobScraper/` directory
 
 ---
 
