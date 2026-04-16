@@ -16,35 +16,92 @@
     </div>
   </section>
 
-  <section class="features">
+  <section class="features" aria-labelledby="admissions-features-heading">
+    <h2 id="admissions-features-heading" class="sr-only">What We Offer</h2>
     <div class="motivational-grid">
-      <div class="motif-card">
-        <div class="motif-icon">🎯</div>
+      <article class="motif-card">
+        <div class="motif-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
         <h3 class="motif-title">Personalized Matching</h3>
         <p class="motif-text">AI-powered college recommendations based on your score, preferences, and career goals.</p>
-      </div>
-      <div class="motif-card">
-        <div class="motif-icon">📋</div>
+      </article>
+      <article class="motif-card">
+        <div class="motif-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
         <h3 class="motif-title">Direct Admissions</h3>
         <p class="motif-text">Skip the entrance exam stress. Get direct admission guidance to top colleges.</p>
-      </div>
-      <div class="motif-card">
-        <div class="motif-icon">💬</div>
+      </article>
+      <article class="motif-card">
+        <div class="motif-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
         <h3 class="motif-title">Expert Counseling</h3>
         <p class="motif-text">One-on-one sessions with education experts who understand your aspirations.</p>
-      </div>
+      </article>
     </div>
   </section>
 
-  <section class="form-section">
+  <section class="form-section" id="apply-form" aria-labelledby="form-heading">
+    <h2 id="form-heading" class="sr-only">Apply for Admissions</h2>
     <div class="form-container">
-      <div data-fillout-id="674b9de46e91d0478aa199" data-fillout-embed-type="standard" data-fillout-iframe-height="900px"></div>
+      <div 
+        data-fillout-id="674b9de46e91d0478aa199" 
+        data-fillout-embed-type="standard" 
+        data-fillout-iframe-height="900px"
+        role="region"
+        aria-label="Admission application form"
+      ></div>
       <script src="https://server.fillout.com/embed/v1/"></script>
     </div>
   </section>
 </template>
 
+<script setup>
+import { useSeoMeta } from '@unhead/vue'
+
+useSeoMeta({
+  title: 'Admissions 2026 — Apply Now | Zentor',
+  titleTemplate: '%s',
+  ogTitle: 'Apply for Admissions 2026 — Zentor',
+  description: 'Apply for direct admissions to top colleges in Chennai & Bengaluru. AI-powered college matching, expert counseling, and personalized guidance for your higher education journey.',
+  ogDescription: 'Your future starts here. Apply for admissions to top colleges in Chennai & Bengaluru with personalized guidance and direct admission support.',
+  ogImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
+  ogUrl: 'https://zentor.in/admissions/',
+  ogType: 'website',
+  ogSiteName: 'Zentor',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Apply for Admissions 2026 — Zentor',
+  twitterDescription: 'Direct admissions to top colleges in Chennai & Bengaluru. AI-powered matching and expert counseling.',
+  twitterImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
+  twitterSite: '@zentoredu',
+  canonical: 'https://zentor.in/admissions/',
+  robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+  'article:published_time': '2025-01-01',
+  'article:modified_time': new Date().toISOString(),
+  'article:author': 'https://zentor.in/#organization',
+  'article:section': 'Admissions',
+  'article:tag': ['admissions', 'college', 'India', 'Chennai', 'Bengaluru', 'higher education', 'direct admission'],
+  'og:special_languages': 'en-IN, ta-IN, te-IN, kn-IN',
+  'geo.region': 'IN-TN',
+  'geo.placename': 'Chennai, Bengaluru'
+})
+</script>
+
 <style scoped>
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .hero {
   min-height: 80vh;
   display: flex;
@@ -151,7 +208,7 @@
 }
 
 .motif-icon {
-  font-size: 2rem;
+  color: var(--acid);
   margin-bottom: 1rem;
 }
 

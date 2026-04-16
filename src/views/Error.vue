@@ -1,7 +1,12 @@
 <template>
   <section class="error-page">
     <div class="lottie-wrap">
-      <iframe src="https://lottie.host/embed/9d3304a4-e3cc-4fb1-ac9c-adaa70796006/nwKZzUgTIk.lottie" title="Error Animation"></iframe>
+      <iframe 
+        src="https://lottie.host/embed/9d3304a4-e3cc-4fb1-ac9c-adaa70796006/nwKZzUgTIk.lottie" 
+        title="Error Animation"
+        loading="lazy"
+        aria-hidden="true"
+      ></iframe>
     </div>
     <h1 class="error-code">404</h1>
     <p class="error-title">Page Not Found</p>
@@ -9,6 +14,18 @@
     <router-link to="/" class="btn-home">Back to Home</router-link>
   </section>
 </template>
+
+<script setup>
+import { useSeoMeta } from '@unhead/vue'
+
+useSeoMeta({
+  title: '404 — Page Not Found | Zentor',
+  titleTemplate: '%s',
+  description: 'The page you were looking for could not be found. Return to the Zentor homepage.',
+  robots: 'noindex, nofollow',
+  googlebot: 'noindex, nofollow'
+})
+</script>
 
 <style scoped>
 .error-page {

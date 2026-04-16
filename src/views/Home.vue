@@ -15,36 +15,90 @@
         getting direct admissions, and building your future in Chennai & Bengaluru.
       </p>
       <div class="cta-wrap">
-        <router-link to="/admissions/" class="btn-cta">
+        <router-link to="/admissions/" class="btn-cta" aria-label="Get started with Zentor admissions">
           Get Started
-          <span class="btn-arrow">→</span>
+          <span class="btn-arrow" aria-hidden="true">→</span>
         </router-link>
       </div>
     </div>
   </section>
 
-  <section class="features">
+  <section class="features" aria-labelledby="features-heading">
+    <h2 id="features-heading" class="sr-only">Why Choose Zentor</h2>
     <div class="motivational-grid">
-      <div class="motif-card">
-        <div class="motif-icon">🎯</div>
+      <article class="motif-card">
+        <div class="motif-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
         <h3 class="motif-title">Smart Matching</h3>
         <p class="motif-text">AI-powered recommendations that understand your goals, scores, and aspirations.</p>
-      </div>
-      <div class="motif-card">
-        <div class="motif-icon">📋</div>
+      </article>
+      <article class="motif-card">
+        <div class="motif-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
         <h3 class="motif-title">Direct Admissions</h3>
         <p class="motif-text">Skip the entrance exam stress. Get direct admission guidance to top colleges.</p>
-      </div>
-      <div class="motif-card">
-        <div class="motif-icon">💬</div>
+      </article>
+      <article class="motif-card">
+        <div class="motif-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
         <h3 class="motif-title">Expert Support</h3>
         <p class="motif-text">One-on-one counseling from experts who care about your success.</p>
-      </div>
+      </article>
     </div>
   </section>
 </template>
 
+<script setup>
+import { useSeoMeta } from '@unhead/vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+useSeoMeta({
+  title: 'Zentor — AI-Powered College Guidance for Gen Z Students in India',
+  titleTemplate: '%s',
+  ogTitle: 'Zentor — Mentor for GenZ',
+  description: 'Find your dream college in Chennai & Bengaluru with AI-powered matching, direct admissions support, and expert counseling. Built for Gen Z students in India.',
+  ogDescription: 'Your AI-powered mentor for finding the perfect college, getting direct admissions, and building your future in India.',
+  ogImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
+  ogUrl: 'https://zentor.in',
+  ogType: 'website',
+  ogSiteName: 'Zentor',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Zentor — Mentor for GenZ',
+  twitterDescription: 'AI-powered college guidance for Gen Z students in India. Find your dream college in Chennai & Bengaluru.',
+  twitterImage: 'https://zentor.in/logos/zentor_for_darkbg.png',
+  twitterSite: '@zentoredu',
+  canonical: 'https://zentor.in',
+  robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+  'article:published_time': '2025-01-01',
+  'article:modified_time': new Date().toISOString(),
+  'article:author': 'https://zentor.in/#organization',
+  'article:section': 'Education',
+  'article:tag': ['education', 'college admissions', 'India', 'Gen Z', 'Chennai', 'Bengaluru'],
+  'geo.region': 'IN',
+  'geo.placename': 'India',
+  'geo.position': '13.0827;80.2707',
+  'ICBM': '13.0827, 80.2707'
+})
+</script>
+
 <style scoped>
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .hero {
   min-height: 100vh;
   display: grid;
@@ -189,7 +243,7 @@
 }
 
 .motif-icon {
-  font-size: 2rem;
+  color: var(--acid);
   margin-bottom: 1rem;
 }
 
