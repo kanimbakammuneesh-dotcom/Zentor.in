@@ -67,15 +67,15 @@ onMounted(() => {
   document.title = 'Contact Us | Zentor'
   
   const metaTags = [
-    { name: 'description', content: 'Contact Zentor for college admission inquiries. Reach us via email at contact.email@zentor.in or follow us on Instagram @zentor.edtech. We respond within 24 hours.' },
+    { name: 'description', content: 'Contact Zentor for tech course inquiries. Reach us via email at contact.email@zentor.in or follow us on Instagram @zentor.edtech. We respond within 24 hours.' },
     { property: 'og:title', content: 'Contact Us | Zentor' },
-    { property: 'og:description', content: 'Get in touch with Zentor for college admission support. Email or follow us on Instagram.' },
+    { property: 'og:description', content: 'Get in touch with Zentor for tech course support. Email or follow us on Instagram.' },
     { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { property: 'og:url', content: 'https://zentor.in/contact/' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: 'Contact Us | Zentor' },
-    { name: 'twitter:description', content: 'Get in touch with Zentor for college admission support.' },
+    { name: 'twitter:description', content: 'Get in touch with Zentor for tech course support.' },
   ]
   
   metaTags.forEach(tag => {

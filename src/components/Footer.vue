@@ -2,12 +2,13 @@
   <footer>
     <div class="footer-brand">
       <img class="footer-logo" src="/logos/zentor_for_darkbg.png" alt="Zentor" width="24" height="24" />
-      <span>Zentor — Mentor for GenZ</span>
+      <span>Zentor</span>
     </div>
     <div class="footer-links">
       <router-link to="/privacy/" class="nav-link">Privacy</router-link>
       <router-link to="/terms/" class="nav-link">Terms</router-link>
       <router-link to="/contact/" class="nav-link">Contact</router-link>
+      <router-link to="/admissions/" class="nav-link">Admissions</router-link>
       <span class="divider">|</span>
       <span class="udyam-wrapper" @click="revealUdyam" title="Click to reveal UDYAM">
         <span v-if="!udyamRevealed" class="udyam-masked">••••••••</span>

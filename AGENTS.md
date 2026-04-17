@@ -2,13 +2,13 @@
 
 ## What is Zentor?
 
-**Zentor** is an education platform for Gen Z students in India. It helps intermediate (12th pass) students find their dream colleges in Chennai & Bengaluru through:
-- Personalized college matching
-- Direct admission support
-- Expert counseling
+**Zentor** is an education platform for Gen Z students in India. It offers:
+- Tech courses for placement (AI, Fullstack, Data Analytics, Python)
+- College admissions guidance (Chennai & Bengaluru)
+- Internship programs with certifications
 - Referral rewards program
 
-**Target Audience:** Gen Z students (18-22 years) looking for higher education guidance in India.
+**Target Audience:** Gen Z students (18-22 years) looking for higher education and tech skills in India.
 
 ---
 
@@ -232,7 +232,9 @@ All routes must have trailing slashes:
 | Route | Page | Description |
 |-------|------|-------------|
 | `/` | Home | Landing page |
-| `/admissions/` | Admissions | Admission interest form |
+| `/courses/` | Courses | Tech courses for placement |
+| `/admissions/` | Admissions | College admissions form |
+| `/internship/` | Internship | Fullstack & AI internships |
 | `/referrals/` | Referrals | Referral program |
 | `/privacy/` | PrivacyPolicy | DPDPA Privacy Policy |
 | `/terms/` | Terms | Terms of Service |
@@ -248,20 +250,22 @@ All routes must have trailing slashes:
 ├── index.html              # Entry HTML with SEO fallback
 ├── src/
 │   ├── main.js            # Vue app + router
-│   ├── App.vue            # Root + NavBar + Footer
+│   ├── App.vue            # Root + NavBar + Footer + Background effects
+│   ├── assets/main.css    # Global styles with gradient background
 │   ├── views/
-│   │   ├── Home.vue           # Uses HeroSection, CardGrid, ProcessSteps
-│   │   ├── Admissions.vue     # Uses HeroSection, CardGrid, BenefitGrid, FormContainer
-│   │   ├── Referrals.vue      # Uses HeroSection, CardGrid, ProcessSteps, FormContainer
-│   │   ├── PrivacyPolicy.vue  # Uses HeroSection (DPDPA compliant)
-│   │   ├── Terms.vue          # Uses HeroSection
-│   │   ├── Contact.vue        # Uses HeroSection (email + Instagram)
+│   │   ├── Home.vue           # Hero, features, programs, CTA
+│   │   ├── Courses.vue        # Tech courses for placement
+│   │   ├── Admissions.vue    # College admissions form
+│   │   ├── Internship.vue     # Fullstack & AI internships
+│   │   ├── Referrals.vue      # Referral program
+│   │   ├── PrivacyPolicy.vue  # DPDPA Privacy Policy
+│   │   ├── Terms.vue          # Terms of Service
+│   │   ├── Contact.vue        # Contact page
 │   │   └── Error.vue          # 404 page
 │   └── components/
 │       ├── HeroSection.vue
 │       ├── CardGrid.vue
 │       ├── FormContainer.vue
-│       ├── StatsSection.vue
 │       ├── ProcessSteps.vue
 │       ├── BenefitGrid.vue
 │       ├── NavBar.vue

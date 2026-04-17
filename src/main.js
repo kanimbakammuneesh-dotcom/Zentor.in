@@ -4,7 +4,9 @@ import App from './App.vue'
 import './assets/main.css'
 
 import Home from './views/Home.vue'
+import Courses from './views/Courses.vue'
 import Admissions from './views/Admissions.vue'
+import Internship from './views/Internship.vue'
 import Referrals from './views/Referrals.vue'
 import PrivacyPolicy from './views/PrivacyPolicy.vue'
 import Terms from './views/Terms.vue'
@@ -13,7 +15,9 @@ import Error from './views/Error.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
+  { path: '/courses/', name: 'Courses', component: Courses },
   { path: '/admissions/', name: 'Admissions', component: Admissions },
+  { path: '/internship/', name: 'Internship', component: Internship },
   { path: '/referrals/', name: 'Referrals', component: Referrals },
   { path: '/privacy/', name: 'PrivacyPolicy', component: PrivacyPolicy },
   { path: '/terms/', name: 'Terms', component: Terms },
