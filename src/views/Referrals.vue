@@ -45,12 +45,12 @@ const rewards = [
   {
     icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
     title: 'Help Friends Succeed',
-    text: 'Give your friends a head start in their college journey with expert guidance and guaranteed admission support.'
+    text: 'Give your friends a head start in their college journey with expert guidance and admission support.'
   },
   {
     icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
     title: 'Exclusive Perks',
-    text: 'Top referrers unlock exclusive perks including priority counseling, premium webinars, and special merchandise.'
+    text: 'Top referrers unlock exclusive perks including priority counseling and special merchandise.'
   }
 ]
 
@@ -65,17 +65,17 @@ onMounted(() => {
   document.title = 'Refer Friends & Earn Rewards | Zentor Referral Program'
   
   const metaTags = [
-    { name: 'description', content: 'Refer friends and earn exclusive rewards with Zentor\'s referral program. Help others find their dream college in Chennai & Bengaluru while earning cash rewards, scholarships, and exclusive perks. Join now!' },
-    { property: 'og:title', content: 'Refer Friends & Earn Rewards | Zentor Referral Program' },
-    { property: 'og:description', content: 'Share Zentor with friends and earn rewards. Help others find their dream college while unlocking exclusive perks, cash rewards, and priority counseling.' },
+    { name: 'description', content: 'Refer friends and earn exclusive rewards with Zentor\'s referral program. Help others find their dream college in Chennai & Bengaluru while earning cash rewards and scholarships.' },
+    { property: 'og:title', content: 'Refer Friends & Earn Rewards | Zentor' },
+    { property: 'og:description', content: 'Share Zentor with friends and earn rewards. Help others find their dream college while unlocking exclusive perks.' },
     { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { property: 'og:url', content: 'https://zentor.in/referrals/' },
     { property: 'og:type', content: 'website' },
     { property: 'og:site_name', content: 'Zentor' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Refer Friends & Earn Rewards | Zentor Referral Program' },
-    { name: 'twitter:description', content: 'Share Zentor with friends and earn rewards. Help others find their dream college.' },
-    { name: 'twitter:image', content: 'https://zentor.in/logos/logos/zentor_for_darkbg.png' },
+    { name: 'twitter:title', content: 'Refer Friends & Earn Rewards | Zentor' },
+    { name: 'twitter:description', content: 'Share Zentor with friends and earn rewards on college admissions.' },
+    { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { name: 'twitter:site', content: '@zentoredu' },
   ]
   

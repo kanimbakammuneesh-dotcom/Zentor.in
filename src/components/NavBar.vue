@@ -4,8 +4,9 @@
       <img class="logo-img" src="/logos/zentor_for_darkbg.png" alt="Zentor Logo" width="100" height="35" />
     </router-link>
     <div class="nav-links">
+      <router-link to="/courses/" class="nav-link">Courses</router-link>
       <router-link to="/admissions/" class="nav-link">Admissions</router-link>
-      <router-link to="/referrals/" class="nav-pill">Refer & Earn</router-link>
+      <router-link to="/internship/" class="nav-link">Internship</router-link>
     </div>
   </nav>
 </template>
@@ -85,10 +86,6 @@ nav {
 
   .logo-img {
     width: 80px;
-  }
-
-  .nav-link {
-    display: none;
   }
 
   .nav-pill {

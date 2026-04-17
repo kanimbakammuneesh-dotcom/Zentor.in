@@ -10,7 +10,7 @@ defineProps({
     <h2 v-if="title" class="section-title">{{ title }}</h2>
     <div class="benefit-grid">
       <article v-for="(card, index) in cards" :key="index" class="benefit-card">
-        <div class="benefit-icon">{{ card.icon }}</div>
+        <div class="benefit-icon" v-html="card.icon"></div>
         <h3>{{ card.title }}</h3>
         <p>{{ card.text }}</p>
       </article>
