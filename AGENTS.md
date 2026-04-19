@@ -21,6 +21,7 @@
 | Routing | Vue Router |
 | SEO | Vanilla JS |
 | Hosting | Cloudflare Workers |
+| Database | RDS (PostgreSQL) |
 | Forms | Fillout (direct iframe) |
 
 ---
@@ -278,7 +279,14 @@ All routes must have trailing slashes:
 ├── .github/workflows/
 │   └── deploy.yml
 ├── wrangler.toml
-└── AGENTS.md
+├── AGENTS.md
+└── src/
+    └── workers/
+        └── jobs-api/          # Jobs API worker
+            ├── index.ts       # Worker logic (pg client)
+            ├── schema.sql     # RDS SQL schema + dummy data
+            ├── wrangler.toml  # Worker config
+            └── package.json   # Worker dependencies
 ```
 
 ---
