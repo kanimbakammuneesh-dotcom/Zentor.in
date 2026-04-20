@@ -11,6 +11,8 @@ import Referrals from './views/Referrals.vue'
 import PrivacyPolicy from './views/PrivacyPolicy.vue'
 import Terms from './views/Terms.vue'
 import Contact from './views/Contact.vue'
+import Jobs from './views/Jobs.vue'
+import JobDetail from './views/JobDetail.vue'
 import Error from './views/Error.vue'
 
 const routes = [
@@ -22,6 +24,8 @@ const routes = [
   { path: '/privacy/', name: 'PrivacyPolicy', component: PrivacyPolicy },
   { path: '/terms/', name: 'Terms', component: Terms },
   { path: '/contact/', name: 'Contact', component: Contact },
+  { path: '/jobs/', name: 'Jobs', component: Jobs },
+  { path: '/jobs/:id', name: 'JobDetail', component: JobDetail },
   { path: '/:pathMatch(.*)*', name: 'Error', component: Error }
 ]
 

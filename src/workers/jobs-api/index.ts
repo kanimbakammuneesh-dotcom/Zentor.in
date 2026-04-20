@@ -52,23 +52,40 @@ function getClientIP(request: Request): string {
  * Validate request origin against allowlist
  */
 function isOriginAllowed(request: Request): boolean {
-  const origin = request.headers.get("Origin") || request.headers.get("Referer")
+  const origin = request.headers.get("Origin")
+  const referer = request.headers.get("Referer")
   
-  if (!origin) {
-    // No origin header - might be a direct request, check referer
-    const referer = request.headers.get("Referer")
-    if (!referer) return false // No origin or referer = suspicious
+  // Use Origin header first, fall back to Referer
+  const requestOrigin = origin || referer
+  
+  if (!requestOrigin) {
+    // No origin or referer - might be a direct server-to-server request
+    // Allow it but log for monitoring
+    console.log("No Origin or Referer header, allowing request")
+    return true
   }
   
-  if (origin) {
-    // Check exact match or wildcard
-    return ALLOWED_ORIGINS.some(allowed => 
-      origin === allowed || 
-      origin.startsWith(allowed.replace("https://", "")) ||
-      allowed.includes(origin.replace("https://", ""))
-    )
+  // Check if origin matches any allowed origin
+  for (const allowed of ALLOWED_ORIGINS) {
+    // Exact match
+    if (requestOrigin === allowed) {
+      return true
+    }
+    // With trailing slash variation
+    if (requestOrigin === allowed + "/" || requestOrigin + "/" === allowed) {
+      return true
+    }
+    // Subdomain match (www.zentor.in matches zentor.in)
+    if (allowed.startsWith("https://") || allowed.startsWith("http://")) {
+      const allowedHost = allowed.replace(/^https?:\/\//, "")
+      const requestHost = requestOrigin.replace(/^https?:\/\//, "")
+      if (requestHost === allowedHost || requestHost.endsWith("." + allowedHost)) {
+        return true
+      }
+    }
   }
   
+  console.log("Origin not allowed:", requestOrigin)
   return false
 }
 
@@ -148,18 +165,26 @@ function securityErrorResponse(message: string, status = 403): Response {
 // ============ CORS CONFIGURATION ============
 
 const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "https://zentor.in",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Accept",
+  "Access-Control-Allow-Headers": "Content-Type, Accept, User-Agent, Origin, Referer",
   "Access-Control-Max-Age": "86400", // 24 hours
   "Cache-Control": "no-store, must-revalidate",
 }
 
-function corsResponse(body: string, status = 200): Response {
+function corsResponse(body: string, status = 200, request?: Request): Response {
   const headers = new Headers({
     "Content-Type": "application/json",
     ...CORS_HEADERS,
   })
+  
+  // Dynamically set allowed origin based on request
+  const origin = request?.headers.get("Origin") || request?.headers.get("Referer")
+  if (origin && isOriginAllowed(request!)) {
+    headers.set("Access-Control-Allow-Origin", origin)
+  } else {
+    headers.set("Access-Control-Allow-Origin", "https://zentor.in")
+  }
+  
   applySecurityHeaders(headers)
   
   return new Response(body, { status, headers })
@@ -211,6 +236,19 @@ export default {
 
     // ===== SECURITY CHECKS =====
     
+    // Handle CORS preflight FIRST (before other security checks)
+    if (method === "OPTIONS") {
+      const headers = new Headers(CORS_HEADERS)
+      const origin = request.headers.get("Origin")
+      if (origin && isOriginAllowed(request)) {
+        headers.set("Access-Control-Allow-Origin", origin)
+      } else {
+        headers.set("Access-Control-Allow-Origin", "https://zentor.in")
+      }
+      applySecurityHeaders(headers)
+      return new Response(null, { status: 204, headers })
+    }
+    
     // 1. Rate limiting (using Cloudflare Rate Limiting binding)
     if (env.RATELIMIT) {
       const clientIP = getClientIP(request)
@@ -249,34 +287,27 @@ export default {
       return securityErrorResponse("Request blocked", 403)
     }
 
-    // Handle CORS preflight
-    if (method === "OPTIONS") {
-      const headers = new Headers(CORS_HEADERS)
-      applySecurityHeaders(headers)
-      return new Response(null, { status: 204, headers })
-    }
-
     try {
       if (path === "/jobs" && method === "GET") {
         return await handleGetJobs(request, env)
       }
       if (path.match(/^\/jobs\/[\w-]+$/) && method === "GET") {
         const id = path.split("/")[2]
-        return await handleGetJobById(id, env)
+        return await handleGetJobById(id, env, request)
       }
       if (path === "/jobs/refresh" && method === "POST") {
         // Protected: require authorized origin or secret
-        return await handleRefresh(env)
+        return await handleRefresh(env, request)
       }
       if (path === "/jobs/sync" && method === "POST") {
         // Protected: require authorized origin or secret
         return await handleSync(request, env)
       }
       
-      return corsResponse(JSON.stringify({ error: "Not found" }), 404)
+      return corsResponse(JSON.stringify({ error: "Not found" }), 404, request)
     } catch (error: any) {
       console.error("Error:", error)
-      return corsResponse(JSON.stringify({ error: "Internal server error" }), 500)
+      return corsResponse(JSON.stringify({ error: "Internal server error" }), 500, request)
     }
   },
 }
@@ -353,13 +384,13 @@ async function handleGetJobs(request: Request, env: Env): Promise<Response> {
     total,
     page: params.page,
     hasMore,
-  }))
+  }), 200, request)
 }
 
-async function handleGetJobById(id: string, env: Env): Promise<Response> {
+async function handleGetJobById(id: string, env: Env, request: Request): Promise<Response> {
   // Validate ID format (prevent injection)
   if (!/^[\w-]+$/.test(id)) {
-    return corsResponse(JSON.stringify({ error: "Invalid job ID" }), 400)
+    return corsResponse(JSON.stringify({ error: "Invalid job ID" }), 400, request)
   }
   
   const cached = await env.JOBS_CACHE.get(CACHE_KEY, "json") as JobsResponse | null
@@ -374,18 +405,18 @@ async function handleGetJobById(id: string, env: Env): Promise<Response> {
 
   const job = jobs.find((j) => j.id === id)
   if (!job) {
-    return corsResponse(JSON.stringify({ error: "Job not found" }), 404)
+    return corsResponse(JSON.stringify({ error: "Job not found" }), 404, request)
   }
 
-  return corsResponse(JSON.stringify(job))
+  return corsResponse(JSON.stringify(job), 200, request)
 }
 
-async function handleRefresh(env: Env): Promise<Response> {
+async function handleRefresh(env: Env, request: Request): Promise<Response> {
   const jobs = await fetchJobsFromDB(env)
   await env.JOBS_CACHE.put(CACHE_KEY, JSON.stringify({ jobs, total: jobs.length, page: 1, hasMore: false }), { expirationTtl: CACHE_TTL })
   await env.JOBS_CACHE.put(LAST_SYNC_KEY, new Date().toISOString())
 
-  return corsResponse(JSON.stringify({ success: true, count: jobs.length }))
+  return corsResponse(JSON.stringify({ success: true, count: jobs.length }), 200, request)
 }
 
 async function handleSync(request: Request, env: Env): Promise<Response> {
@@ -403,7 +434,7 @@ async function handleSync(request: Request, env: Env): Promise<Response> {
   // Update last sync timestamp after successful sync
   await env.JOBS_CACHE.put(LAST_SYNC_KEY, new Date().toISOString())
   
-  return corsResponse(JSON.stringify({ jobs, count: jobs.length, since: since }))
+  return corsResponse(JSON.stringify({ jobs, count: jobs.length, since: since }), 200, request)
 }
 
 async function fetchJobsFromDB(env: Env, since?: string): Promise<Job[]> {
