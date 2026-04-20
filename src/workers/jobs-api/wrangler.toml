@@ -1,0 +1,27 @@
+name = "zentor-jobs-api"
+main = "index.ts"
+compatibility_date = "2026-04-17"
+compatibility_flags = ["nodejs_compat"]
+
+[[kv_namespaces]]
+binding = "JOBS_CACHE"
+id = "fd23006c6b634a0face5675528df63a8"
+
+# Rate Limiting (Workers native binding - GA)
+[[ratelimits]]
+name = "RATELIMIT"
+namespace_id = "1001"
+
+[ratelimits.simple]
+limit = 100
+period = 60
+
+[vars]
+ENV = "production"
+
+# Database secrets
+# wrangler secret put DB_HOST
+# wrangler secret put DB_PORT
+# wrangler secret put DB_NAME
+# wrangler secret put DB_USER
+# wrangler secret put DB_PASSWORD

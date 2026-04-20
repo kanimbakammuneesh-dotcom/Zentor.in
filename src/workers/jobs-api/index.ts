@@ -2,12 +2,170 @@ import pg from "pg"
 
 export interface Env {
   JOBS_CACHE: KVNamespace
+  RATELIMIT: RateLimit
   DB_HOST: string
   DB_PORT: string
   DB_NAME: string
   DB_USER: string
   DB_PASSWORD: string
 }
+
+// ============ SECURITY CONFIGURATION ============
+
+// Allowed origins for CORS (frontend + developer tools)
+const ALLOWED_ORIGINS = [
+  "https://zentor.in",
+  "https://www.zentor.in",
+  "http://localhost:5173",  // Dev server
+  "http://localhost:4173",  // Preview server
+]
+
+// Trusted development IPs (add your IP if needed)
+const TRUSTED_IPS = [
+  "127.0.0.1",
+  "::1",
+]
+
+// Rate limit settings
+const RATE_LIMIT = {
+  // Requests per period
+  LIMIT: 100,
+  // Period in seconds
+  PERIOD: 60,
+}
+
+// ============ SECURITY HELPERS ============
+
+/**
+ * Get client IP from request (handles Cloudflare proxy)
+ */
+function getClientIP(request: Request): string {
+  // Cloudflare passes real IP in this header
+  const cfIP = request.headers.get("CF-Connecting-IP")
+  if (cfIP) return cfIP
+  
+  // Fallback to standard header
+  return request.headers.get("X-Forwarded-For")?.split(",")[0]?.trim() || "unknown"
+}
+
+/**
+ * Validate request origin against allowlist
+ */
+function isOriginAllowed(request: Request): boolean {
+  const origin = request.headers.get("Origin") || request.headers.get("Referer")
+  
+  if (!origin) {
+    // No origin header - might be a direct request, check referer
+    const referer = request.headers.get("Referer")
+    if (!referer) return false // No origin or referer = suspicious
+  }
+  
+  if (origin) {
+    // Check exact match or wildcard
+    return ALLOWED_ORIGINS.some(allowed => 
+      origin === allowed || 
+      origin.startsWith(allowed.replace("https://", "")) ||
+      allowed.includes(origin.replace("https://", ""))
+    )
+  }
+  
+  return false
+}
+
+/**
+ * Check for suspicious/bot request patterns
+ */
+function isSuspiciousRequest(request: Request): boolean {
+  const userAgent = request.headers.get("User-Agent") || ""
+  
+  // Block common scraper/user agents
+  const blockedAgents = [
+    "scrapy",
+    "curl",
+    "wget",
+    "python-requests",
+    "bot",
+    "crawler",
+    "spider",
+    "curl/",
+    "wget/",
+  ]
+  
+  const lowerUA = userAgent.toLowerCase()
+  for (const blocked of blockedAgents) {
+    if (lowerUA.includes(blocked)) {
+      console.log("Blocked suspicious user agent:", userAgent)
+      return true
+    }
+  }
+  
+  // Block requests with no user agent
+  if (!userAgent || userAgent.trim() === "") {
+    console.log("Blocked request with no User-Agent")
+    return true
+  }
+  
+  return false
+}
+
+/**
+ * Apply security headers to response
+ */
+function applySecurityHeaders(headers: Headers): void {
+  headers.set("X-Content-Type-Options", "nosniff")
+  headers.set("X-Frame-Options", "DENY")
+  headers.set("X-XSS-Protection", "1; mode=block")
+  headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
+  headers.set("Permissions-Policy", "geolocation=(), microphone=(), camera=()")
+  
+  // Content Security Policy - strict for API
+  headers.set(
+    "Content-Security-Policy",
+    "default-src 'none'; frame-ancestors 'none';"
+  )
+}
+
+/**
+ * Create a secure error response
+ */
+function securityErrorResponse(message: string, status = 403): Response {
+  const headers = {
+    "Content-Type": "application/json",
+    "Cache-Control": "no-store, must-revalidate",
+  }
+  applySecurityHeaders(new Headers(headers))
+  
+  return new Response(JSON.stringify({ error: message }), {
+    status,
+    headers: {
+      ...Object.fromEntries(new Headers(headers)),
+      "X-Content-Type-Options": "nosniff",
+      "X-Frame-Options": "DENY",
+    },
+  })
+}
+
+// ============ CORS CONFIGURATION ============
+
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "https://zentor.in",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Accept",
+  "Access-Control-Max-Age": "86400", // 24 hours
+  "Cache-Control": "no-store, must-revalidate",
+}
+
+function corsResponse(body: string, status = 200): Response {
+  const headers = new Headers({
+    "Content-Type": "application/json",
+    ...CORS_HEADERS,
+  })
+  applySecurityHeaders(headers)
+  
+  return new Response(body, { status, headers })
+}
+
+// ============ TYPES ============
 
 interface Job {
   id: string
@@ -36,16 +194,67 @@ interface JobsResponse {
   hasMore: boolean
 }
 
+// ============ CACHE CONFIG ============
+
 const CACHE_KEY = "jobs:all"
 const LAST_SYNC_KEY = "jobs:last_sync"
 const CACHE_TTL = 604800 // 7 days (in seconds)
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
+
+// ============ MAIN HANDLER ============
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url)
     const path = url.pathname
     const method = request.method
+
+    // ===== SECURITY CHECKS =====
+    
+    // 1. Rate limiting (using Cloudflare Rate Limiting binding)
+    if (env.RATELIMIT) {
+      const clientIP = getClientIP(request)
+      const { success } = await env.RATELIMIT.limit({ 
+        key: clientIP,
+        limit: RATE_LIMIT.LIMIT,
+        period: RATE_LIMIT.PERIOD,
+      })
+      
+      if (!success) {
+        console.log("Rate limit exceeded for IP:", clientIP)
+        return new Response(
+          JSON.stringify({ error: "Rate limit exceeded. Please try again later." }),
+          {
+            status: 429,
+            headers: {
+              "Content-Type": "application/json",
+              "Retry-After": String(RATE_LIMIT.PERIOD),
+              "X-RateLimit-Limit": String(RATE_LIMIT.LIMIT),
+              "X-RateLimit-Remaining": "0",
+              ...CORS_HEADERS,
+            },
+          }
+        )
+      }
+    }
+    
+    // 2. Origin/Referer validation (allowlist)
+    if (!isOriginAllowed(request)) {
+      console.log("Blocked request from disallowed origin:", request.headers.get("Origin") || request.headers.get("Referer"))
+      return securityErrorResponse("Origin not allowed", 403)
+    }
+    
+    // 3. Bot/Spam detection
+    if (isSuspiciousRequest(request)) {
+      return securityErrorResponse("Request blocked", 403)
+    }
+
+    // Handle CORS preflight
+    if (method === "OPTIONS") {
+      const headers = new Headers(CORS_HEADERS)
+      applySecurityHeaders(headers)
+      return new Response(null, { status: 204, headers })
+    }
 
     try {
       if (path === "/jobs" && method === "GET") {
@@ -56,25 +265,23 @@ export default {
         return await handleGetJobById(id, env)
       }
       if (path === "/jobs/refresh" && method === "POST") {
+        // Protected: require authorized origin or secret
         return await handleRefresh(env)
       }
       if (path === "/jobs/sync" && method === "POST") {
+        // Protected: require authorized origin or secret
         return await handleSync(request, env)
       }
       
-      return new Response(JSON.stringify({ error: "Not found" }), {
-        status: 404,
-        headers: { "Content-Type": "application/json" },
-      })
+      return corsResponse(JSON.stringify({ error: "Not found" }), 404)
     } catch (error: any) {
       console.error("Error:", error)
-      return new Response(JSON.stringify({ error: error.message }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      })
+      return corsResponse(JSON.stringify({ error: "Internal server error" }), 500)
     }
   },
 }
+
+// ============ DATABASE ============
 
 function getDbConfig(env: Env) {
   const { Client } = pg
@@ -91,6 +298,8 @@ function getDbConfig(env: Env) {
   })
 }
 
+// ============ JOB HANDLERS ============
+
 async function handleGetJobs(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url)
   const params = {
@@ -102,6 +311,10 @@ async function handleGetJobs(request: Request, env: Env): Promise<Response> {
     page: parseInt(url.searchParams.get("page") || "1"),
     limit: parseInt(url.searchParams.get("limit") || "10"),
   }
+
+  // Validate and cap pagination params
+  params.page = Math.max(1, Math.min(params.page, 100))
+  params.limit = Math.max(1, Math.min(params.limit, 100))
 
   const cached = await env.JOBS_CACHE.get(CACHE_KEY, "json") as JobsResponse | null
   let jobs: Job[] = []
@@ -135,17 +348,20 @@ async function handleGetJobs(request: Request, env: Env): Promise<Response> {
   const paginatedJobs = jobs.slice(start, start + params.limit)
   const hasMore = start + params.limit < total
 
-  return new Response(JSON.stringify({
+  return corsResponse(JSON.stringify({
     jobs: paginatedJobs,
     total,
     page: params.page,
     hasMore,
-  }), {
-    headers: { "Content-Type": "application/json" },
-  })
+  }))
 }
 
 async function handleGetJobById(id: string, env: Env): Promise<Response> {
+  // Validate ID format (prevent injection)
+  if (!/^[\w-]+$/.test(id)) {
+    return corsResponse(JSON.stringify({ error: "Invalid job ID" }), 400)
+  }
+  
   const cached = await env.JOBS_CACHE.get(CACHE_KEY, "json") as JobsResponse | null
   let jobs: Job[] = []
 
@@ -158,10 +374,10 @@ async function handleGetJobById(id: string, env: Env): Promise<Response> {
 
   const job = jobs.find((j) => j.id === id)
   if (!job) {
-    return new Response(JSON.stringify({ error: "Job not found" }), { status: 404, headers: { "Content-Type": "application/json" } })
+    return corsResponse(JSON.stringify({ error: "Job not found" }), 404)
   }
 
-  return new Response(JSON.stringify(job), { headers: { "Content-Type": "application/json" } })
+  return corsResponse(JSON.stringify(job))
 }
 
 async function handleRefresh(env: Env): Promise<Response> {
@@ -169,7 +385,7 @@ async function handleRefresh(env: Env): Promise<Response> {
   await env.JOBS_CACHE.put(CACHE_KEY, JSON.stringify({ jobs, total: jobs.length, page: 1, hasMore: false }), { expirationTtl: CACHE_TTL })
   await env.JOBS_CACHE.put(LAST_SYNC_KEY, new Date().toISOString())
 
-  return new Response(JSON.stringify({ success: true, count: jobs.length }), { headers: { "Content-Type": "application/json" } })
+  return corsResponse(JSON.stringify({ success: true, count: jobs.length }))
 }
 
 async function handleSync(request: Request, env: Env): Promise<Response> {
@@ -187,7 +403,7 @@ async function handleSync(request: Request, env: Env): Promise<Response> {
   // Update last sync timestamp after successful sync
   await env.JOBS_CACHE.put(LAST_SYNC_KEY, new Date().toISOString())
   
-  return new Response(JSON.stringify({ jobs, count: jobs.length, since: since }), { headers: { "Content-Type": "application/json" } })
+  return corsResponse(JSON.stringify({ jobs, count: jobs.length, since: since }))
 }
 
 async function fetchJobsFromDB(env: Env, since?: string): Promise<Job[]> {
@@ -208,7 +424,7 @@ async function fetchJobsFromDB(env: Env, since?: string): Promise<Job[]> {
     const sevenDaysAgo = new Date(Date.now() - SEVEN_DAYS_MS).toISOString()
     
     let query = "SELECT id, title, company, company_logo_url, location, job_type, is_remote, experience_years, salary_min, salary_max, salary_currency, skills, description, job_url, job_url_direct, created_at, updated_at FROM job_postings"
-    const params: any[] = []
+    const params: unknown[] = []
     const conditions: string[] = []
 
     // ALWAYS filter to last 7 days only (stale job application data excluded)
