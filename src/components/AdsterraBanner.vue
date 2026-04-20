@@ -1,75 +1,19 @@
 <template>
-  <div class="adsterra-wrapper">
-    <div class="ad-skeleton" v-show="!loaded">
+  <div class="banner-placeholder">
+    <div class="ad-skeleton">
       <div class="shimmer"></div>
-      <span class="ad-label">Advertisement</span>
+      <span class="ad-label">Advertisement space reserved for Monetag</span>
     </div>
-    <iframe 
-      ref="adIframe" 
-      width="100%" 
-      height="90" 
-      frameborder="0" 
-      scrolling="no" 
-      @load="onIframeLoad"
-      class="ad-frame"
-    ></iframe>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-
-const adIframe = ref(null)
-const loaded = ref(false)
-
-onMounted(() => {
-  if (!adIframe.value) return
-  
-  const doc = adIframe.value.contentWindow?.document || adIframe.value.contentDocument
-  if (!doc) return
-
-  doc.open()
-  doc.write(`
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-          body { 
-            margin: 0; 
-            padding: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 90px; 
-            background: transparent; 
-          }
-        </style>
-      </head>
-      <body>
-        <script type="text/javascript">
-          atOptions = {
-            'key' : '29100988',
-            'format' : 'iframe',
-            'height' : 90,
-            'width' : 728,
-            'params' : {}
-          };
-        <\/script>
-        <script type="text/javascript" src="https://www.topcreativeformat.com/29100988/invoke.js"><\/script>
-      </body>
-    </html>
-  `)
-  doc.close()
-})
-
-const onIframeLoad = () => {
-  loaded.value = true
-}
+// Adsterra scripts completely removed per user request.
+// Awaiting Monetag specific banner script if an inline zone is created.
 </script>
 
 <style scoped>
-.adsterra-wrapper {
+.banner-placeholder {
   width: 100%;
   min-height: 120px;
   background: var(--glass-bg);
@@ -91,11 +35,6 @@ const onIframeLoad = () => {
   justify-content: center;
   align-items: center;
   pointer-events: none;
-}
-
-.ad-frame {
-  z-index: 2;
-  min-height: 90px;
 }
 
 .ad-label {
@@ -125,9 +64,11 @@ const onIframeLoad = () => {
 }
 
 @media (max-width: 768px) {
-  .adsterra-wrapper {
+  .banner-placeholder {
     margin: 1.25rem 0;
     min-height: 100px;
   }
 }
 </style>
+
+
