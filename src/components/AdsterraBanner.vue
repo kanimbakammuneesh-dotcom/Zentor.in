@@ -2,7 +2,6 @@
   <div class="banner-placeholder">
     <div class="ad-skeleton">
       <div class="shimmer"></div>
-      <span class="ad-label">Advertisement space reserved for Monetag</span>
     </div>
   </div>
 </template>
