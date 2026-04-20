@@ -239,13 +239,24 @@ async function fetchJobs() {
 onMounted(() => {
   document.title = 'Jobs | Zentor'
   
-  // Monetag Popunder - inject exactly once
-  if (!window._monetagPopunder) {
-    window._monetagPopunder = true
-    const s = document.createElement('script')
-    s.dataset.zone = '10902056'
-    s.src = 'https://al5sm.com/tag.min.js'
-    document.body.appendChild(s)
+  // Monetag Integration - inject exactly once
+  if (!window._monetagInitialized) {
+    window._monetagInitialized = true
+    
+    // Global Tag
+    const tag = document.createElement('script')
+    tag.src = 'https://quge5.com/88/tag.min.js'
+    tag.dataset.zone = '231794'
+    tag.async = true
+    tag.setAttribute('data-cfasync', 'false')
+    document.head.appendChild(tag)
+
+    // Popunder
+    const pop = document.createElement('script')
+    pop.dataset.zone = '10902056'
+    pop.src = 'https://al5sm.com/tag.min.js'
+    pop.setAttribute('data-cfasync', 'false')
+    document.body.appendChild(pop)
   }
 
   const metaTags = [    { name: 'description', content: 'Find tech jobs in India. Filter by location, experience. Apply to top companies.' },
