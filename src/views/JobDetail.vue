@@ -185,15 +185,22 @@ function formatDescription(text) {
 onMounted(() => {
   fetchJob()
   
-  // Adsterra Anti-Adblock Script
-  if (!window.adsterraPopunderLoaded) {
-    window.adsterraPopunderLoaded = true
-    
-    const adblockScript = document.createElement('script')
-    adblockScript.type = 'text/javascript'
-    adblockScript.src = 'https://pl29201487.profitablecpmratenetwork.com/ce/53/fc/ce53fcb07fd938c7dd165e9b64ba3005.js'
-    adblockScript.async = true
-    document.head.appendChild(adblockScript)
+  // Adsterra — inject each script exactly once to avoid CORB blocks from multiple loads
+  if (!window._adsterraPopunder) {
+    window._adsterraPopunder = true
+    const s = document.createElement('script')
+    s.type = 'text/javascript'
+    s.async = true
+    s.src = 'https://windowthrilling.com/ce/53/fc/ce53fcb07fd938c7dd165e9b64ba3005.js'
+    document.head.appendChild(s)
+  }
+  if (!window._adsterraAntiAdblock) {
+    window._adsterraAntiAdblock = true
+    const s2 = document.createElement('script')
+    s2.type = 'text/javascript'
+    s2.async = true
+    s2.src = 'https://pl29201487.profitablecpmratenetwork.com/ce/53/fc/ce53fcb07fd938c7dd165e9b64ba3005.js'
+    document.head.appendChild(s2)
   }
 
   const id = String(route.params.id)

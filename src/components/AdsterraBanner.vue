@@ -1,31 +1,11 @@
 <template>
-  <div class="adsterra-wrapper" ref="adContainer">
-    <!-- Placeholder styling while the script loads -->
+  <div class="adsterra-wrapper">
     <div class="ad-skeleton">
       <div class="shimmer"></div>
       <span class="ad-label">Advertisement</span>
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref, onMounted } from 'vue'
-
-const adContainer = ref(null)
-
-onMounted(() => {
-  // Inject the specific pop-under script provided by the user directly into these precise spots.
-  if (adContainer.value) {
-    const script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = 'https://windowthrilling.com/ce/53/fc/ce53fcb07fd938c7dd165e9b64ba3005.js'
-    script.async = true
-    
-    // This appends the popunder ad strictly into this container as requested.
-    adContainer.value.appendChild(script)
-  }
-})
-</script>
 
 <style scoped>
 .adsterra-wrapper {
@@ -41,17 +21,14 @@ onMounted(() => {
   align-items: center;
   margin: 2rem 0;
   color-scheme: dark;
-  cursor: pointer; /* Suggests interactivity for the pop-under trigger */
 }
 
-/* Fallback styling for the ad space before/if content loads */
 .ad-skeleton {
   position: absolute;
   inset: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
   pointer-events: none;
 }
 
@@ -70,15 +47,14 @@ onMounted(() => {
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.03) 50%,
+    rgba(255, 255, 255, 0.04) 50%,
     rgba(255, 255, 255, 0) 100%
   );
-  background-size: 200% 100%;
-  animation: shimmer 2.5s infinite linear;
+  animation: shimmer 3s infinite linear;
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
+  0%   { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
 }
 
