@@ -21,7 +21,6 @@
 | Routing | Vue Router |
 | SEO | Vanilla JS |
 | Hosting | Cloudflare Workers |
-| Database | RDS (PostgreSQL) |
 | Forms | Fillout (direct iframe) |
 
 ---
@@ -57,6 +56,7 @@ Zentor uses a component-based architecture. Use existing components before creat
 | `BenefitGrid` | Benefits with emoji icons | Pass `cards` array |
 | `NavBar` | Navigation with PNG logo | Already in App.vue |
 | `Footer` | Footer with UDYAM code | Already in App.vue |
+| `AdsterraBanner`| Sandboxed container for Adsterra pop-under scripts | Drop-in component, injects `<script>` inside its specific spot |
 
 ### Component Usage Example
 
@@ -140,6 +140,27 @@ const features = [
 | Fix accessibility issues | ui-ux-pro-max | Check contrast, ARIA |
 | Complex refactoring | vue + best-practices | Plan first, then implement |
 | SEO improvements | ui-ux-pro-max | Meta tags, structured data |
+
+---
+
+## Monetization / Ads Integration
+
+### Adsterra Pop-Under & Anti-Adblock Scripts
+Zentor uses Adsterra for monetization. Do not use standard Google AdSense or native `document.write()` logic for global scripts, as this will blank out the Vue SPA during reactive routing.
+
+1. **Pop-under Scripts:** Use the `AdsterraBanner` component layout to physically place Pop-Under intercepts across the UI. This provides a UI-UX-Pro-Max shimmer skeleton while placing the pop-under script effectively inside the DOM boundaries without iframe blocking.
+2. **Anti-Adblock/Fallback Scripts:** These are globally executed and must be manually injected via native DOM methods (`document.createElement`) in `onMounted()` hooks (such as inside `Jobs.vue`). Always use duplication checking (e.g., `window.adsterraPopunderLoaded`) to avoid catastrophic loop flashing.
+
+**Example `AdsterraBanner` usage:**
+```vue
+<script setup>
+import AdsterraBanner from '@/components/AdsterraBanner.vue'
+</script>
+
+<template>
+  <AdsterraBanner />
+</template>
+```
 
 ---
 
@@ -279,14 +300,7 @@ All routes must have trailing slashes:
 ├── .github/workflows/
 │   └── deploy.yml
 ├── wrangler.toml
-├── AGENTS.md
-└── src/
-    └── workers/
-        └── jobs-api/          # Jobs API worker
-            ├── index.ts       # Worker logic (pg client)
-            ├── schema.sql     # RDS SQL schema + dummy data
-            ├── wrangler.toml  # Worker config
-            └── package.json   # Worker dependencies
+└── AGENTS.md
 ```
 
 ---
