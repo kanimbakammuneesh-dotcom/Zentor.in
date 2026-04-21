@@ -3,3 +3,4 @@ requirements.txt
 node_modules/
 dist/
 .vite/
+graphify-out/

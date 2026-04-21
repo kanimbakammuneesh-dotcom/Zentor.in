@@ -19,7 +19,7 @@ const filters = reactive({
 })
 
 const CACHE_KEY = 'zentor_jobs_cache'
-const CACHE_TTL = 604800000 // 7 days
+const CACHE_TTL = 300000 // 5 minutes
 
 function getCache() {
   try {
@@ -68,7 +68,7 @@ async function fetchJobs(forceRefresh = false) {
     params.set('page', filters.page.toString())
     params.set('limit', filters.limit.toString())
 
-    const response = await fetch(`${API_URL}/jobs?${params}`)
+    const response = await fetch(`${API_URL}/jobs?${params}&t=${Date.now()}`)
     if (!response.ok) throw new Error('Failed to fetch jobs')
 
     const data = await response.json()

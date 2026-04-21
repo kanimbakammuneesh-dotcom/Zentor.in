@@ -242,8 +242,8 @@ async function handleGetJobs(request: Request, env: Env): Promise<Response> {
   const paginatedJobs = jobs.slice(start, start + params.limit)
   const hasMore = start + params.limit < total
 
-  // Return with 1 hour CDN/Browser cache (3600 seconds)
-  return jsonResponse(JSON.stringify({ jobs: paginatedJobs, total, page: params.page, hasMore }), 200, 3600, request)
+  // Return with 1 minute CDN/Browser cache (60 seconds)
+  return jsonResponse(JSON.stringify({ jobs: paginatedJobs, total, page: params.page, hasMore }), 200, 60, request)
 }
 
 async function handleGetJobById(id: string, env: Env, request: Request): Promise<Response> {
@@ -268,8 +268,8 @@ async function handleGetJobById(id: string, env: Env, request: Request): Promise
   const job = jobs.find(j => j.id === id)
   if (!job) return jsonResponse(JSON.stringify({ error: "Job not found" }), 404, 0, request)
 
-  // Cache individual job detail for 1 hour
-  return jsonResponse(JSON.stringify(job), 200, 3600, request)
+  // Cache individual job detail for 1 minute
+  return jsonResponse(JSON.stringify(job), 200, 60, request)
 }
 
 async function handleRefresh(env: Env, request: Request): Promise<Response> {

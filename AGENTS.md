@@ -131,6 +131,10 @@ const features = [
    - When unclear about requirements
    - For complex multi-step tasks
 
+4. **@.agent/skills/graphify** - For code traversal
+   - Use to explore the codebase and find symbols
+   - MANDATORY: Use graphify query before manual grep search
+
 ### When to Use Skills
 
 | Task | Skill(s) | Notes |
@@ -140,6 +144,7 @@ const features = [
 | Fix accessibility issues | ui-ux-pro-max | Check contrast, ARIA |
 | Complex refactoring | vue + best-practices | Plan first, then implement |
 | SEO improvements | ui-ux-pro-max | Meta tags, structured data |
+| Search code symbols | graphify | Find locations before editing |
 
 ---
 
@@ -315,6 +320,8 @@ All routes must have trailing slashes:
 5. **Accessibility** - Semantic HTML, heading hierarchy, alt text
 6. **SVG icons** - NOT emojis (except in BenefitGrid)
 7. **Use existing components** - Don't duplicate code
+8. **Graphify traversal** - Use graphify to find symbols/code locations before manual search
+9. **Single Contiguous Edits** - Favor `replace_file_content` over `multi_replace_file_content` when possible
 
 ### Avoid
 1. New fonts
@@ -322,6 +329,31 @@ All routes must have trailing slashes:
 3. `@unhead/vue` - Use vanilla JS
 4. Vue router for primary CTAs - Use external URLs
 5. Duplicate CSS in views - Use components
+6. Manual grep without first querying graphify
+
+---
+
+## Best Coding Practices
+
+1. **DRY (Don't Repeat Yourself)**
+   - Extract common logic into composables in `src/composables/`
+   - Use reusable components for UI consistency
+
+2. **Clean Components**
+   - Keep components under 300 lines; split if they grow too large
+   - Use clear, descriptive prop names
+
+3. **Performance & Caching**
+   - Use `localStorage` for data that doesn't change often
+   - Implement appropriate `Cache-Control` headers in Workers
+
+4. **Type Safety**
+   - Use JSDoc or TypeScript (if enabled) for better DX
+   - Define clear interfaces for API responses
+
+5. **Security**
+   - Never commit secrets (use Wrangler secrets or `.env`)
+   - Implement proper CORS and security headers in Workers
 
 ---
 

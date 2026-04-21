@@ -131,7 +131,7 @@ async function fetchJob() {
 
   try {
     const id = route.params.id
-    const response = await fetch(`${API_URL}/jobs/${id}`)
+    const response = await fetch(`${API_URL}/jobs/${id}?t=${Date.now()}`)
     if (!response.ok) {
       if (response.status === 404) {
         error.value = 'Job not found'
@@ -236,7 +236,7 @@ onMounted(() => {
   if (cached) {
     try {
       const { data, timestamp } = JSON.parse(cached)
-      if (Date.now() - timestamp < 3600000) {
+      if (Date.now() - timestamp < 300000) {
         job.value = data
         loading.value = false // Skip initial spinner if we have cache
       }

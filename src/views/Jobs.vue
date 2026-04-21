@@ -214,7 +214,7 @@ async function fetchJobs() {
     params.set('page', filters.value.page.toString())
     params.set('limit', filters.value.limit.toString())
 
-    const response = await fetch(`${API_URL}/jobs?${params}`)
+    const response = await fetch(`${API_URL}/jobs?${params}&t=${Date.now()}`)
     if (!response.ok) throw new Error('Failed to fetch jobs')
 
     const data = await response.json()
@@ -286,8 +286,8 @@ onMounted(() => {
   if (cached) {
     try {
       const { data, timestamp } = JSON.parse(cached)
-      // If cache is less than 1 hour old, show it immediately
-      if (Date.now() - timestamp < 3600000) {
+      // If cache is less than 5 minutes old, show it immediately
+      if (Date.now() - timestamp < 300000) {
         jobs.value = data.jobs || []
         total.value = data.total || 0
         hasMore.value = data.hasMore || false
