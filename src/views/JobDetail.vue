@@ -7,12 +7,18 @@
 
     <div v-else-if="error" class="error-state">
       <p>{{ error }}</p>
-      <router-link to="/jobs/" class="btn-back">← Back to Jobs</router-link>
+      <router-link to="/jobs/" class="btn-back-nav">
+        <span class="back-icon">←</span>
+        <span class="back-text">Back to Jobs</span>
+      </router-link>
     </div>
 
     <div v-else-if="job" class="job-detail">
       <div class="detail-header">
-        <router-link to="/jobs/" class="back-link">← Back to Jobs</router-link>
+        <router-link to="/jobs/" class="btn-back-nav">
+          <span class="back-icon">←</span>
+          <span class="back-text">Back to Jobs</span>
+        </router-link>
       </div>
 
       <div class="job-hero">
@@ -70,7 +76,7 @@
         </span>
       </div>
 
-      <AdsterraBanner />
+      <!-- <AdsterraBanner /> -->
       <div class="skills-section" v-if="job.skills && job.skills.length">
         <h3>Required Skills</h3>
         <div class="skills-list">
@@ -90,7 +96,7 @@
         <p class="apply-note">{{ applyClicks === 0 ? 'Click to apply (ad plays first)' : 'Opening job posting...' }}</p>
       </div>
 
-      <AdsterraBanner />
+      <!-- <AdsterraBanner /> -->
       <div class="job-footer">
         <p class="posted-date">Posted {{ formatDate(job.created_at) }}</p>
       </div>
@@ -181,31 +187,44 @@ function formatDate(dateStr) {
 
 function formatDescription(text) {
   if (!text) return ''
-  return text.replace(/\n/g, '<br>')
+  
+  // Handle bold text **text**
+  let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+  
+  // Handle bullet points (* or -)
+  const lines = formatted.split('\n')
+  let inList = false
+  const processedLines = lines.map(line => {
+    const trimmedLine = line.trim()
+    if (trimmedLine.startsWith('* ') || trimmedLine.startsWith('- ')) {
+      const content = trimmedLine.substring(2)
+      if (!inList) {
+        inList = true
+        return `<ul class="desc-list"><li>${content}</li>`
+      }
+      return `<li>${content}</li>`
+    } else {
+      if (inList) {
+        inList = false
+        return `</ul>${line}<br>`
+      }
+      return line + '<br>'
+    }
+  })
+  
+  if (inList) processedLines.push('</ul>')
+  
+  return processedLines.join('')
 }
 
 onMounted(() => {
   fetchJob()
   
-  // Monetag Integration - inject exactly once
+  /* Monetag Integration - commented out
   if (!window._monetagInitializedDetail) {
-    window._monetagInitializedDetail = true
-    
-    // Global Tag
-    const tag = document.createElement('script')
-    tag.src = 'https://quge5.com/88/tag.min.js'
-    tag.dataset.zone = '231794'
-    tag.async = true
-    tag.setAttribute('data-cfasync', 'false')
-    document.head.appendChild(tag)
-
-    // Popunder
-    const pop = document.createElement('script')
-    pop.dataset.zone = '10902056'
-    pop.src = 'https://al5sm.com/tag.min.js'
-    pop.setAttribute('data-cfasync', 'false')
-    document.body.appendChild(pop)
+    ...
   }
+  */
 
 
   const id = String(route.params.id)
@@ -270,15 +289,34 @@ onMounted(() => {
   to { transform: rotate(360deg); }
 }
 
-.back-link {
-  display: inline-block;
-  padding: 1rem 5%;
+.btn-back-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
   color: var(--text-dim);
   text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 2rem;
 }
 
-.back-link:hover {
+.btn-back-nav:hover {
   color: var(--acid);
+  border-color: var(--acid);
+  transform: translateX(-4px);
+  box-shadow: 0 0 20px rgba(167, 138, 254, 0.2);
+}
+
+.back-icon {
+  font-size: 1.1rem;
 }
 
 .job-detail {
@@ -413,10 +451,35 @@ onMounted(() => {
   background: var(--glass-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 1.25rem;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  padding: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+.description-content strong {
   color: var(--text);
+  font-weight: 600;
+}
+
+.desc-list {
+  margin: 1rem 0;
+  padding-left: 1.25rem;
+  list-style-type: none;
+}
+
+.desc-list li {
+  position: relative;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.desc-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--acid);
+  font-weight: bold;
 }
 
 .google-ads {
@@ -496,18 +559,6 @@ onMounted(() => {
   margin: 0;
 }
 
-.btn-back {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
-  text-decoration: none;
-}
-
-.btn-back:hover {
-  border-color: var(--acid);
 }
 
 @media (max-width: 600px) {

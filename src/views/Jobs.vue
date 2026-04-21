@@ -47,9 +47,9 @@
       </div>
     </section>
 
-    <AdsterraBanner />
+    <!-- <AdsterraBanner /> -->
     
-    <AdsterraBanner v-if="filters.page === 1" />
+    <!-- <AdsterraBanner v-if="filters.page === 1" /> -->
 
     <section class="jobs-section">
       <p class="results-count">{{ total }} jobs found</p>
@@ -66,37 +66,39 @@
 
       <div v-else class="jobs-grid">
         <article v-for="job in jobs" :key="job.id" class="job-card" @click="openJobDetail(job.id)">
-          <div class="job-card-header">
+          <div class="job-card-main">
             <div class="company-logo">
               <img v-if="job.company_logo_url" :src="job.company_logo_url" :alt="job.company" class="logo-img" />
               <div v-else class="logo-fallback" :style="{ backgroundColor: getLogoColor(job.company) }">{{ job.company.charAt(0).toUpperCase() }}</div>
             </div>
-            <div class="job-meta">
+            
+            <div class="job-info-main">
               <h3 class="job-title">{{ job.title }}</h3>
               <p class="job-company">{{ job.company }}</p>
+              
+              <div class="job-details-row">
+                <span class="detail-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  {{ job.location }}
+                </span>
+                <span class="detail-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                  {{ job.experience_years }} yrs
+                </span>
+                <span v-if="job.is_remote" class="detail-item remote">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  Remote
+                </span>
+              </div>
             </div>
           </div>
 
-          <div class="job-details">
-            <span class="detail-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              {{ job.location }}
-            </span>
-            <span class="detail-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-              {{ job.experience_years }} yrs
-            </span>
-            <span v-if="job.is_remote" class="detail-item remote">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              Remote
-            </span>
+          <div class="job-card-side">
+            <div class="job-salary" v-if="job.salary_min || job.salary_max">
+              <span>{{ job.salary_currency || '₹' }}{{ formatSalary(job.salary_min) }} - {{ job.salary_currency || '₹' }}{{ formatSalary(job.salary_max) }}</span>
+            </div>
+            <div class="job-date">{{ formatDate(job.created_at) }}</div>
           </div>
-
-          <div class="job-salary" v-if="job.salary_min || job.salary_max">
-            <span>{{ job.salary_currency || '₹' }}{{ formatSalary(job.salary_min) }} - {{ job.salary_currency || '₹' }}{{ formatSalary(job.salary_max) }}</span>
-          </div>
-
-          <div class="job-date">Posted {{ formatDate(job.created_at) }}</div>
         </article>
       </div>
 
@@ -106,7 +108,7 @@
         <button class="page-btn" :disabled="!hasMore" @click="setPage(filters.page + 1)">Next</button>
       </div>
 
-      <AdsterraBanner />
+      <!-- <AdsterraBanner /> -->
     </section>
   </div>
 </template>
@@ -242,25 +244,11 @@ async function fetchJobs() {
 onMounted(() => {
   document.title = 'Jobs | Zentor'
   
-  // Monetag Integration - inject exactly once
+  /* Monetag Integration - commented out
   if (!window._monetagInitialized) {
-    window._monetagInitialized = true
-    
-    // Global Tag
-    const tag = document.createElement('script')
-    tag.src = 'https://quge5.com/88/tag.min.js'
-    tag.dataset.zone = '231794'
-    tag.async = true
-    tag.setAttribute('data-cfasync', 'false')
-    document.head.appendChild(tag)
-
-    // Popunder
-    const pop = document.createElement('script')
-    pop.dataset.zone = '10902056'
-    pop.src = 'https://al5sm.com/tag.min.js'
-    pop.setAttribute('data-cfasync', 'false')
-    document.body.appendChild(pop)
+    ...
   }
+  */
 
   const metaTags = [    { name: 'description', content: 'Find tech jobs in India. Filter by location, experience. Apply to top companies.' },
     { property: 'og:title', content: 'Jobs | Zentor' },
@@ -495,42 +483,54 @@ ins.adsbygoogle a {
 
 .jobs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   padding: 0 5% 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .job-card {
   background: var(--glass-bg);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 2rem;
+  border-radius: 16px;
+  padding: 1.5rem;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .job-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-8px);
+  border-color: var(--acid);
+  box-shadow: 0 15px 35px rgba(167, 138, 254, 0.2);
 }
 
-.job-card-header {
+.job-card-main {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 0;
 }
 
 .company-logo {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   flex-shrink: 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
 }
 
 .logo-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 8px;
 }
 
 .logo-fallback {
@@ -540,18 +540,19 @@ ins.adsbygoogle a {
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: white;
 }
 
-.job-meta {
+.job-info-main {
   flex: 1;
   min-width: 0;
 }
 
 .job-title {
-  font-size: 1.35rem;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--text);
   margin: 0 0 0.25rem;
@@ -561,44 +562,51 @@ ins.adsbygoogle a {
 }
 
 .job-company {
-  color: var(--text-dim);
-  font-size: 1.1rem;
-  margin: 0;
+  color: var(--acid);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
 }
 
-.job-details {
+.job-details-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
+  gap: 1.25rem;
 }
 
 .detail-item {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.5rem;
   font-size: 0.85rem;
   color: var(--text-dim);
 }
 
-.detail-item svg {
-  opacity: 0.7;
+.detail-item.remote {
+  color: var(--cyan);
 }
 
-.detail-item.remote {
-  color: var(--acid);
+.job-card-side {
+  text-align: left;
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .job-salary {
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
   color: var(--text);
   margin-bottom: 0.5rem;
 }
 
 .job-date {
   font-size: 0.8rem;
-  color: var(--text-dim);
+  color: var(--muted);
 }
 
 .pagination {
@@ -662,43 +670,55 @@ ins.adsbygoogle a {
   }
   .jobs-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
     padding: 0 4% 1.5rem;
   }
   .job-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
     padding: 1.25rem;
-    border-radius: 10px;
+    border-radius: 12px;
   }
-  .job-card-header {
-    gap: 0.75rem;
+  .job-card:hover {
+    transform: translateY(-4px);
+  }
+  .job-card-main {
+    gap: 1rem;
   }
   .company-logo {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+    padding: 6px;
   }
   .job-title {
     font-size: 1.1rem;
     white-space: normal;
-    overflow: visible;
   }
   .job-company {
     font-size: 0.9rem;
+    margin-bottom: 0.5rem;
   }
-  .job-details {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
+  .job-details-row {
+    gap: 0.75rem;
   }
   .detail-item {
     font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
+  }
+  .job-card-side {
+    text-align: left;
+    width: 100%;
+    border-top: 1px solid var(--border);
+    padding-top: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .job-salary {
-    font-size: 0.85rem;
-    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    margin-bottom: 0;
   }
   .job-date {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
   }
   .pagination {
     flex-direction: column;
