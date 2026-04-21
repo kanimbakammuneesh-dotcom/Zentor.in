@@ -3,13 +3,13 @@
     <HeroSection
       eyebrow="Internship 2026"
       eyebrow-slash="/"
-      headline="Get Hired"
-      headline-highlight="Faster"
+      headline="Gain Experience."
+      headline-highlight="Launch Your Career."
       tagline="Internship Program"
-      subheadline="Gain real-world experience with our 2-month intensive internship program. Build projects, crack mock interviews, and get certified. Complete with a hackathon at the end."
-      cta-text="Apply Now"
+      subheadline="Step into the professional world with our 2-month intensive internship program. Build real-world projects and receive expert career guidance to transition from student to professional."
+      cta-text="View Programs"
       cta-link="#internships"
-      cta-aria="Apply for internship program"
+      cta-aria="Explore our internship programs"
     />
 
     <CardGrid
@@ -104,15 +104,16 @@ onMounted(() => {
   document.title = 'Internship Program | Zentor - Fullstack & AI Agent'
   
   const metaTags = [
-    { name: 'description', content: '2-month internship program. Fullstack Development and AI Agent Building. Live tasks, mock interview, project building, hackathon, and certification.' },
-    { property: 'og:title', content: 'Zentor - Internship Program' },
-    { property: 'og:description', content: 'Get real-world experience. 2-month internship with projects, mock interviews, and certification.' },
+    { name: 'description', content: '2-month intensive internship program in Fullstack and AI Agent Building. Gain real-world experience and expert career guidance to launch your professional career.' },
+    { property: 'og:title', content: 'Zentor — Professional Internship Program' },
+    { property: 'og:description', content: 'Gain real-world tech experience. 2-month internships with expert career guidance and certification for Gen Z.' },
     { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { property: 'og:url', content: 'https://zentor.in/internship/' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Zentor - Internship Program' },
-    { name: 'twitter:description', content: 'Fullstack and AI Agent internships with certification.' },
+    { name: 'twitter:title', content: 'Zentor — Internship Program' },
+    { name: 'twitter:description', content: 'Fullstack and AI Agent internships with professional career guidance and certification.' },
+    { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
   ]
   
   metaTags.forEach(tag => {

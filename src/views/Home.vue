@@ -3,24 +3,26 @@
     <HeroSection
       eyebrow="Zentor"
       eyebrow-slash="/"
-      headline="Zentor"
-      headline-highlight="for GenZ"
+      headline="Master Tech. Get Hired."
+      headline-highlight="Scale Your Future."
       tagline="Your Future Starts Here"
-      subheadline="India's most trusted education platform. Get personalized college matches, direct admissions to top institutions in Chennai & Bengaluru, and expert counseling—everything you need to unlock your potential and build a successful career."
-      cta-text="Apply Now"
-      cta-link="https://zentor.in/admissions/"
-      cta-aria="Start your college admission journey with Zentor"
+      subheadline="Transition from student to professional with expert career guidance. Access top-tier AI courses, high-growth internships, and direct job placements built for the Gen Z generation."
+      cta-text="Explore Careers"
+      cta-link="/jobs/"
+      cta-aria="Start your career journey with Zentor"
     />
 
     <CardGrid
-      title="Why Choose Zentor"
+      title="Scale Your Career"
       :cards="features"
       accent-color="acid"
     />
 
+    <JobScroller :jobs="latestJobs" />
+
     <section class="programs-section">
-      <h2 class="section-title">Our Programs</h2>
-      <p class="section-intro">Choose your path to a successful career</p>
+      <h2 class="section-title">Career Ecosystem</h2>
+      <p class="section-intro">Everything you need to go from student to professional</p>
       <div class="programs-grid">
         <a href="/courses/" class="program-card">
           <div class="program-icon">
@@ -35,7 +37,7 @@
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
           </div>
           <h3>Internship</h3>
-          <p>2-month intensive program with live projects, mock interviews & certification.</p>
+          <p>Gain real-world experience with live projects and career-defining certificates.</p>
           <span class="program-link">View Internships</span>
         </a>
         <a href="/jobs/" class="program-card">
@@ -43,24 +45,24 @@
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/><path d="M10 12h4"/><path d="M12 10v4"/><path d="M7 6v-2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2"/></svg>
           </div>
           <h3>Jobs</h3>
-          <p>Full-time tech roles for freshers and professionals. Filter by location & salary.</p>
+          <p>Direct placements in top tech companies for freshers and Gen Z talent.</p>
           <span class="program-link">Browse Jobs</span>
         </a>
       </div>
     </section>
 
     <ProcessSteps
-      title="How It Works"
+      title="Your Career Path"
       :steps="processSteps"
     />
 
     <section class="cta-section" aria-labelledby="cta-heading">
       <h2 id="cta-heading" class="sr-only">Ready to Start</h2>
       <div class="cta-content">
-        <h3>Ready to Find Your Dream College?</h3>
-        <p>Join thousands of students who found their perfect college with Zentor</p>
-        <a href="https://zentor.in/admissions/" class="btn-cta-secondary">
-          Get Started Free
+        <h3>Ready to Build Your Career?</h3>
+        <p>Join thousands of Gen Z professionals who started their journey with Zentor</p>
+        <a href="/jobs/" class="btn-cta-secondary">
+          Browse Opportunities
         </a>
       </div>
     </section>
@@ -68,50 +70,70 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import HeroSection from '@/components/HeroSection.vue'
 import CardGrid from '@/components/CardGrid.vue'
 import ProcessSteps from '@/components/ProcessSteps.vue'
+import JobScroller from '@/components/JobScroller.vue'
+
+const API_URL = 'https://zentor-jobs-api.zentor-admin.workers.dev'
+const latestJobs = ref([])
+const jobsLoading = ref(true)
+
+async function fetchLatestJobs() {
+  try {
+    const response = await fetch(`${API_URL}/jobs?limit=9&t=${Date.now()}`)
+    if (!response.ok) throw new Error('API down')
+    const data = await response.json()
+    latestJobs.value = data.jobs || []
+  } catch (e) {
+    console.error('Home: Failed to fetch latest jobs', e)
+    latestJobs.value = []
+  } finally {
+    jobsLoading.value = false
+  }
+}
 
 const features = [
   {
-    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
-    title: 'Smart Matching',
-    text: 'We analyze your academic score, preferences, and career goals to recommend colleges that perfectly match your profile.'
+    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+    title: 'Career Guidance',
+    text: 'Expert-led guidance to help students navigate their path from the classroom to a professional tech career.'
   },
   {
-    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
-    title: 'Direct Admissions',
-    text: 'Skip the entrance exam stress. Get direct admission guidance to top colleges in Chennai and Bengaluru.'
+    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+    title: 'Tech Courses',
+    text: 'Master in-demand skills with our specialized AI, Fullstack, and Data Analytics courses designed for the industry.'
   },
   {
-    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
-    title: 'Expert Counselors',
-    text: 'One-on-one sessions with experienced education experts who guide you to the right path.'
+    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/><path d="M10 12h4"/><path d="M12 10v4"/><path d="M7 6v-2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2"/></svg>',
+    title: 'Direct Placements',
+    text: 'Skip the line with direct job placements and internship opportunities at high-growth tech companies.'
   }
 ]
 
 const processSteps = [
-  { title: 'Share Your Details', text: 'Fill out a simple form with your academic scores, preferences, and career interests.' },
-  { title: 'Get Recommendations', text: 'We match you with colleges that fit your profile perfectly.' },
-  { title: 'Expert Counseling', text: 'Connect with our counselors to choose the best option.' },
-  { title: 'Secure Your Seat', text: 'Complete your admission with our step-by-step guidance.' }
+  { title: 'Level Up Skills', text: 'Enroll in our specialized tech courses and build real-world projects.' },
+  { title: 'Get Guided', text: 'One-on-one career counseling to build your professional profile.' },
+  { title: 'Gain Experience', text: 'Secure internships that provide industry exposure and certifications.' },
+  { title: 'Land Your Job', text: 'Access exclusive job opportunities and transition into your professional role.' }
 ]
 
 onMounted(() => {
-  document.title = 'Zentor - College Admission Platform | Direct Admissions in Chennai & Bengaluru'
+  fetchLatestJobs()
+  document.title = 'Zentor — Career Guidance, Tech Courses & Job Placements for Gen Z'
   
   const metaTags = [
-    { name: 'description', content: 'Zentor is India\'s leading college admission platform. Get personalized college matching, direct admissions to top colleges in Chennai & Bengaluru, and expert counseling.' },
-    { property: 'og:title', content: 'Zentor - College Admission Platform | Direct Admissions Chennai Bengaluru' },
-    { property: 'og:description', content: 'Find your dream college with personalized matching. Direct admissions and expert counseling for 12th pass students in India.' },
+    { name: 'description', content: 'Your journey from student to professional starts here. Get expert career guidance, master AI courses, find high-growth internships, and land direct job placements.' },
+    { property: 'og:title', content: 'Zentor — Career Guidance, Tech Courses & Job Placements' },
+    { property: 'og:description', content: 'Transition from student to professional with AI courses, internships, and job placements for Gen Z.' },
     { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { property: 'og:url', content: 'https://zentor.in' },
     { property: 'og:type', content: 'website' },
     { property: 'og:site_name', content: 'Zentor' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Zentor - College Admission Platform' },
-    { name: 'twitter:description', content: 'College admission platform for Gen Z. Direct admissions and expert counseling.' },
+    { name: 'twitter:title', content: 'Zentor — Career Guidance & Placements' },
+    { name: 'twitter:description', content: 'Career guidance, AI courses, and tech jobs for Gen Z professionals.' },
     { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { name: 'twitter:site', content: '@zentoredu' },
   ]
@@ -280,4 +302,5 @@ onMounted(() => {
     transition: none;
   }
 }
+
 </style>
