@@ -56,7 +56,9 @@ Zentor uses a component-based architecture. Use existing components before creat
 | `BenefitGrid` | Benefits with emoji icons | Pass `cards` array |
 | `NavBar` | Navigation with PNG logo | Already in App.vue |
 | `Footer` | Footer with UDYAM code | Already in App.vue |
-| `AdsterraBanner`| Sandboxed container for Adsterra pop-under scripts | Drop-in component, injects `<script>` inside its specific spot |
+| `JobCard` | Responsive job tile with animations | Pass `job` object |
+| `JobFilters` | Glassmorphism job search/filter bar | Pass props for search/filter |
+| `JobDescription` | Markdown renderer for job details | Pass `description` string |
 
 ### Component Usage Example
 
@@ -150,22 +152,18 @@ const features = [
 
 ## Monetization / Ads Integration
 
-### Adsterra Pop-Under & Anti-Adblock Scripts
-Zentor uses Adsterra for monetization. Do not use standard Google AdSense or native `document.write()` logic for global scripts, as this will blank out the Vue SPA during reactive routing.
+### Monetag Scoped Integration
+Zentor uses **Monetag** for monetization. To maintain high UX standards, ads are strictly localized to the Jobs section.
 
-1. **Pop-under Scripts:** Use the `AdsterraBanner` component layout to physically place Pop-Under intercepts across the UI. This provides a UI-UX-Pro-Max shimmer skeleton while placing the pop-under script effectively inside the DOM boundaries without iframe blocking.
-2. **Anti-Adblock/Fallback Scripts:** These are globally executed and must be manually injected via native DOM methods (`document.createElement`) in `onMounted()` hooks (such as inside `Jobs.vue`). Always use duplication checking (e.g., `window.adsterraPopunderLoaded`) to avoid catastrophic loop flashing.
+1.  **Injection**: Monetag scripts (Global Tag & Popunder) are injected via `onMounted` in `Jobs.vue` and `JobDetail.vue`.
+2.  **Scoped Purging**: A global navigation guard in `src/main.js` (`router.afterEach`) monitors route changes. If the user leaves the `/jobs/` path, all ad scripts are physically removed from the DOM by their IDs (`monetag-tag`, `monetag-popunder`).
+3.  **Initialization**: Global window flags (`_monetagInitialized`) are used to prevent duplicate script injection. These are reset by the navigation guard upon cleanup.
 
-**Example `AdsterraBanner` usage:**
-```vue
-<script setup>
-import AdsterraBanner from '@/components/AdsterraBanner.vue'
-</script>
+**Ad IDs used for cleanup:**
+*   `monetag-tag`: The primary global script.
+*   `monetag-popunder`: The popunder intercept script.
 
-<template>
-  <AdsterraBanner />
-</template>
-```
+**Important**: Do not use standard Google AdSense or native `document.write()` as they interfere with Vue's reactive routing.
 
 ---
 
@@ -266,6 +264,8 @@ All routes must have trailing slashes:
 | `/privacy/` | PrivacyPolicy | DPDPA Privacy Policy |
 | `/terms/` | Terms | Terms of Service |
 | `/contact/` | Contact | Contact page |
+| `/jobs/` | Jobs | Job board with search/filters |
+| `/jobs/:id` | JobDetail | Individual job posting details |
 | `/*` | Error | 404 page |
 
 ---
@@ -295,6 +295,9 @@ All routes must have trailing slashes:
 │       ├── FormContainer.vue
 │       ├── ProcessSteps.vue
 │       ├── BenefitGrid.vue
+│       ├── JobCard.vue
+│       ├── JobFilters.vue
+│       ├── JobDescription.vue
 │       ├── NavBar.vue
 │       └── Footer.vue
 ├── public/
