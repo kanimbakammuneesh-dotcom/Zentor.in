@@ -3,10 +3,10 @@
     <HeroSection
       eyebrow="Courses 2026"
       eyebrow-slash="/"
-      headline="Get Job Ready"
-      headline-highlight="Today"
+      headline="Master Tech Skills."
+      headline-highlight="Get Job Ready."
       tagline="Placement Preparation"
-      subheadline="Master in-demand tech skills with expert-led courses. All courses include free resume preparation, mock interviews, and industry-recognized certification. Join students who got placed in top companies."
+      subheadline="Master in-demand tech skills with expert-led courses. Get the career guidance you need to transition from student to professional with our industry-recognized certification and placement support."
     />
 
     <CardGrid
@@ -98,16 +98,16 @@ onMounted(() => {
   document.title = 'Tech Courses for Placement | Zentor - AI, Fullstack, Data Analytics'
   
   const metaTags = [
-    { name: 'description', content: 'Tech courses for placement preparation. AI Agent Building, Gen AI, Data Analytics, Fullstack, Python. Free resume prep, mock interviews, and certification included.' },
-    { property: 'og:title', content: 'Zentor - Tech Courses for Placement Preparation' },
-    { property: 'og:description', content: 'Get job-ready with AI, Fullstack, and Data Analytics courses. Free resume prep and mock interviews included.' },
+    { name: 'description', content: 'Master tech skills with expert-led courses in AI, Fullstack, and Data Analytics. Transition from student to professional with our career guidance and placement support.' },
+    { property: 'og:title', content: 'Zentor — Tech Courses & Career Guidance' },
+    { property: 'og:description', content: 'Master tech skills and get job-ready with AI, Fullstack, and Data Analytics courses. Expert career guidance included.' },
     { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { property: 'og:url', content: 'https://zentor.in/courses/' },
     { property: 'og:type', content: 'website' },
     { property: 'og:site_name', content: 'Zentor' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Zentor - Tech Courses for Placement' },
-    { name: 'twitter:description', content: 'AI, Fullstack, Data Analytics courses with certification and job support.' },
+    { name: 'twitter:title', content: 'Zentor — Tech Courses & Placements' },
+    { name: 'twitter:description', content: 'AI, Fullstack, and Data Analytics courses with professional career guidance.' },
     { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { name: 'twitter:site', content: '@zentoredu' },
   ]
