@@ -1,3 +1,94 @@
+<script setup>
+import { ref, onMounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import JobDescription from '@/components/JobDescription.vue'
+
+const route = useRoute()
+const API_URL = 'https://zentor-jobs-api.zentor-admin.workers.dev'
+
+const job = ref(null)
+const loading = ref(true)
+const error = ref(null)
+const applyClicks = ref(0)
+
+function formatSalary(amount) {
+  if (!amount) return ''
+  return amount.toLocaleString()
+}
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr)
+  return date.toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  })
+}
+
+function getLogoColor(company) {
+  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8']
+  const index = company ? company.charCodeAt(0) % colors.length : 0
+  return colors[index]
+}
+
+async function fetchJob() {
+  loading.value = true
+  error.value = null
+  try {
+    const id = route.params.id
+    const response = await fetch(`${API_URL}/jobs/${id}?t=${Date.now()}`)
+    if (!response.ok) throw new Error('Job not found')
+    job.value = await response.json()
+    
+    // Update Meta
+    document.title = `${job.value.title} at ${job.value.company} | Zentor`
+  } catch (e) {
+    error.value = e instanceof Error ? e.message : 'Failed to load job'
+  } finally {
+    loading.value = false
+  }
+}
+
+function handleApply() {
+  applyClicks.value++
+  // Minimal interaction logic
+  if (job.value?.apply_url) {
+    window.open(job.value.apply_url, '_blank')
+  }
+}
+
+onMounted(() => {
+  fetchJob()
+  
+  /* Monetag Integration - commented out
+  if (!window._monetagInitializedDetail) {
+    ...
+  }
+  */
+
+  const id = String(route.params.id)
+  const metaTags = [
+    { name: 'description', content: `Apply for ${job.value?.title || 'Job'} at ${job.value?.company || 'Company'} on Zentor.` },
+    { property: 'og:title', content: `${job.value?.title || 'Job Detail'} | Zentor` },
+    { property: 'og:description', content: `Apply for ${job.value?.title || 'Job'} at ${job.value?.company || 'Company'} on Zentor.` },
+    { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
+    { property: 'og:url', content: `https://zentor.in/jobs/${id}` },
+    { name: 'twitter:card', content: 'summary_large_image' },
+  ]
+  
+  metaTags.forEach(tag => {
+    let meta = document.querySelector(`meta[${tag.property ? 'property' : 'name'}="${tag.property || tag.name}"]`)
+    if (!meta) {
+      meta = document.createElement('meta')
+      if (tag.property) meta.setAttribute('property', tag.property)
+      else meta.setAttribute('name', tag.name)
+      document.head.appendChild(meta)
+    }
+    meta.setAttribute('content', tag.content)
+  })
+})
+</script>
+
 <template>
   <div class="page">
     <div v-if="loading" class="loading-state">
@@ -86,14 +177,14 @@
 
       <div class="description-section">
         <h3>Job Description</h3>
-        <div class="description-content" v-html="formatDescription(job.description)"></div>
+        <JobDescription :description="job.description" />
       </div>
 
       <div class="apply-section">
         <button @click="handleApply" class="btn-apply">
           Apply Now →
         </button>
-        <p class="apply-note">{{ applyClicks === 0 ? 'Click to apply (ad plays first)' : 'Opening job posting...' }}</p>
+        <p class="apply-note">Opening job posting...</p>
       </div>
 
       <!-- <AdsterraBanner /> -->
@@ -104,244 +195,77 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import AdsterraBanner from '@/components/AdsterraBanner.vue'
-
-const API_URL = 'https://zentor-jobs-api.zentor-admin.workers.dev'
-
-const route = useRoute()
-const job = ref(null)
-const loading = ref(true)
-const error = ref(null)
-const applyClicks = ref(0)
-
-function handleApply() {
-  const jobUrl = job.value.job_url_direct || job.value.job_url
-  
-  if (applyClicks.value === 0) {
-    // First click - popunder triggers automatically via script in head
-    applyClicks.value++
-    // Just open the job URL directly on first click too, popunder handles monetization
-    window.open(jobUrl, '_blank', 'noopener,noreferrer')
-  } else {
-    // Second click - go directly to job posting
-    window.open(jobUrl, '_blank', 'noopener,noreferrer')
-  }
-}
-
-async function fetchJob() {
-  loading.value = true
-  error.value = null
-
-  try {
-    const id = route.params.id
-    const response = await fetch(`${API_URL}/jobs/${id}?t=${Date.now()}`)
-    if (!response.ok) {
-      if (response.status === 404) {
-        error.value = 'Job not found'
-      } else {
-        error.value = 'Failed to load job details'
-      }
-      return
-    }
-    const data = await response.json()
-    job.value = data
-    
-    // Cache this specific job
-    localStorage.setItem(`zentor_job_${id}`, JSON.stringify({
-      data,
-      timestamp: Date.now()
-    }))
-  } catch (e) {
-    error.value = e instanceof Error ? e.message : 'Failed to load job'
-  } finally {
-    loading.value = false
-  }
-}
-
-function getLogoColor(company) {
-  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8']
-  const index = company.charCodeAt(0) % colors.length
-  return colors[index]
-}
-
-function formatSalary(amount) {
-  if (!amount) return '0'
-  return amount.toLocaleString()
-}
-
-function formatDate(dateStr) {
-  const date = new Date(dateStr)
-  const now = new Date()
-  const diff = now.getTime() - date.getTime()
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-
-  if (days === 0) return 'today'
-  if (days === 1) return 'yesterday'
-  if (days < 7) return `${days} days ago`
-  if (days < 30) return `${Math.floor(days / 7)} weeks ago`
-  return `${Math.floor(days / 30)} months ago`
-}
-
-function formatDescription(text) {
-  if (!text) return ''
-  
-  // Handle bold text **text**
-  let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-  
-  // Handle bullet points (* or -)
-  const lines = formatted.split('\n')
-  let inList = false
-  const processedLines = lines.map(line => {
-    const trimmedLine = line.trim()
-    if (trimmedLine.startsWith('* ') || trimmedLine.startsWith('- ')) {
-      const content = trimmedLine.substring(2)
-      if (!inList) {
-        inList = true
-        return `<ul class="desc-list"><li>${content}</li>`
-      }
-      return `<li>${content}</li>`
-    } else {
-      if (inList) {
-        inList = false
-        return `</ul>${line}<br>`
-      }
-      return line + '<br>'
-    }
-  })
-  
-  if (inList) processedLines.push('</ul>')
-  
-  return processedLines.join('')
-}
-
-onMounted(() => {
-  fetchJob()
-  
-  /* Monetag Integration - commented out
-  if (!window._monetagInitializedDetail) {
-    ...
-  }
-  */
-
-
-  const id = String(route.params.id)
-  document.title = 'Job Details | Zentor'
-  
-  const metaTags = [
-    { name: 'description', content: job.value?.title ? `${job.value.title} at ${job.value.company}` : 'Job details on Zentor' },
-    { property: 'og:title', content: 'Job Details | Zentor' },
-    { property: 'og:description', content: job.value?.title ? `${job.value.title} at ${job.value.company}` : 'Apply for jobs on Zentor' },
-    { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
-    { property: 'og:url', content: `https://zentor.in/jobs/${id}` },
-    { name: 'twitter:card', content: 'summary_large_image' },
-  ]
-  
-  metaTags.forEach(tag => {
-    let meta = document.querySelector(`meta[${tag.property ? 'property' : 'name'}="${tag.property || tag.name}"]`)
-    if (!meta) {
-      meta = document.createElement('meta')
-      if (tag.property) meta.setAttribute('property', tag.property)
-      else meta.setAttribute('name', tag.name)
-      document.head.appendChild(meta)
-    }
-    meta.setAttribute('content', tag.content)
-  })
-
-  // Try to load from cache first
-  const cached = localStorage.getItem(`zentor_job_${id}`)
-  if (cached) {
-    try {
-      const { data, timestamp } = JSON.parse(cached)
-      if (Date.now() - timestamp < 300000) {
-        job.value = data
-        loading.value = false // Skip initial spinner if we have cache
-      }
-    } catch (e) {
-      console.error('Failed to parse job cache', e)
-    }
-  }
-
-  fetchJob()
-})
-</script>
-
 <style scoped>
-.loading-state,
-.error-state {
-  padding: 4rem 5%;
-  text-align: center;
+.page {
+  min-height: 100vh;
+  padding-top: 6rem;
 }
 
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 3px solid var(--border);
-  border-top-color: var(--acid);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 1rem;
+.job-detail {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 5% 6rem;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.detail-header {
+  margin-bottom: 2.5rem;
 }
 
 .btn-back-nav {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--acid);
+  text-decoration: none;
   padding: 0.75rem 1.25rem;
   background: var(--glass-bg);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text-dim);
-  text-decoration: none;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  border-radius: 8px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: 2rem;
 }
 
 .btn-back-nav:hover {
-  color: var(--acid);
   border-color: var(--acid);
-  transform: translateX(-4px);
+  background: rgba(167, 138, 254, 0.1);
+  transform: translateX(-5px);
   box-shadow: 0 0 20px rgba(167, 138, 254, 0.2);
 }
 
 .back-icon {
-  font-size: 1.1rem;
-}
-
-.job-detail {
-  padding: 8rem 5% 3rem;
-  max-width: 800px;
-  margin: 0 auto;
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
 .job-hero {
   display: flex;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: 2.5rem;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+  background: var(--glass-bg);
+  padding: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: 24px;
 }
 
 .company-logo {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   flex-shrink: 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 15px;
 }
 
 .logo-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 12px;
 }
 
 .logo-fallback {
@@ -351,8 +275,8 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 2.5rem;
+  font-weight: 800;
   color: white;
 }
 
@@ -361,298 +285,194 @@ onMounted(() => {
 }
 
 .job-title {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
   color: var(--text);
   margin: 0 0 0.5rem;
+  line-height: 1.2;
 }
 
 .job-company {
-  font-size: 1.1rem;
-  color: var(--text-dim);
-  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--acid);
+  margin: 0 0 1.5rem;
 }
 
 .job-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .meta-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
+  gap: 0.75rem;
+  font-size: 0.95rem;
   color: var(--text-dim);
+  background: var(--bg);
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+  border: 1px solid var(--border);
 }
 
 .meta-item.remote {
-  color: var(--acid);
+  color: var(--cyan);
+  border-color: rgba(0, 255, 255, 0.2);
 }
 
 .salary-range {
-  background: var(--glass-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(167, 138, 254, 0.1), rgba(0, 255, 255, 0.05));
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.25rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 3rem;
 }
 
 .salary-label {
-  display: block;
-  font-size: 0.85rem;
-  color: var(--text-dim);
-  margin-bottom: 0.35rem;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
 }
 
 .salary-value {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--text);
 }
 
-.skills-section {
+.skills-section, .description-section {
+  margin-bottom: 3.5rem;
+}
+
+h3 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1.5rem;
   margin-bottom: 1.5rem;
-}
-
-.skills-section h3 {
-  font-size: 1rem;
   color: var(--text);
-  margin: 0 0 0.75rem;
 }
 
 .skills-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .skill-tag {
-  padding: 0.35rem 0.75rem;
   background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  font-size: 0.85rem;
   color: var(--text);
-}
-
-.description-section {
-  margin-bottom: 1.5rem;
-}
-
-.description-section h3 {
-  font-size: 1rem;
-  color: var(--text);
-  margin: 0 0 0.75rem;
-}
-
-.description-content {
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text-dim);
-}
-
-.description-content strong {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.desc-list {
-  margin: 1rem 0;
-  padding-left: 1.25rem;
-  list-style-type: none;
-}
-
-.desc-list li {
-  position: relative;
-  margin-bottom: 0.75rem;
-  padding-left: 1.5rem;
-}
-
-.desc-list li::before {
-  content: "→";
-  position: absolute;
-  left: 0;
-  color: var(--acid);
-  font-weight: bold;
-}
-
-.google-ads {
-  margin: 2rem 0;
-}
-
-.ads-placeholder {
-  width: 100%;
-  min-height: 250px;
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
+  padding: 0.6rem 1.25rem;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-dim);
-  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .apply-section {
   text-align: center;
-  margin-bottom: 2rem;
+  background: var(--glass-bg);
+  padding: 3rem;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  margin-bottom: 3rem;
 }
 
 .btn-apply {
-  display: inline-block;
-  width: 100%;
-  max-width: 300px;
-  padding: 1rem 2rem;
+  padding: 1.25rem 3.5rem;
   background: var(--acid);
   border: none;
   border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
   color: var(--bg);
-  text-decoration: none;
-  text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 1rem;
 }
 
 .btn-apply:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(167, 138, 254, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(167, 138, 254, 0.4);
 }
 
 .apply-note {
-  font-size: 0.8rem;
-  color: var(--text-dim);
-  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.loading-state, .error-state {
+  text-align: center;
+  padding: 10rem 5%;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--border);
+  border-top-color: var(--acid);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .job-footer {
   text-align: center;
-  padding-top: 1rem;
   border-top: 1px solid var(--border);
-}
-
-.ad-banner {
-  margin: 2rem 0;
-  min-height: 120px;
-}
-
-.adsbygoogle {
-  display: block;
-  min-height: 120px;
-  background: var(--glass-bg);
-  border-radius: 12px;
-}
-
-.ad-placeholder {
-  display: none;
+  padding-top: 2rem;
 }
 
 .posted-date {
   font-size: 0.85rem;
   color: var(--text-dim);
-  margin: 0;
 }
 
-}
-
-@media (max-width: 600px) {
-  .page {
-    padding-top: 4rem;
-  }
+@media (max-width: 768px) {
   .job-detail {
-    padding: 5rem 4% 2rem;
-  }
-  .back-link {
-    padding: 0.75rem 4%;
-    font-size: 0.9rem;
+    padding: 2rem 5% 4rem;
   }
   .job-hero {
     flex-direction: column;
-    align-items: center;
+    padding: 1.5rem;
+    gap: 1.5rem;
     text-align: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  .company-logo {
-    width: 60px;
-    height: 60px;
+    align-items: center;
   }
   .job-title {
-    font-size: 1.35rem;
-    line-height: 1.3;
+    font-size: 1.75rem;
   }
   .job-company {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   .job-meta {
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .meta-item {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.6rem;
+    gap: 1rem;
   }
   .salary-range {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
     text-align: center;
-    padding: 1rem;
-  }
-  .salary-label {
-    font-size: 0.85rem;
+    padding: 1.25rem;
   }
   .salary-value {
-    font-size: 1.1rem;
-  }
-  .skills-section h3,
-  .description-section h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-  }
-  .skills-list {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .skill-tag {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.75rem;
-  }
-  .description-content {
-    font-size: 0.95rem;
-    line-height: 1.6;
-  }
-  .apply-section {
-    padding: 1.5rem 0;
+    font-size: 1.25rem;
   }
   .btn-apply {
     width: 100%;
-    text-align: center;
     padding: 1rem;
-    font-size: 1rem;
-  }
-  .apply-note {
-    font-size: 0.8rem;
-  }
-  .ad-banner {
-    margin: 1.5rem 0;
-    padding: 0 4%;
-  }
-  .ad-placeholder {
-    height: 100px;
-    border-radius: 8px;
-  }
-  .job-footer {
-    padding-top: 0.75rem;
-  }
-  .posted-date {
-    font-size: 0.8rem;
+    font-size: 1.1rem;
   }
 }
 </style>
