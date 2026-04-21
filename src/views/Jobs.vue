@@ -67,12 +67,32 @@ async function fetchJobs() {
 }
 
 onMounted(() => {
-  document.title = 'Jobs | Zentor'
+  document.title = 'Tech Jobs in India | Zentor'
   
+  // Monetag Integration
+  if (!window._monetagInitialized) {
+    window._monetagInitialized = true
+    
+    // Global Tag
+    const tag = document.createElement('script')
+    tag.src = 'https://quge5.com/88/tag.min.js'
+    tag.dataset.zone = '231794'
+    tag.async = true
+    tag.setAttribute('data-cfasync', 'false')
+    document.head.appendChild(tag)
+
+    // Popunder
+    const pop = document.createElement('script')
+    pop.dataset.zone = '10902056'
+    pop.src = 'https://al5sm.com/tag.min.js'
+    pop.setAttribute('data-cfasync', 'false')
+    document.body.appendChild(pop)
+  }
+
   const metaTags = [
-    { name: 'description', content: 'Find tech jobs in India. Filter by location, experience. Apply to top companies.' },
-    { property: 'og:title', content: 'Jobs | Zentor' },
-    { property: 'og:description', content: 'Find tech jobs in India. Filter by location, experience. Apply to top companies.' },
+    { name: 'description', content: 'Find the latest tech jobs in India. Filter by full-stack, AI, location, and experience. Apply to top companies and startups.' },
+    { property: 'og:title', content: 'Tech Jobs in India | Zentor' },
+    { property: 'og:description', content: 'Find the latest tech jobs in India. Filter by full-stack, AI, location, and experience. Apply to top companies and startups.' },
     { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { property: 'og:url', content: 'https://zentor.in/jobs/' },
     { name: 'twitter:card', content: 'summary_large_image' },

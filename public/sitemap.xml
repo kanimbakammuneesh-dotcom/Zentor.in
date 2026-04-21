@@ -6,7 +6,7 @@
 >
   <url>
     <loc>https://zentor.in/</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-04-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -18,10 +18,23 @@
     <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/" />
   </url>
   <url>
-    <loc>https://zentor.in/admissions/</loc>
-    <lastmod>2026-04-16</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://zentor.in/jobs/</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zentor.in/logos/zentor_for_darkbg.png</image:loc>
+      <image:title>Tech Jobs in India — Zentor</image:title>
+      <image:caption>Find latest full-stack, AI, and developer jobs in Chennai, Bengaluru and Remote</image:caption>
+    </image:image>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zentor.in/jobs/" />
+    <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/jobs/" />
+  </url>
+  <url>
+    <loc>https://zentor.in/admissions/</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
     <image:image>
       <image:loc>https://zentor.in/logos/zentor_for_darkbg.png</image:loc>
       <image:title>Apply for Admissions 2026 — Zentor</image:title>
@@ -32,7 +45,7 @@
   </url>
   <url>
     <loc>https://zentor.in/referrals/</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-04-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>

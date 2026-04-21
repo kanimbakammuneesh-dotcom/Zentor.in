@@ -60,33 +60,58 @@ function handleApply() {
 onMounted(() => {
   fetchJob()
   
-  /* Monetag Integration - commented out
+  // Monetag Integration
   if (!window._monetagInitializedDetail) {
-    ...
-  }
-  */
+    window._monetagInitializedDetail = true
+    
+    // Global Tag
+    const tag = document.createElement('script')
+    tag.src = 'https://quge5.com/88/tag.min.js'
+    tag.dataset.zone = '231794'
+    tag.async = true
+    tag.setAttribute('data-cfasync', 'false')
+    document.head.appendChild(tag)
 
-  const id = String(route.params.id)
-  const metaTags = [
-    { name: 'description', content: `Apply for ${job.value?.title || 'Job'} at ${job.value?.company || 'Company'} on Zentor.` },
-    { property: 'og:title', content: `${job.value?.title || 'Job Detail'} | Zentor` },
-    { property: 'og:description', content: `Apply for ${job.value?.title || 'Job'} at ${job.value?.company || 'Company'} on Zentor.` },
-    { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
-    { property: 'og:url', content: `https://zentor.in/jobs/${id}` },
-    { name: 'twitter:card', content: 'summary_large_image' },
-  ]
-  
-  metaTags.forEach(tag => {
-    let meta = document.querySelector(`meta[${tag.property ? 'property' : 'name'}="${tag.property || tag.name}"]`)
-    if (!meta) {
-      meta = document.createElement('meta')
-      if (tag.property) meta.setAttribute('property', tag.property)
-      else meta.setAttribute('name', tag.name)
-      document.head.appendChild(meta)
-    }
-    meta.setAttribute('content', tag.content)
-  })
+    // Popunder
+    const pop = document.createElement('script')
+    pop.dataset.zone = '10902056'
+    pop.src = 'https://al5sm.com/tag.min.js'
+    pop.setAttribute('data-cfasync', 'false')
+    document.body.appendChild(pop)
+  }
 })
+
+// Update SEO Meta when job data changes
+import { watch } from 'vue'
+watch(job, (newJob) => {
+  if (newJob) {
+    const title = `${newJob.title} at ${newJob.company} | Zentor`
+    const description = `Apply for ${newJob.title} at ${newJob.company} in ${newJob.location}. ${newJob.experience_years}+ years experience required.`
+    const url = `https://zentor.in/jobs/${newJob.id}`
+
+    document.title = title
+    
+    const metaTags = [
+      { name: 'description', content: description },
+      { property: 'og:title', content: title },
+      { property: 'og:description', content: description },
+      { property: 'og:url', content: url },
+      { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+    ]
+    
+    metaTags.forEach(tag => {
+      let meta = document.querySelector(`meta[${tag.property ? 'property' : 'name'}="${tag.property || tag.name}"]`)
+      if (!meta) {
+        meta = document.createElement('meta')
+        if (tag.property) meta.setAttribute('property', tag.property)
+        else meta.setAttribute('name', tag.name)
+        document.head.appendChild(meta)
+      }
+      meta.setAttribute('content', tag.content)
+    })
+  }
+}, { immediate: true })
 </script>
 
 <template>
