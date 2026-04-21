@@ -53,7 +53,6 @@ async function fetchJobs() {
     const locs = new Set(jobs.value.map(j => j.location).filter(Boolean))
     uniqueLocations.value = Array.from(locs).sort()
 
-    // Update local cache (only for page 1 with no filters)
     if (filters.value.page === 1 && !filters.value.location && !filters.value.company) {
       localStorage.setItem('zentor_jobs_cache', JSON.stringify({
         data,
@@ -90,7 +89,6 @@ onMounted(() => {
     meta.setAttribute('content', tag.content)
   })
 
-  // Try to load from cache first for instant UI
   const cached = localStorage.getItem('zentor_jobs_cache')
   if (cached) {
     try {
@@ -131,54 +129,58 @@ onMounted(() => {
       </div>
     </section>
 
-    <JobFilters 
-      :unique-locations="uniqueLocations" 
-      @filter-change="handleFilterChange" 
-    />
+    <div class="content-container">
+      <JobFilters 
+        :unique-locations="uniqueLocations" 
+        @filter-change="handleFilterChange" 
+      />
 
-    <section class="jobs-section">
-      <p class="results-count">{{ total }} jobs found</p>
+      <section class="jobs-section">
+        <div class="section-header">
+          <p class="results-count">{{ total }} jobs found</p>
+        </div>
 
-      <div v-if="loading" class="loading-state">
-        <div class="spinner"></div>
-        <p>Loading jobs...</p>
-      </div>
+        <div v-if="loading" class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading jobs...</p>
+        </div>
 
-      <div v-else-if="error" class="error-state">
-        <p>{{ error }}</p>
-        <button class="btn-retry" @click="fetchJobs()">Retry</button>
-      </div>
+        <div v-else-if="error" class="error-state">
+          <p>{{ error }}</p>
+          <button class="btn-retry" @click="fetchJobs()">Retry</button>
+        </div>
 
-      <div v-else class="jobs-grid">
-        <JobCard 
-          v-for="job in jobs" 
-          :key="job.id" 
-          :job="job" 
-          @click="openJobDetail" 
-        />
-      </div>
+        <div v-else class="jobs-grid">
+          <JobCard 
+            v-for="job in jobs" 
+            :key="job.id" 
+            :job="job" 
+            @click="openJobDetail" 
+          />
+        </div>
 
-      <div v-if="hasMore || filters.page > 1" class="pagination">
-        <button class="page-btn" :disabled="filters.page <= 1" @click="setPage(filters.page - 1)">Previous</button>
-        <span class="page-info">Page {{ filters.page }}</span>
-        <button class="page-btn" :disabled="!hasMore" @click="setPage(filters.page + 1)">Next</button>
-      </div>
-    </section>
+        <div v-if="hasMore || filters.page > 1" class="pagination">
+          <button class="page-btn" :disabled="filters.page <= 1" @click="setPage(filters.page - 1)">Previous</button>
+          <span class="page-info">Page {{ filters.page }}</span>
+          <button class="page-btn" :disabled="!hasMore" @click="setPage(filters.page + 1)">Next</button>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .hero {
-  min-height: 70vh;
+  min-height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10rem 1rem 4rem;
+  padding: 8rem 1rem 4rem;
   margin-top: 5rem;
+  text-align: center;
 }
 
 .hero-content {
-  text-align: center;
   max-width: 800px;
 }
 
@@ -224,43 +226,37 @@ onMounted(() => {
   line-height: 1.6;
 }
 
-.cta-wrap {
-  margin-top: 1.5rem;
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5%;
 }
 
-.btn-cta {
-  display: inline-block;
-  padding: 1rem 2rem;
-  background: var(--acid);
-  border: none;
-  border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--bg);
-  text-decoration: none;
-  transition: all 0.2s;
-}
-
-.btn-cta:hover {
-  box-shadow: 0 0 30px rgba(167, 138, 254, 0.5);
-}
-
-.btn-arrow {
-  margin-left: 0.5rem;
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-top: 2rem;
 }
 
 .results-count {
-  padding: 1rem 5%;
   color: var(--text-dim);
   font-size: 1rem;
+  font-weight: 600;
+}
+
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.5rem;
+  padding-bottom: 3rem;
+  justify-content: center;
 }
 
 .loading-state,
 .error-state {
-  padding: 3rem 5%;
+  padding: 5rem 0;
   text-align: center;
 }
 
@@ -279,87 +275,73 @@ onMounted(() => {
 }
 
 .btn-retry {
-  padding: 0.5rem 1.5rem;
+  padding: 0.75rem 2rem;
   background: var(--acid);
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   color: var(--bg);
+  font-weight: 700;
   cursor: pointer;
-}
-
-.jobs-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  padding: 0 5% 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  padding: 2rem 5%;
+  gap: 1.5rem;
+  padding: 3rem 0 6rem;
 }
 
 .page-btn {
-  padding: 0.5rem 1.25rem;
+  padding: 0.75rem 1.5rem;
   background: var(--glass-bg);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
   color: var(--text);
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--acid);
+  background: rgba(167, 138, 254, 0.1);
 }
 
 .page-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
-}
-
-.page-btn:not(:disabled):hover {
-  border-color: var(--acid);
 }
 
 .page-info {
   color: var(--text-dim);
-  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
   .hero {
     min-height: auto;
-    padding: 7rem 1rem 2rem;
-    margin-top: 3rem;
+    padding: 7rem 1rem 3rem;
   }
   .headline {
-    font-size: clamp(1.75rem, 10vw, 2.5rem);
-    margin: 1rem 0 0.5rem;
+    font-size: 2.5rem;
   }
-  .tagline {
-    font-size: 1rem;
-  }
-  .sub-headline {
-    font-size: 0.9rem;
+  .content-container {
+    padding: 0 4%;
   }
   .jobs-grid {
     grid-template-columns: 1fr;
-    padding: 0 4% 1.5rem;
+    gap: 1.25rem;
+  }
+  .section-header {
+    margin-bottom: 1.5rem;
   }
   .pagination {
     flex-direction: column;
-    gap: 0.75rem;
-    padding: 1rem 4%;
+    gap: 1rem;
   }
   .page-btn {
     width: 100%;
-    padding: 0.875rem;
-    font-size: 0.9rem;
-  }
-  .results-count {
-    padding: 0.75rem 4%;
-    font-size: 0.85rem;
   }
 }
 </style>

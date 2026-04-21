@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   uniqueLocations: {
@@ -50,14 +50,19 @@ function onSortChange() {
 <template>
   <section class="jobs-filters">
     <div class="filter-bar">
-      <div class="filter-group">
-        <input 
-          v-model="searchCompany" 
-          type="text" 
-          placeholder="Search by company..." 
-          class="filter-input" 
-          @input="debouncedSearch" 
-        />
+      <div class="filter-group search">
+        <div class="input-wrapper">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input 
+            v-model="searchCompany" 
+            type="text" 
+            placeholder="Search company..." 
+            class="filter-input" 
+            @input="debouncedSearch" 
+          />
+        </div>
       </div>
       <div class="filter-group">
         <select v-model="selectedLocation" class="filter-select" @change="onLocationChange">
@@ -74,7 +79,7 @@ function onSortChange() {
           <option value="5+">5+ Years</option>
         </select>
       </div>
-      <div class="filter-group">
+      <div class="filter-group sort">
         <select v-model="selectedSort" class="filter-select" @change="onSortChange">
           <option value="date">Newest First</option>
           <option value="experience">Experience</option>
@@ -86,8 +91,7 @@ function onSortChange() {
 
 <style scoped>
 .jobs-filters {
-  padding: 1rem 5%;
-  background: var(--glass-bg);
+  padding: 2rem 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -100,34 +104,59 @@ function onSortChange() {
 
 .filter-group {
   flex: 1;
-  min-width: 150px;
+  min-width: 160px;
+}
+
+.filter-group.search {
+  flex: 2;
+  min-width: 250px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.filter-input {
+  padding-left: 2.75rem !important;
 }
 
 .filter-input,
 .filter-select {
   width: 100%;
-  padding: 0.75rem 1rem;
-  background: var(--bg);
+  padding: 0.875rem 1.25rem;
+  background: var(--glass-bg);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
   color: var(--text);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  transition: all 0.2s;
 }
 
 .filter-input:focus,
 .filter-select:focus {
   outline: none;
   border-color: var(--acid);
+  background: var(--bg);
+  box-shadow: 0 0 0 4px rgba(167, 138, 254, 0.1);
 }
 
 @media (max-width: 768px) {
-  .filter-bar {
-    flex-direction: column;
-    gap: 0.75rem;
-    padding: 1rem;
+  .jobs-filters {
+    padding: 1.5rem 0;
   }
   .filter-group {
+    flex: none;
     width: 100%;
+    min-width: 0;
   }
 }
 </style>

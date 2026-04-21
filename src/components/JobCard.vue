@@ -10,7 +10,7 @@ const emit = defineEmits(['click'])
 
 function getLogoColor(company) {
   const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8']
-  const index = company.charCodeAt(0) % colors.length
+  const index = company ? company.charCodeAt(0) % colors.length : 0
   return colors[index]
 }
 
@@ -35,49 +35,53 @@ function formatDate(dateStr) {
 
 <template>
   <article class="job-card" @click="$emit('click', job.id)">
-    <div class="job-card-main">
+    <div class="job-card-header">
       <div class="company-logo">
         <img v-if="job.company_logo_url" :src="job.company_logo_url" :alt="job.company" class="logo-img" />
         <div v-else class="logo-fallback" :style="{ backgroundColor: getLogoColor(job.company) }">
-          {{ job.company.charAt(0).toUpperCase() }}
+          {{ job.company ? job.company.charAt(0).toUpperCase() : 'J' }}
         </div>
       </div>
       
-      <div class="job-info-main">
+      <div class="job-title-area">
         <h3 class="job-title">{{ job.title }}</h3>
         <p class="job-company">{{ job.company }}</p>
-        
-        <div class="job-details-row">
-          <span class="detail-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-            {{ job.location }}
-          </span>
-          <span class="detail-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-            </svg>
-            {{ job.experience_years }} yrs
-          </span>
-          <span v-if="job.is_remote" class="detail-item remote">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-            Remote
-          </span>
+      </div>
+    </div>
+
+    <div class="job-card-body">
+      <div class="job-meta-grid">
+        <div class="meta-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span>{{ job.location }}</span>
+        </div>
+        <div class="meta-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+          <span>{{ job.experience_years }}+ yrs Exp</span>
+        </div>
+        <div v-if="job.is_remote" class="meta-item remote">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <span>Remote</span>
         </div>
       </div>
     </div>
 
-    <div class="job-card-side">
+    <div class="job-card-footer">
       <div class="job-salary" v-if="job.salary_min || job.salary_max">
-        <span>{{ job.salary_currency || '₹' }}{{ formatSalary(job.salary_min) }} - {{ job.salary_currency || '₹' }}{{ formatSalary(job.salary_max) }}</span>
+        <span class="salary-range">
+          {{ job.salary_currency || '₹' }}{{ formatSalary(job.salary_min) }} - {{ formatSalary(job.salary_max) }}
+        </span>
       </div>
       <div class="job-date">{{ formatDate(job.created_at) }}</div>
     </div>
@@ -88,39 +92,44 @@ function formatDate(dateStr) {
 .job-card {
   background: var(--glass-bg);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 1.5rem;
+  border-radius: 20px;
+  padding: 1.75rem;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 1.5rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .job-card:hover {
   transform: translateY(-8px);
   border-color: var(--acid);
-  box-shadow: 0 15px 35px rgba(167, 138, 254, 0.2);
+  box-shadow: 0 20px 40px rgba(167, 138, 254, 0.15);
 }
 
-.job-card-main {
+.job-card:active {
+  transform: translateY(-4px) scale(0.98);
+}
+
+.job-card-header {
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex: 1;
-  min-width: 0;
+  align-items: flex-start;
+  gap: 1.25rem;
 }
 
 .company-logo {
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   flex-shrink: 0;
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 8px;
+  border-radius: 16px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo-img {
@@ -135,61 +144,70 @@ function formatDate(dateStr) {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  font-size: 1.5rem;
-  font-weight: 700;
+  border-radius: 10px;
+  font-size: 1.75rem;
+  font-weight: 800;
   color: white;
 }
 
-.job-info-main {
+.job-title-area {
   flex: 1;
   min-width: 0;
 }
 
 .job-title {
   font-family: 'Unbounded', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--text);
-  margin: 0 0 0.25rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin: 0 0 0.4rem;
+  line-height: 1.3;
 }
 
 .job-company {
   color: var(--acid);
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  margin: 0 0 0.75rem;
+  margin: 0;
 }
 
-.job-details-row {
+.job-card-body {
+  flex: 1;
+}
+
+.job-meta-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.25rem;
+  gap: 1rem 1.5rem;
 }
 
-.detail-item {
+.meta-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
+  gap: 0.6rem;
+  font-size: 0.9rem;
   color: var(--text-dim);
+  font-weight: 500;
 }
 
-.detail-item.remote {
+.meta-item svg {
+  color: var(--muted);
+}
+
+.meta-item.remote {
   color: var(--cyan);
 }
 
-.job-card-side {
-  text-align: left;
-  flex-shrink: 0;
-  border-top: 1px solid var(--border);
-  padding-top: 1rem;
+.meta-item.remote svg {
+  color: var(--cyan);
+}
+
+.job-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
 }
 
 .job-salary {
@@ -197,46 +215,41 @@ function formatDate(dateStr) {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 0.5rem;
 }
 
 .job-date {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--muted);
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {
   .job-card {
-    gap: 1rem;
-    padding: 1.25rem;
-  }
-  .job-card-main {
-    gap: 1rem;
+    padding: 1.5rem;
+    gap: 1.25rem;
   }
   .company-logo {
-    width: 44px;
-    height: 44px;
-    padding: 6px;
+    width: 52px;
+    height: 52px;
+    padding: 8px;
   }
   .job-title {
-    font-size: 1.1rem;
-    white-space: normal;
+    font-size: 1.15rem;
   }
   .job-company {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
   }
-  .job-details-row {
-    gap: 0.75rem;
+  .job-meta-grid {
+    gap: 0.75rem 1rem;
   }
-  .detail-item {
-    font-size: 0.75rem;
-  }
-  .job-card-side {
-    padding-top: 0.75rem;
+  .meta-item {
+    font-size: 0.8rem;
   }
   .job-salary {
-    font-size: 0.95rem;
+    font-size: 1rem;
+  }
+  .job-date {
+    font-size: 0.75rem;
   }
 }
 </style>
