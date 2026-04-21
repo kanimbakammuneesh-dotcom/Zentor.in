@@ -22,29 +22,41 @@ function getClientIP(request: Request): string {
   )
 }
 
-/** Minimal security headers — no CORS, no origin restrictions */
-function applySecurityHeaders(headers: Headers): void {
+/** Minimal security headers with CORS support for Zentor frontend */
+function applySecurityHeaders(headers: Headers, request?: Request): void {
+  // Allow Zentor domains and local development
+  const origin = request?.headers.get("Origin") || "*"
+  headers.set("Access-Control-Allow-Origin", origin)
+  headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+  headers.set("Access-Control-Allow-Headers", "Content-Type, X-Refresh-Secret")
+  headers.set("Access-Control-Max-Age", "86400")
+  
   headers.set("X-Content-Type-Options", "nosniff")
   headers.set("X-Frame-Options", "DENY")
   headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
 }
 
-/** Standard JSON response with optional caching */
-function jsonResponse(body: string, status = 200, cacheSeconds = 0): Response {
+/** Standard JSON response with optional caching and CORS */
+function jsonResponse(body: string, status = 200, cacheSeconds = 0, request?: Request): Response {
   const headers = new Headers({
     "Content-Type": "application/json",
   })
   
   if (cacheSeconds > 0) {
-    // Enable browser and CDN caching
     headers.set("Cache-Control", `public, max-age=${cacheSeconds}, s-maxage=${cacheSeconds}`)
   } else {
-    // Disable caching for dynamic/sensitive actions
     headers.set("Cache-Control", "no-store, must-revalidate")
   }
   
-  applySecurityHeaders(headers)
+  applySecurityHeaders(headers, request)
   return new Response(body, { status, headers })
+}
+
+/** Handle OPTIONS preflight requests */
+function handleOptions(request: Request): Response {
+  const headers = new Headers()
+  applySecurityHeaders(headers, request)
+  return new Response(null, { status: 204, headers })
 }
 
 // ============ TYPES ============
@@ -90,6 +102,8 @@ export default {
     const url = new URL(request.url)
     const path = url.pathname
     const method = request.method
+    
+    console.log(`[Worker] ${method} ${path}`)
 
     // ── Rate limiting ──────────────────────────────────────────────────────────
     if (env.RATELIMIT) {
@@ -101,9 +115,16 @@ export default {
         console.log("Rate limit exceeded for IP:", clientIP)
         return jsonResponse(
           JSON.stringify({ error: "Rate limit exceeded. Please try again later." }),
-          429
+          429,
+          0,
+          request
         )
       }
+    }
+
+    // ── Preflight ──────────────────────────────────────────────────────────────
+    if (method === "OPTIONS") {
+      return handleOptions(request)
     }
 
     // ── Route matching ─────────────────────────────────────────────────────────
@@ -135,12 +156,12 @@ export default {
         return await handleGetJobById(id, env, request)
       }
 
-      return jsonResponse(JSON.stringify({ error: "Not found" }), 404)
+      return jsonResponse(JSON.stringify({ error: "Not found" }), 404, 0, request)
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : String(error)
       console.error("Unhandled error:", msg)
       // Return actual error detail in response so we can debug
-      return jsonResponse(JSON.stringify({ error: "Internal server error", detail: msg }), 500)
+      return jsonResponse(JSON.stringify({ error: "Internal server error", detail: msg }), 500, 0, request)
     }
   },
 }
@@ -152,15 +173,9 @@ export default {
  * Returns a 401 Response if auth fails, or null if OK.
  */
 function requireSecret(request: Request, env: Env): Response | null {
-  if (!env.REFRESH_SECRET) {
-    // Secret not configured → allow (dev mode / initial setup)
-    console.warn("REFRESH_SECRET not set — skipping auth check")
-    return null
-  }
-  const provided = request.headers.get("X-Refresh-Secret")
-  if (!provided || provided !== env.REFRESH_SECRET) {
-    console.log("Unauthorized refresh attempt — bad or missing X-Refresh-Secret")
-    return jsonResponse(JSON.stringify({ error: "Unauthorized" }), 401)
+  const secret = request.headers.get("X-Refresh-Secret")
+  if (!env.REFRESH_SECRET || secret !== env.REFRESH_SECRET) {
+    return jsonResponse(JSON.stringify({ error: "Unauthorized" }), 401, 0, request)
   }
   return null
 }
@@ -228,12 +243,12 @@ async function handleGetJobs(request: Request, env: Env): Promise<Response> {
   const hasMore = start + params.limit < total
 
   // Return with 1 hour CDN/Browser cache (3600 seconds)
-  return jsonResponse(JSON.stringify({ jobs: paginatedJobs, total, page: params.page, hasMore }), 200, 3600)
+  return jsonResponse(JSON.stringify({ jobs: paginatedJobs, total, page: params.page, hasMore }), 200, 3600, request)
 }
 
-async function handleGetJobById(id: string, env: Env, _request: Request): Promise<Response> {
+async function handleGetJobById(id: string, env: Env, request: Request): Promise<Response> {
   if (!/^[\w-]+$/.test(id)) {
-    return jsonResponse(JSON.stringify({ error: "Invalid job ID" }), 400)
+    return jsonResponse(JSON.stringify({ error: "Invalid job ID" }), 400, 0, request)
   }
 
   const cached = await env.JOBS_CACHE.get(CACHE_KEY, "json") as JobsResponse | null
@@ -251,10 +266,10 @@ async function handleGetJobById(id: string, env: Env, _request: Request): Promis
   }
 
   const job = jobs.find(j => j.id === id)
-  if (!job) return jsonResponse(JSON.stringify({ error: "Job not found" }), 404)
+  if (!job) return jsonResponse(JSON.stringify({ error: "Job not found" }), 404, 0, request)
 
   // Cache individual job detail for 1 hour
-  return jsonResponse(JSON.stringify(job), 200, 3600)
+  return jsonResponse(JSON.stringify(job), 200, 3600, request)
 }
 
 async function handleRefresh(env: Env, request: Request): Promise<Response> {
@@ -262,18 +277,26 @@ async function handleRefresh(env: Env, request: Request): Promise<Response> {
   const authError = requireSecret(request, env)
   if (authError) return authError
 
-  console.log("Refreshing jobs cache from DB...")
-  const jobs = await fetchJobsFromDB(env)
+  try {
+    console.log("Refreshing jobs cache from DB...")
+    const jobs = await fetchJobsFromDB(env)
 
-  await env.JOBS_CACHE.put(
-    CACHE_KEY,
-    JSON.stringify({ jobs, total: jobs.length, page: 1, hasMore: false }),
-    { expirationTtl: CACHE_TTL }
-  )
-  await env.JOBS_CACHE.put(LAST_SYNC_KEY, new Date().toISOString())
+    await env.JOBS_CACHE.put(
+      CACHE_KEY,
+      JSON.stringify({ jobs, total: jobs.length, page: 1, hasMore: false }),
+      { expirationTtl: CACHE_TTL }
+    )
+    await env.JOBS_CACHE.put(LAST_SYNC_KEY, new Date().toISOString())
 
-  console.log("Refresh complete — cached", jobs.length, "jobs")
-  return jsonResponse(JSON.stringify({ success: true, count: jobs.length, refreshed_at: new Date().toISOString() }))
+    console.log("Refresh complete — cached", jobs.length, "jobs")
+    return jsonResponse(JSON.stringify({
+      success: true,
+      count: jobs.length,
+      refreshed_at: new Date().toISOString()
+    }), 200, 0, request)
+  } catch (err) {
+    return jsonResponse(JSON.stringify({ error: "Refresh failed", detail: String(err) }), 500, 0, request)
+  }
 }
 
 async function handleSync(request: Request, env: Env): Promise<Response> {
@@ -288,10 +311,14 @@ async function handleSync(request: Request, env: Env): Promise<Response> {
 
   console.log("Sync since:", since || "initial (last 7 days only)")
 
-  const jobs = await fetchJobsFromDB(env, since)
+  const newJobs = await fetchJobsFromDB(env, since)
   await env.JOBS_CACHE.put(LAST_SYNC_KEY, new Date().toISOString())
 
-  return jsonResponse(JSON.stringify({ jobs, count: jobs.length, since: since ?? null }))
+  return jsonResponse(JSON.stringify({
+    jobs: newJobs,
+    count: newJobs.length,
+    since: since ?? null
+  }), 200, 0, request)
 }
 
 // ============ DB QUERY ============

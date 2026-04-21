@@ -214,12 +214,7 @@ async function fetchJobs() {
     params.set('page', filters.value.page.toString())
     params.set('limit', filters.value.limit.toString())
 
-    const response = await fetch(`${API_URL}/jobs?${params}`, {
-      headers: {
-        'Origin': 'https://zentor.in',
-        'User-Agent': navigator.userAgent
-      }
-    })
+    const response = await fetch(`${API_URL}/jobs?${params}`)
     if (!response.ok) throw new Error('Failed to fetch jobs')
 
     const data = await response.json()

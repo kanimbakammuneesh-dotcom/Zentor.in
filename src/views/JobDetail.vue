@@ -131,12 +131,7 @@ async function fetchJob() {
 
   try {
     const id = route.params.id
-    const response = await fetch(`${API_URL}/jobs/${id}`, {
-      headers: {
-        'Origin': 'https://zentor.in',
-        'User-Agent': navigator.userAgent
-      }
-    })
+    const response = await fetch(`${API_URL}/jobs/${id}`)
     if (!response.ok) {
       if (response.status === 404) {
         error.value = 'Job not found'
