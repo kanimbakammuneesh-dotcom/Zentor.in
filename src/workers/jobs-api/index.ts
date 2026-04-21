@@ -3,190 +3,47 @@ import pg from "pg"
 export interface Env {
   JOBS_CACHE: KVNamespace
   RATELIMIT: RateLimit
-  DB_HOST: string
-  DB_PORT: string
-  DB_NAME: string
-  DB_USER: string
-  DB_PASSWORD: string
+  HYPERDRIVE: Hyperdrive          // Cloudflare Hyperdrive — proxies TCP to RDS
+  REFRESH_SECRET: string          // wrangler secret put REFRESH_SECRET
 }
 
-// ============ SECURITY CONFIGURATION ============
+// ============ RATE LIMIT SETTINGS ============
+// These values mirror the [ratelimits] block in wrangler.toml (limit=100, period=60)
+// The RateLimit binding only needs the key at runtime — limits are config-driven.
+const RATE_LIMIT_PERIOD = 60  // seconds (for Retry-After header)
 
-// Allowed origins for CORS (frontend + developer tools)
-const ALLOWED_ORIGINS = [
-  "https://zentor.in",
-  "https://www.zentor.in",
-  "http://localhost:5173",  // Dev server
-  "http://localhost:4173",  // Preview server
-]
+// ============ HELPERS ============
 
-// Trusted development IPs (add your IP if needed)
-const TRUSTED_IPS = [
-  "127.0.0.1",
-  "::1",
-]
-
-// Rate limit settings
-const RATE_LIMIT = {
-  // Requests per period
-  LIMIT: 100,
-  // Period in seconds
-  PERIOD: 60,
-}
-
-// ============ SECURITY HELPERS ============
-
-/**
- * Get client IP from request (handles Cloudflare proxy)
- */
 function getClientIP(request: Request): string {
-  // Cloudflare passes real IP in this header
-  const cfIP = request.headers.get("CF-Connecting-IP")
-  if (cfIP) return cfIP
-  
-  // Fallback to standard header
-  return request.headers.get("X-Forwarded-For")?.split(",")[0]?.trim() || "unknown"
-}
-
-/**
- * Validate request origin against allowlist
- */
-function isOriginAllowed(request: Request): boolean {
-  const origin = request.headers.get("Origin")
-  const referer = request.headers.get("Referer")
-  
-  // Use Origin header first, fall back to Referer
-  const requestOrigin = origin || referer
-  
-  if (!requestOrigin) {
-    // No origin or referer - might be a direct server-to-server request
-    // Allow it but log for monitoring
-    console.log("No Origin or Referer header, allowing request")
-    return true
-  }
-  
-  // Check if origin matches any allowed origin
-  for (const allowed of ALLOWED_ORIGINS) {
-    // Exact match
-    if (requestOrigin === allowed) {
-      return true
-    }
-    // With trailing slash variation
-    if (requestOrigin === allowed + "/" || requestOrigin + "/" === allowed) {
-      return true
-    }
-    // Subdomain match (www.zentor.in matches zentor.in)
-    if (allowed.startsWith("https://") || allowed.startsWith("http://")) {
-      const allowedHost = allowed.replace(/^https?:\/\//, "")
-      const requestHost = requestOrigin.replace(/^https?:\/\//, "")
-      if (requestHost === allowedHost || requestHost.endsWith("." + allowedHost)) {
-        return true
-      }
-    }
-  }
-  
-  console.log("Origin not allowed:", requestOrigin)
-  return false
-}
-
-/**
- * Check for suspicious/bot request patterns
- */
-function isSuspiciousRequest(request: Request): boolean {
-  const userAgent = request.headers.get("User-Agent") || ""
-  
-  // Block common scraper/user agents
-  const blockedAgents = [
-    "scrapy",
-    "curl",
-    "wget",
-    "python-requests",
-    "bot",
-    "crawler",
-    "spider",
-    "curl/",
-    "wget/",
-  ]
-  
-  const lowerUA = userAgent.toLowerCase()
-  for (const blocked of blockedAgents) {
-    if (lowerUA.includes(blocked)) {
-      console.log("Blocked suspicious user agent:", userAgent)
-      return true
-    }
-  }
-  
-  // Block requests with no user agent
-  if (!userAgent || userAgent.trim() === "") {
-    console.log("Blocked request with no User-Agent")
-    return true
-  }
-  
-  return false
-}
-
-/**
- * Apply security headers to response
- */
-function applySecurityHeaders(headers: Headers): void {
-  headers.set("X-Content-Type-Options", "nosniff")
-  headers.set("X-Frame-Options", "DENY")
-  headers.set("X-XSS-Protection", "1; mode=block")
-  headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
-  headers.set("Permissions-Policy", "geolocation=(), microphone=(), camera=()")
-  
-  // Content Security Policy - strict for API
-  headers.set(
-    "Content-Security-Policy",
-    "default-src 'none'; frame-ancestors 'none';"
+  return (
+    request.headers.get("CF-Connecting-IP") ||
+    request.headers.get("X-Forwarded-For")?.split(",")[0]?.trim() ||
+    "unknown"
   )
 }
 
-/**
- * Create a secure error response
- */
-function securityErrorResponse(message: string, status = 403): Response {
-  const headers = {
-    "Content-Type": "application/json",
-    "Cache-Control": "no-store, must-revalidate",
-  }
-  applySecurityHeaders(new Headers(headers))
-  
-  return new Response(JSON.stringify({ error: message }), {
-    status,
-    headers: {
-      ...Object.fromEntries(new Headers(headers)),
-      "X-Content-Type-Options": "nosniff",
-      "X-Frame-Options": "DENY",
-    },
-  })
+/** Minimal security headers — no CORS, no origin restrictions */
+function applySecurityHeaders(headers: Headers): void {
+  headers.set("X-Content-Type-Options", "nosniff")
+  headers.set("X-Frame-Options", "DENY")
+  headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
 }
 
-// ============ CORS CONFIGURATION ============
-
-const CORS_HEADERS = {
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Accept, User-Agent, Origin, Referer",
-  "Access-Control-Max-Age": "86400", // 24 hours
-  "Cache-Control": "no-store, must-revalidate",
-}
-
-function corsResponse(body: string, status = 200, request?: Request): Response {
+/** Standard JSON response with optional caching */
+function jsonResponse(body: string, status = 200, cacheSeconds = 0): Response {
   const headers = new Headers({
     "Content-Type": "application/json",
-    ...CORS_HEADERS,
   })
   
-  // Dynamically set allowed origin based on request
-  const origin = request?.headers.get("Origin") || request?.headers.get("Referer")
-  if (origin && isOriginAllowed(request!)) {
-    headers.set("Access-Control-Allow-Origin", origin)
+  if (cacheSeconds > 0) {
+    // Enable browser and CDN caching
+    headers.set("Cache-Control", `public, max-age=${cacheSeconds}, s-maxage=${cacheSeconds}`)
   } else {
-    headers.set("Access-Control-Allow-Origin", "https://zentor.in")
+    // Disable caching for dynamic/sensitive actions
+    headers.set("Cache-Control", "no-store, must-revalidate")
   }
   
   applySecurityHeaders(headers)
-  
   return new Response(body, { status, headers })
 }
 
@@ -223,8 +80,8 @@ interface JobsResponse {
 
 const CACHE_KEY = "jobs:all"
 const LAST_SYNC_KEY = "jobs:last_sync"
-const CACHE_TTL = 604800 // 7 days (in seconds)
-const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
+const CACHE_TTL = 604800          // 7 days in seconds
+const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000
 
 // ============ MAIN HANDLER ============
 
@@ -234,99 +91,88 @@ export default {
     const path = url.pathname
     const method = request.method
 
-    // ===== SECURITY CHECKS =====
-    
-    // Handle CORS preflight FIRST (before other security checks)
-    if (method === "OPTIONS") {
-      const headers = new Headers(CORS_HEADERS)
-      const origin = request.headers.get("Origin")
-      if (origin && isOriginAllowed(request)) {
-        headers.set("Access-Control-Allow-Origin", origin)
-      } else {
-        headers.set("Access-Control-Allow-Origin", "https://zentor.in")
-      }
-      applySecurityHeaders(headers)
-      return new Response(null, { status: 204, headers })
-    }
-    
-    // 1. Rate limiting (using Cloudflare Rate Limiting binding)
+    // ── Rate limiting ──────────────────────────────────────────────────────────
     if (env.RATELIMIT) {
       const clientIP = getClientIP(request)
-      const { success } = await env.RATELIMIT.limit({ 
-        key: clientIP,
-        limit: RATE_LIMIT.LIMIT,
-        period: RATE_LIMIT.PERIOD,
-      })
-      
+      // Cloudflare RateLimit binding: only `key` at runtime; limits come from wrangler.toml
+      const { success } = await env.RATELIMIT.limit({ key: clientIP })
+
       if (!success) {
         console.log("Rate limit exceeded for IP:", clientIP)
-        return new Response(
+        return jsonResponse(
           JSON.stringify({ error: "Rate limit exceeded. Please try again later." }),
-          {
-            status: 429,
-            headers: {
-              "Content-Type": "application/json",
-              "Retry-After": String(RATE_LIMIT.PERIOD),
-              "X-RateLimit-Limit": String(RATE_LIMIT.LIMIT),
-              "X-RateLimit-Remaining": "0",
-              ...CORS_HEADERS,
-            },
-          }
+          429
         )
       }
     }
-    
-    // 2. Origin/Referer validation (allowlist)
-    if (!isOriginAllowed(request)) {
-      console.log("Blocked request from disallowed origin:", request.headers.get("Origin") || request.headers.get("Referer"))
-      return securityErrorResponse("Origin not allowed", 403)
-    }
-    
-    // 3. Bot/Spam detection
-    if (isSuspiciousRequest(request)) {
-      return securityErrorResponse("Request blocked", 403)
-    }
 
+    // ── Route matching ─────────────────────────────────────────────────────────
+    // IMPORTANT: specific paths must be checked BEFORE the wildcard /jobs/:id regex
     try {
+      // GET /jobs — list with filters + pagination
       if (path === "/jobs" && method === "GET") {
         return await handleGetJobs(request, env)
       }
+
+      // POST /jobs/refresh — force-refetch all jobs from DB into KV
+      if (path === "/jobs/refresh" && method === "POST") {
+        return await handleRefresh(env, request)
+      }
+
+      // POST /jobs/sync — incremental sync (delta since last run)
+      if (path === "/jobs/sync" && method === "POST") {
+        return await handleSync(request, env)
+      }
+
+      // GET /healthz — DB connectivity check (requires secret, for diagnostics)
+      if (path === "/healthz" && method === "GET") {
+        return await handleHealthz(env, request)
+      }
+
+      // GET /jobs/:id — single job by ID (wildcard — must come LAST)
       if (path.match(/^\/jobs\/[\w-]+$/) && method === "GET") {
         const id = path.split("/")[2]
         return await handleGetJobById(id, env, request)
       }
-      if (path === "/jobs/refresh" && method === "POST") {
-        // Protected: require authorized origin or secret
-        return await handleRefresh(env, request)
-      }
-      if (path === "/jobs/sync" && method === "POST") {
-        // Protected: require authorized origin or secret
-        return await handleSync(request, env)
-      }
-      
-      return corsResponse(JSON.stringify({ error: "Not found" }), 404, request)
-    } catch (error: any) {
-      console.error("Error:", error)
-      return corsResponse(JSON.stringify({ error: "Internal server error" }), 500, request)
+
+      return jsonResponse(JSON.stringify({ error: "Not found" }), 404)
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error)
+      console.error("Unhandled error:", msg)
+      // Return actual error detail in response so we can debug
+      return jsonResponse(JSON.stringify({ error: "Internal server error", detail: msg }), 500)
     }
   },
 }
 
+// ============ AUTH HELPER ============
+
+/**
+ * Verify the X-Refresh-Secret header matches the REFRESH_SECRET env var.
+ * Returns a 401 Response if auth fails, or null if OK.
+ */
+function requireSecret(request: Request, env: Env): Response | null {
+  if (!env.REFRESH_SECRET) {
+    // Secret not configured → allow (dev mode / initial setup)
+    console.warn("REFRESH_SECRET not set — skipping auth check")
+    return null
+  }
+  const provided = request.headers.get("X-Refresh-Secret")
+  if (!provided || provided !== env.REFRESH_SECRET) {
+    console.log("Unauthorized refresh attempt — bad or missing X-Refresh-Secret")
+    return jsonResponse(JSON.stringify({ error: "Unauthorized" }), 401)
+  }
+  return null
+}
+
 // ============ DATABASE ============
 
-function getDbConfig(env: Env) {
+function createDbClient(env: Env) {
   const { Client } = pg
-  console.log("Connecting to:", env.DB_HOST)
-  
-  return new Client({
-    host: env.DB_HOST,
-    port: parseInt(env.DB_PORT || "5432"),
-    database: env.DB_NAME,
-    user: env.DB_USER,
-    password: env.DB_PASSWORD,
-    ssl: "require",
-    max: 1,
-  })
+  // Hyperdrive provides a local connection string that proxies to RDS
+  const connStr = env.HYPERDRIVE.connectionString
+  console.log("Connecting via Hyperdrive...")
+  return new Client({ connectionString: connStr })
 }
 
 // ============ JOB HANDLERS ============
@@ -335,94 +181,107 @@ async function handleGetJobs(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url)
   const params = {
     location: url.searchParams.get("location") || "",
-    company: url.searchParams.get("company") || "",
-    minExp: url.searchParams.get("min_exp") || "",
-    maxExp: url.searchParams.get("max_exp") || "",
-    sort: url.searchParams.get("sort") || "date",
-    page: parseInt(url.searchParams.get("page") || "1"),
-    limit: parseInt(url.searchParams.get("limit") || "10"),
+    company:  url.searchParams.get("company")  || "",
+    minExp:   url.searchParams.get("min_exp")  || "",
+    maxExp:   url.searchParams.get("max_exp")  || "",
+    sort:     url.searchParams.get("sort")     || "date",
+    page:     parseInt(url.searchParams.get("page")  || "1"),
+    limit:    parseInt(url.searchParams.get("limit") || "10"),
   }
 
-  // Validate and cap pagination params
-  params.page = Math.max(1, Math.min(params.page, 100))
+  // Clamp pagination
+  params.page  = Math.max(1, Math.min(params.page,  100))
   params.limit = Math.max(1, Math.min(params.limit, 100))
 
+  // Try cache first
   const cached = await env.JOBS_CACHE.get(CACHE_KEY, "json") as JobsResponse | null
   let jobs: Job[] = []
 
-  if (cached && cached.jobs) {
+  if (cached?.jobs) {
+    console.log("Cache hit — returning", cached.jobs.length, "jobs")
     jobs = cached.jobs
   } else {
+    console.log("Cache miss — fetching from DB")
     jobs = await fetchJobsFromDB(env)
-    await env.JOBS_CACHE.put(CACHE_KEY, JSON.stringify({ jobs, total: jobs.length, page: 1, hasMore: false }), { expirationTtl: CACHE_TTL })
+    await env.JOBS_CACHE.put(
+      CACHE_KEY,
+      JSON.stringify({ jobs, total: jobs.length, page: 1, hasMore: false }),
+      { expirationTtl: CACHE_TTL }
+    )
   }
 
-  if (params.location) {
-    jobs = jobs.filter((j) => j.location.toLowerCase().includes(params.location.toLowerCase()))
-  }
-  if (params.company) {
-    jobs = jobs.filter((j) => j.company.toLowerCase().includes(params.company.toLowerCase()))
-  }
-  if (params.minExp) {
-    jobs = jobs.filter((j) => j.experience_years >= parseInt(params.minExp))
-  }
-  if (params.maxExp) {
-    jobs = jobs.filter((j) => j.experience_years <= parseInt(params.maxExp))
-  }
+  // Apply filters
+  if (params.location) jobs = jobs.filter(j => j.location.toLowerCase().includes(params.location.toLowerCase()))
+  if (params.company)  jobs = jobs.filter(j => j.company.toLowerCase().includes(params.company.toLowerCase()))
+  if (params.minExp)   jobs = jobs.filter(j => j.experience_years >= parseInt(params.minExp))
+  if (params.maxExp)   jobs = jobs.filter(j => j.experience_years <= parseInt(params.maxExp))
 
+  // Sort
   if (params.sort === "date") {
     jobs.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
   }
 
+  // Paginate
   const total = jobs.length
   const start = (params.page - 1) * params.limit
   const paginatedJobs = jobs.slice(start, start + params.limit)
   const hasMore = start + params.limit < total
 
-  return corsResponse(JSON.stringify({
-    jobs: paginatedJobs,
-    total,
-    page: params.page,
-    hasMore,
-  }), 200, request)
+  // Return with 1 hour CDN/Browser cache (3600 seconds)
+  return jsonResponse(JSON.stringify({ jobs: paginatedJobs, total, page: params.page, hasMore }), 200, 3600)
 }
 
-async function handleGetJobById(id: string, env: Env, request: Request): Promise<Response> {
-  // Validate ID format (prevent injection)
+async function handleGetJobById(id: string, env: Env, _request: Request): Promise<Response> {
   if (!/^[\w-]+$/.test(id)) {
-    return corsResponse(JSON.stringify({ error: "Invalid job ID" }), 400, request)
+    return jsonResponse(JSON.stringify({ error: "Invalid job ID" }), 400)
   }
-  
+
   const cached = await env.JOBS_CACHE.get(CACHE_KEY, "json") as JobsResponse | null
   let jobs: Job[] = []
 
-  if (cached && cached.jobs) {
+  if (cached?.jobs) {
     jobs = cached.jobs
   } else {
     jobs = await fetchJobsFromDB(env)
-    await env.JOBS_CACHE.put(CACHE_KEY, JSON.stringify({ jobs, total: jobs.length, page: 1, hasMore: false }), { expirationTtl: CACHE_TTL })
+    await env.JOBS_CACHE.put(
+      CACHE_KEY,
+      JSON.stringify({ jobs, total: jobs.length, page: 1, hasMore: false }),
+      { expirationTtl: CACHE_TTL }
+    )
   }
 
-  const job = jobs.find((j) => j.id === id)
-  if (!job) {
-    return corsResponse(JSON.stringify({ error: "Job not found" }), 404, request)
-  }
+  const job = jobs.find(j => j.id === id)
+  if (!job) return jsonResponse(JSON.stringify({ error: "Job not found" }), 404)
 
-  return corsResponse(JSON.stringify(job), 200, request)
+  // Cache individual job detail for 1 hour
+  return jsonResponse(JSON.stringify(job), 200, 3600)
 }
 
 async function handleRefresh(env: Env, request: Request): Promise<Response> {
+  // Require secret on refresh endpoint
+  const authError = requireSecret(request, env)
+  if (authError) return authError
+
+  console.log("Refreshing jobs cache from DB...")
   const jobs = await fetchJobsFromDB(env)
-  await env.JOBS_CACHE.put(CACHE_KEY, JSON.stringify({ jobs, total: jobs.length, page: 1, hasMore: false }), { expirationTtl: CACHE_TTL })
+
+  await env.JOBS_CACHE.put(
+    CACHE_KEY,
+    JSON.stringify({ jobs, total: jobs.length, page: 1, hasMore: false }),
+    { expirationTtl: CACHE_TTL }
+  )
   await env.JOBS_CACHE.put(LAST_SYNC_KEY, new Date().toISOString())
 
-  return corsResponse(JSON.stringify({ success: true, count: jobs.length }), 200, request)
+  console.log("Refresh complete — cached", jobs.length, "jobs")
+  return jsonResponse(JSON.stringify({ success: true, count: jobs.length, refreshed_at: new Date().toISOString() }))
 }
 
 async function handleSync(request: Request, env: Env): Promise<Response> {
+  // Require secret on sync endpoint
+  const authError = requireSecret(request, env)
+  if (authError) return authError
+
   const url = new URL(request.url)
-  
-  // Get 'since' from query param OR from last_sync stored in KV
   const sinceParam = url.searchParams.get("since") || ""
   const lastSyncStored = await env.JOBS_CACHE.get(LAST_SYNC_KEY)
   const since = sinceParam || lastSyncStored || undefined
@@ -430,61 +289,82 @@ async function handleSync(request: Request, env: Env): Promise<Response> {
   console.log("Sync since:", since || "initial (last 7 days only)")
 
   const jobs = await fetchJobsFromDB(env, since)
-  
-  // Update last sync timestamp after successful sync
   await env.JOBS_CACHE.put(LAST_SYNC_KEY, new Date().toISOString())
-  
-  return corsResponse(JSON.stringify({ jobs, count: jobs.length, since: since }), 200, request)
+
+  return jsonResponse(JSON.stringify({ jobs, count: jobs.length, since: since ?? null }))
 }
 
+// ============ DB QUERY ============
+
 async function fetchJobsFromDB(env: Env, since?: string): Promise<Job[]> {
-  console.log("Starting DB connection...")
-  
-  const client = getDbConfig(env)
-  
-  try {
-    await client.connect()
-    console.log("Connected to DB successfully")
-  } catch (err) {
-    console.error("Connection error:", err)
-    throw err
-  }
+  const client = createDbClient(env)
+
+  await client.connect()
+  console.log("Connected to DB")
 
   try {
-    // Calculate 7-day cutoff (last week from today)
     const sevenDaysAgo = new Date(Date.now() - SEVEN_DAYS_MS).toISOString()
-    
-    let query = "SELECT id, title, company, company_logo_url, location, job_type, is_remote, experience_years, salary_min, salary_max, salary_currency, skills, description, job_url, job_url_direct, created_at, updated_at FROM job_postings"
-    const params: unknown[] = []
-    const conditions: string[] = []
 
-    // ALWAYS filter to last 7 days only (stale job application data excluded)
-    conditions.push("created_at > $1")
-    params.push(sevenDaysAgo)
+    const conditions: string[] = ["created_at > $1"]
+    const params: unknown[] = [sevenDaysAgo]
 
-    // For incremental sync: only fetch records updated AFTER last sync
-    // For full refresh: this param is undefined, so we fetch all from last 7 days
     if (since) {
-      conditions.push("updated_at > $2")
+      conditions.push(`updated_at > $${params.length + 1}`)
       params.push(since)
     }
 
-    if (conditions.length > 0) {
-      query += " WHERE " + conditions.join(" AND ")
-    }
-    query += " ORDER BY created_at DESC"
+    const query = [
+      "SELECT id, title, company, company_logo_url, location, job_type, is_remote,",
+      "       experience_years, salary_min, salary_max, salary_currency, skills,",
+      "       description, job_url, job_url_direct, created_at, updated_at",
+      "FROM job_postings",
+      "WHERE " + conditions.join(" AND "),
+      "ORDER BY created_at DESC",
+    ].join(" ")
 
-    console.log("Executing query with params:", params)
+    console.log("Executing query, params:", params)
     const result = await client.query(query, params)
-    console.log("Query result:", result.rows.length, "rows (last 7 days only)")
-    return result.rows.map((row) => ({
+    console.log("Fetched", result.rows.length, "rows")
+
+    return result.rows.map(row => ({
       ...row,
       skills: row.skills || [],
     }))
   } catch (err) {
-    console.error("Query error:", err)
+    console.error("DB query error:", err)
     throw err
   } finally {
     await client.end()
+  }
+}
+
+// ============ HEALTH CHECK ============
+
+async function handleHealthz(env: Env, request: Request): Promise<Response> {
+  const authError = requireSecret(request, env)
+  if (authError) return authError
+
+  const info: Record<string, unknown> = {
+    hyperdrive_set: !!env.HYPERDRIVE,
+    refresh_secret_set: !!env.REFRESH_SECRET,
+  }
+
+  const client = createDbClient(env)
+  try {
+    await client.connect()
+    const result = await client.query("SELECT NOW() as now, current_database() as db")
+    await client.end()
+    return jsonResponse(JSON.stringify({
+      status: "ok",
+      db: { ...info, server_time: result.rows[0].now, database: result.rows[0].db },
+    }))
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err)
+    try { await client.end() } catch {}
+    return jsonResponse(JSON.stringify({
+      status: "error",
+      db: info,
+      error: msg,
+    }), 500)
   }
 }

@@ -7,7 +7,9 @@ compatibility_flags = ["nodejs_compat"]
 binding = "JOBS_CACHE"
 id = "fd23006c6b634a0face5675528df63a8"
 
-# Rate Limiting (Workers native binding - GA)
+# Rate Limiting (Cloudflare Workers Rate Limiting — GA)
+# binding = the name used in env.RATELIMIT
+# namespace_id = any integer (logical grouping, can be any unique number)
 [[ratelimits]]
 name = "RATELIMIT"
 namespace_id = "1001"
@@ -16,12 +18,12 @@ namespace_id = "1001"
 limit = 100
 period = 60
 
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "7f71417defaa426f8aa1ed91385f570f"
+
 [vars]
 ENV = "production"
 
-# Database secrets
-# wrangler secret put DB_HOST
-# wrangler secret put DB_PORT
-# wrangler secret put DB_NAME
-# wrangler secret put DB_USER
-# wrangler secret put DB_PASSWORD
+# Secrets — set via wrangler CLI (never commit values):
+# wrangler secret put REFRESH_SECRET
