@@ -52,8 +52,8 @@ async function fetchJob() {
 function handleApply() {
   applyClicks.value++
   // Minimal interaction logic
-  if (job.value?.apply_url) {
-    window.open(job.value.apply_url, '_blank')
+  if (job.value?.job_url) {
+    window.open(job.value.job_url, '_blank')
   }
 }
 
