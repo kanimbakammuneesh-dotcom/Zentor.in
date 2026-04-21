@@ -75,6 +75,7 @@ onMounted(() => {
     
     // Global Tag
     const tag = document.createElement('script')
+    tag.id = 'monetag-tag'
     tag.src = 'https://quge5.com/88/tag.min.js'
     tag.dataset.zone = '231794'
     tag.async = true
@@ -83,6 +84,7 @@ onMounted(() => {
 
     // Popunder
     const pop = document.createElement('script')
+    pop.id = 'monetag-popunder'
     pop.dataset.zone = '10902056'
     pop.src = 'https://al5sm.com/tag.min.js'
     pop.setAttribute('data-cfasync', 'false')

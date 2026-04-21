@@ -44,6 +44,24 @@ const router = createRouter({
   }
 })
 
+// Ad Cleanup Navigation Guard (Approach B)
+router.afterEach((to) => {
+  const isJobsPage = to.path.startsWith('/jobs')
+  if (!isJobsPage) {
+    // Purge Monetag scripts from DOM
+    const tag = document.getElementById('monetag-tag')
+    const pop = document.getElementById('monetag-popunder')
+    if (tag) tag.remove()
+    if (pop) pop.remove()
+    
+    // Reset flags so they can be re-injected if user returns
+    window._monetagInitialized = false
+    window._monetagInitializedDetail = false
+    
+    console.log('[Ads] Monetag purged for path:', to.path)
+  }
+})
+
 const app = createApp(App)
 app.use(router)
 app.mount('#app')
