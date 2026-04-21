@@ -38,6 +38,14 @@
           <p>2-month intensive program with live projects, mock interviews & certification.</p>
           <span class="program-link">View Internships</span>
         </a>
+        <a href="/jobs/" class="program-card">
+          <div class="program-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/><path d="M10 12h4"/><path d="M12 10v4"/><path d="M7 6v-2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2"/></svg>
+          </div>
+          <h3>Jobs</h3>
+          <p>Full-time tech roles for freshers and professionals. Filter by location & salary.</p>
+          <span class="program-link">Browse Jobs</span>
+        </a>
       </div>
     </section>
 
@@ -161,9 +169,9 @@ onMounted(() => {
 
 .programs-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 

@@ -229,6 +229,14 @@ async function fetchJobs() {
 
     const locs = new Set(jobs.value.map(j => j.location).filter(Boolean))
     uniqueLocations.value = Array.from(locs).sort()
+
+    // Update local cache (only for page 1 with no filters)
+    if (filters.value.page === 1 && !filters.value.location && !filters.value.company) {
+      localStorage.setItem('zentor_jobs_cache', JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }))
+    }
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'Failed to load jobs'
   } finally {
@@ -277,6 +285,24 @@ onMounted(() => {
     }
     meta.setAttribute('content', tag.content)
   })
+
+  // Try to load from cache first for instant UI
+  const cached = localStorage.getItem('zentor_jobs_cache')
+  if (cached) {
+    try {
+      const { data, timestamp } = JSON.parse(cached)
+      // If cache is less than 1 hour old, show it immediately
+      if (Date.now() - timestamp < 3600000) {
+        jobs.value = data.jobs || []
+        total.value = data.total || 0
+        hasMore.value = data.hasMore || false
+        const locs = new Set(jobs.value.map(j => j.location).filter(Boolean))
+        uniqueLocations.value = Array.from(locs).sort()
+      }
+    } catch (e) {
+      console.error('Failed to parse jobs cache', e)
+    }
+  }
 
   fetchJobs()
 })

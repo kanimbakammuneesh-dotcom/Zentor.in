@@ -1,6 +1,6 @@
 import { ref, reactive, computed } from 'vue'
 
-const API_URL = 'https://zentor-jobs-api.your-subdomain.workers.dev'
+const API_URL = 'https://zentor-jobs-api.zentor-admin.workers.dev'
 
 const jobs = ref([])
 const total = ref(0)

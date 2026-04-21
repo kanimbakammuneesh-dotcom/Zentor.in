@@ -145,7 +145,14 @@ async function fetchJob() {
       }
       return
     }
-    job.value = await response.json()
+    const data = await response.json()
+    job.value = data
+    
+    // Cache this specific job
+    localStorage.setItem(`zentor_job_${id}`, JSON.stringify({
+      data,
+      timestamp: Date.now()
+    }))
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'Failed to load job'
   } finally {
@@ -228,6 +235,20 @@ onMounted(() => {
     }
     meta.setAttribute('content', tag.content)
   })
+
+  // Try to load from cache first
+  const cached = localStorage.getItem(`zentor_job_${id}`)
+  if (cached) {
+    try {
+      const { data, timestamp } = JSON.parse(cached)
+      if (Date.now() - timestamp < 3600000) {
+        job.value = data
+        loading.value = false // Skip initial spinner if we have cache
+      }
+    } catch (e) {
+      console.error('Failed to parse job cache', e)
+    }
+  }
 
   fetchJob()
 })

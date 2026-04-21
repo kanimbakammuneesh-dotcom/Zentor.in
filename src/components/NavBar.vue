@@ -7,6 +7,7 @@
       <router-link to="/courses/" class="nav-link">Courses</router-link>
       <router-link to="/admissions/" class="nav-link">Admissions</router-link>
       <router-link to="/internship/" class="nav-link">Internship</router-link>
+      <router-link to="/jobs/" class="nav-link">Jobs</router-link>
     </div>
   </nav>
 </template>
