@@ -24,51 +24,51 @@ defineProps({
 
 <style scoped>
 .form-section {
-  padding: 6rem 1rem;
+  padding: var(--section-gap) 1.5rem;
   width: 100%;
+  background: var(--bg);
 }
 
 .section-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 700;
-  color: var(--text);
+  font-family: 'Newsreader', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 600;
+  color: var(--primary);
   text-align: center;
-  margin-bottom: 3rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
 }
 
 .form-intro {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-size: 1.125rem;
-  color: var(--muted);
+  color: var(--text-muted);
   text-align: center;
-  max-width: 600px;
-  margin: -2rem auto 3rem;
-  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto 4rem;
+  line-height: 1.7;
 }
 
 .form-container {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 2rem;
-  backdrop-filter: blur(20px);
+  background: white;
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow: 0 30px 60px rgba(0, 24, 25, 0.08);
 }
 
 .form-container iframe {
   width: 100% !important;
   height: 900px !important;
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 @media (max-width: 640px) {
-  .form-container iframe { height: 750px !important; min-height: 600px; }
+  .form-container { padding: 0.5rem; }
+  .form-container iframe { height: 750px !important; }
 }
 </style>

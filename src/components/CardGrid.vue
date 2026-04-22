@@ -8,7 +8,7 @@ defineProps({
 
 <template>
   <section class="card-section">
-    <h2 v-if="title" class="section-title">{{ title }}</h2>
+    <h2 v-if="title" class="section-title" v-html="title"></h2>
     <div class="card-grid" :class="'accent-' + accentColor">
       <article v-for="(card, index) in cards" :key="index" class="card-item">
         <div class="card-icon" v-html="card.icon"></div>
@@ -21,102 +21,88 @@ defineProps({
 
 <style scoped>
 .card-section {
-  padding: 4rem 1rem 6rem;
-}
-
-.card-section:nth-child(even) {
-  background: var(--glass-bg);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
+  padding: var(--section-gap) 1.5rem;
+  background: var(--bg-subtle);
 }
 
 .section-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 700;
-  color: var(--text);
+  font-family: 'Newsreader', serif;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 600;
+  color: var(--primary);
   text-align: center;
-  margin-bottom: 3rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  margin-bottom: 4rem;
+  letter-spacing: -0.02em;
 }
 
 .card-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 2.5rem;
   width: 100%;
-  max-width: 1100px;
+  max-width: var(--container-max);
   margin: 0 auto;
 }
 
 .card-item {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 2.5rem 2rem;
-  backdrop-filter: blur(20px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2rem;
   text-align: center;
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(26, 20, 8, 0.04);
 }
 
-.accent-acid .card-item:hover {
-  border-color: var(--acid);
+.card-item:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(212, 255, 0, 0.15);
-}
-
-.accent-magenta .card-item:hover {
-  border-color: var(--magenta);
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(255, 0, 85, 0.15);
-}
-
-.accent-cyan .card-item:hover {
-  border-color: var(--cyan);
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(0, 240, 255, 0.15);
+  box-shadow: 0 16px 48px rgba(26, 20, 8, 0.08);
+  border-color: var(--secondary);
 }
 
 .card-icon {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   display: flex;
   justify-content: center;
+  color: var(--secondary);
+  background: var(--bg);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
 }
 
-.accent-acid .card-icon { color: var(--acid); }
-.accent-magenta .card-icon { color: var(--magenta); }
-.accent-cyan .card-icon { color: var(--cyan); }
+.card-item:hover .card-icon {
+  background: var(--secondary);
+  color: white;
+  transform: scale(1.1);
+}
 
 .card-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-family: 'Newsreader', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
 }
 
 .card-text {
+  font-family: 'Manrope', sans-serif;
   font-size: 1rem;
-  color: var(--muted);
-  line-height: 1.6;
+  color: var(--text-muted);
+  line-height: 1.7;
 }
 
 @media (max-width: 1024px) {
-  .card-grid { grid-template-columns: repeat(2, 1fr); }
+  .card-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
 }
 
 @media (max-width: 640px) {
   .card-grid { grid-template-columns: 1fr; }
-}
-
-@media (hover: none) and (pointer: coarse) {
-  .card-item:hover { transform: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .card-item { transition: none; }
+  .card-item { padding: 2.5rem 1.5rem; }
 }
 </style>

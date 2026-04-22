@@ -3,10 +3,10 @@
     <HeroSection
       eyebrow="Internship 2026"
       eyebrow-slash="/"
-      headline="Gain Experience."
-      headline-highlight="Launch Your Career."
-      tagline="Internship Program"
-      subheadline="Step into the professional world with our 2-month intensive internship program. Build real-world projects and receive expert career guidance to transition from student to professional."
+      headline="Modern <span class='highlight-amber'>Internships.</span>"
+      headline-highlight="Real <span class='highlight-coral'>Experience.</span>"
+      tagline="Career <span class='highlight-teal'>Launchpad</span>"
+      subheadline="Gain hands-on experience with high-impact internships in AI and Fullstack development. Build real products, work with expert mentors, and accelerate your <span class='highlight-amber'>career journey.</span>"
       cta-text="View Programs"
       cta-link="#internships"
       cta-aria="Explore our internship programs"
@@ -59,61 +59,47 @@ import CardGrid from '@/components/CardGrid.vue'
 const benefits = [
   {
     icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
-    title: 'Job Guarantee',
+    title: 'Career Support',
     text: 'Mock interviews and certification to help you land your dream job.'
   },
   {
     icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
-    title: 'Real Projects',
-    text: 'Build production-ready projects for your portfolio.'
-  },
-  {
-    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>',
-    title: 'Certification',
-    text: 'Get certified upon completion and hackathon.'
+    text: 'Post-internship career guidance including resume reviews and mock interviews.'
   }
 ]
 
-const internships = [
+const internshipPrograms = [
   {
-    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
     title: 'Fullstack Development',
-    description: 'Master end-to-end web development. Build real applications from scratch.',
-    duration: '2 Months',
-    includes: ['Live Tasks', 'Mock Interview', 'Project Building', 'Hackathon at End', 'Certification'],
-    topics: ['React', 'Node.js', 'MongoDB', 'REST API', 'Deployment', 'Git']
+    text: 'Master React, Node.js, and databases while building scalable web applications.',
+    duration: '2 Months'
   },
   {
-    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
-    title: 'AI Agent Building',
-    description: 'Build autonomous AI agents. Learn LLM integration and agent frameworks.',
-    duration: '2 Months',
-    includes: ['Live Tasks', 'Mock Interview', 'Project Building', 'Hackathon at End', 'Certification'],
-    topics: ['LLM API', 'Agent Framework', 'Tool Use', 'Memory', 'Vector DB', 'RAG']
+    icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>',
+    title: 'AI & Data Science',
+    text: 'Build LLM applications and data models using Python and modern AI frameworks.',
+    duration: '2 Months'
   }
 ]
 
-const process = [
-  { title: 'Apply', text: 'Submit your application through the form.' },
-  { title: 'Screening', text: 'Complete a brief technical assessment.' },
-  { title: 'Start Internship', text: 'Begin with live tasks and projects.' },
-  { title: 'Hackathon', text: 'Build your final project and get certified.' }
+const processSteps = [
+  { title: 'Apply Now', text: 'Submit your application and portfolio for review.' },
+  { title: 'Interview', text: 'A quick technical and culture fit conversation.' },
+  { title: 'Build & Learn', text: 'Work on high-impact projects with your mentor.' },
+  { title: 'Certification', text: 'Receive your internship certificate and career guidance.' }
 ]
 
 onMounted(() => {
-  document.title = 'Internship Program | Zentor - Fullstack & AI Agent'
+  document.title = 'Internship Programs | Zentor - AI & Fullstack Experience'
   
   const metaTags = [
-    { name: 'description', content: '2-month intensive internship program in Fullstack and AI Agent Building. Gain real-world experience and expert career guidance to launch your professional career.' },
-    { property: 'og:title', content: 'Zentor — Professional Internship Program' },
-    { property: 'og:description', content: 'Gain real-world tech experience. 2-month internships with expert career guidance and certification for Gen Z.' },
+    { name: 'description', content: 'Gain real-world experience with high-impact internships in AI and Fullstack development. Expert career guidance and certificates provided.' },
+    { property: 'og:title', content: 'Internship Programs | Zentor' },
+    { property: 'og:description', content: 'Build real products and learn from experts. High-impact tech internships for Gen Z.' },
     { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
     { property: 'og:url', content: 'https://zentor.in/internship/' },
-    { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Zentor — Internship Program' },
-    { name: 'twitter:description', content: 'Fullstack and AI Agent internships with professional career guidance and certification.' },
-    { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
   ]
   
   metaTags.forEach(tag => {
@@ -130,179 +116,180 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.programs-section {
+  padding: var(--section-gap) 1.5rem;
+  background: var(--bg-subtle);
+}
+
 .section-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 700;
-  color: var(--text);
+  font-family: 'Newsreader', serif;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 600;
+  color: var(--primary);
   text-align: center;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
 .section-intro {
   text-align: center;
+  font-family: 'Manrope', sans-serif;
   font-size: 1.125rem;
-  color: var(--muted);
-  margin-bottom: 3rem;
+  color: var(--text-muted);
+  margin-bottom: 5rem;
+  font-weight: 500;
 }
 
-.internship-section {
-  padding: 4rem 1rem 6rem;
-  background: var(--glass-bg);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
-}
-
-.internship-grid {
+.programs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 2rem;
-  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+  max-width: var(--container-max);
   margin: 0 auto;
 }
 
-.internship-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 2.5rem;
-  transition: all 0.3s;
+.program-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 3.5rem 2.5rem;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(26, 20, 8, 0.04);
 }
 
-.internship-card:hover {
-  border-color: var(--acid);
-  transform: translateY(-4px);
-  box-shadow: 0 10px 40px rgba(212, 255, 0, 0.1);
+.program-card:hover {
+  border-color: var(--secondary);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 48px rgba(26, 20, 8, 0.08);
 }
 
-.internship-icon {
+.program-icon {
   display: flex;
   justify-content: center;
-  color: var(--acid);
+  color: var(--secondary);
+  margin-bottom: 2rem;
+}
+
+.program-card h3 {
+  font-family: 'Newsreader', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary);
   margin-bottom: 1.25rem;
+  letter-spacing: -0.01em;
 }
 
-.internship-card h3 {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+.program-card p {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 2rem;
 }
 
-.internship-desc {
-  font-size: 0.95rem;
-  color: var(--muted);
-  line-height: 1.5;
-  margin-bottom: 1rem;
-}
-
-.internship-duration {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--cyan);
-  margin-bottom: 1.25rem;
-  padding: 0.5rem 1rem;
-  background: rgba(0, 240, 255, 0.1);
+.program-duration {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  color: var(--secondary);
+  font-weight: 800;
+  padding: 0.6rem 1.5rem;
   border-radius: 100px;
+  background: var(--bg);
   display: inline-block;
-}
-
-.internship-includes {
-  list-style: none;
-  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .internship-includes li {
-  font-size: 0.875rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.9375rem;
   color: var(--text);
-  padding: 0.35rem 0;
-  border-bottom: 1px solid var(--glass-border);
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(0, 24, 25, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.internship-includes li:last-child {
-  border-bottom: none;
+.internship-includes li::before {
+  content: "✓";
+  color: var(--secondary);
+  font-weight: bold;
 }
 
 .internship-topics {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  justify-content: center;
 }
 
 .topic-tag {
-  font-size: 0.7rem;
-  color: var(--text);
-  background: rgba(212, 255, 0, 0.1);
-  padding: 0.3rem 0.65rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--bg);
+  padding: 0.4rem 0.75rem;
   border-radius: 100px;
+  border: 1px solid rgba(0, 24, 25, 0.05);
 }
 
 .process-section {
-  padding: 4rem 1rem 6rem;
+  padding: var(--section-gap) 1.5rem;
+  background: var(--bg);
 }
 
 .process-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  max-width: 1000px;
+  gap: 2rem;
+  max-width: var(--container-max);
   margin: 0 auto;
 }
 
 .process-item {
   text-align: center;
-  padding: 1.5rem 1rem;
+  padding: 1rem;
 }
 
 .process-number {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--magenta), var(--acid));
-  color: var(--bg);
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
+  background: var(--primary);
+  color: white;
+  font-family: 'Newsreader', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1rem;
+  margin: 0 auto 1.5rem;
 }
 
 .process-item h3 {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
+  font-family: 'Newsreader', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
 }
 
 .process-item p {
-  font-size: 0.85rem;
-  color: var(--muted);
-  line-height: 1.4;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.6;
 }
 
 @media (max-width: 768px) {
-  .internship-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .process-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .internship-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem 1.5rem; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .internship-card, .process-item {
-    transition: none;
-  }
+@media (max-width: 480px) {
+  .process-grid { grid-template-columns: 1fr; }
 }
 </style>

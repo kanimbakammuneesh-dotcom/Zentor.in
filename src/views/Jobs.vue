@@ -139,14 +139,14 @@ onMounted(() => {
           <span class="eyebrow-slash">/</span>Jobs
         </span>
         <h1 class="headline">
-          <span class="hl-main">Find Your Dream</span>
-          <br />
-          <span class="hl-highlight">Job</span>
+          Find Your Dream <span class="highlight-amber">Job</span>
         </h1>
-        <p class="tagline">Tech Jobs in India</p>
-        <p class="sub-headline">Browse latest job openings from top companies. Filter by location, experience, and more.</p>
+        <p class="tagline">Premium <span class="highlight-coral">Tech Careers</span> in India</p>
+        <p class="sub-headline">Browse curated job openings from high-growth tech companies. Filter by location, experience, and domain.</p>
         <div class="cta-wrap">
-          <a href="/contact/" class="btn-cta" aria-label="Post a job">Post a Job<span class="btn-arrow">→</span></a>
+          <a href="/contact/" class="btn btn-primary" aria-label="Post a job">
+            Post a Job <span class="btn-arrow">→</span>
+          </a>
         </div>
       </div>
     </section>
@@ -159,17 +159,17 @@ onMounted(() => {
 
       <section class="jobs-section">
         <div class="section-header">
-          <p class="results-count">{{ total }} jobs found</p>
+          <p class="results-count">{{ total }} opportunities found</p>
         </div>
 
         <div v-if="loading" class="loading-state">
           <div class="spinner"></div>
-          <p>Loading jobs...</p>
+          <p>Curating jobs for you...</p>
         </div>
 
         <div v-else-if="error" class="error-state">
           <p>{{ error }}</p>
-          <button class="btn-retry" @click="fetchJobs()">Retry</button>
+          <button class="btn btn-secondary" @click="fetchJobs()">Try Again</button>
         </div>
 
         <div v-else class="jobs-grid">
@@ -182,9 +182,9 @@ onMounted(() => {
         </div>
 
         <div v-if="hasMore || filters.page > 1" class="pagination">
-          <button class="page-btn" :disabled="filters.page <= 1" @click="setPage(filters.page - 1)">Previous</button>
+          <button class="btn btn-secondary" :disabled="filters.page <= 1" @click="setPage(filters.page - 1)">Previous</button>
           <span class="page-info">Page {{ filters.page }}</span>
-          <button class="page-btn" :disabled="!hasMore" @click="setPage(filters.page + 1)">Next</button>
+          <button class="btn btn-secondary" :disabled="!hasMore" @click="setPage(filters.page + 1)">Next</button>
         </div>
       </section>
     </div>
@@ -197,173 +197,137 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8rem 1rem 4rem;
-  margin-top: 5rem;
+  padding: 140px 24px 60px;
   text-align: center;
+  background: radial-gradient(circle at top left, rgba(200, 129, 26, 0.08) 0%, transparent 65%),
+              radial-gradient(circle at bottom right, rgba(192, 72, 40, 0.05) 0%, transparent 65%);
 }
 
 .hero-content {
-  max-width: 800px;
+  max-width: 900px;
 }
 
 .eyebrow {
-  font-family: 'Unbounded', sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--acid);
+  color: var(--secondary);
 }
 
 .eyebrow-slash {
-  color: var(--muted);
+  color: var(--primary);
   margin-right: 0.5em;
 }
 
 .headline {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 800;
-  color: var(--text);
+  font-family: 'Newsreader', serif;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 600;
+  color: var(--primary);
   line-height: 1.1;
-  margin: 1.5rem 0 1rem;
+  margin: 1.5rem 0 1.5rem;
+  letter-spacing: -0.02em;
 }
 
 .hl-highlight {
-  color: var(--acid);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--text);
 }
 
 .tagline {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-  color: var(--text-dim);
-  margin-bottom: 0.5rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .sub-headline {
-  font-size: 1rem;
-  color: var(--muted);
-  max-width: 600px;
-  margin: 0 auto 2rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  max-width: 650px;
+  margin: 0 auto 3rem;
   line-height: 1.6;
 }
 
 .content-container {
-  max-width: 1200px;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 5%;
+  padding: 0 24px;
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-top: 2rem;
+  margin-bottom: 3rem;
+  padding-top: 3rem;
+  border-top: 1px solid rgba(0, 24, 25, 0.05);
 }
 
 .results-count {
-  color: var(--text-dim);
-  font-size: 1rem;
+  font-family: 'Newsreader', serif;
+  color: var(--primary);
+  font-size: 1.25rem;
   font-weight: 600;
+  font-style: italic;
 }
 
 .jobs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 1.5rem;
-  padding-bottom: 3rem;
-  justify-content: center;
+  gap: 2rem;
+  padding-bottom: 4rem;
 }
 
 .loading-state,
 .error-state {
-  padding: 5rem 0;
+  padding: 8rem 0;
   text-align: center;
+  font-family: 'Manrope', sans-serif;
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--border);
-  border-top-color: var(--acid);
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--surface);
+  border-top-color: var(--secondary);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 1rem;
+  animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  margin: 0 auto 1.5rem;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-.btn-retry {
-  padding: 0.75rem 2rem;
-  background: var(--acid);
-  border: none;
-  border-radius: 12px;
-  color: var(--bg);
-  font-weight: 700;
-  cursor: pointer;
-}
-
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1.5rem;
-  padding: 3rem 0 6rem;
-}
-
-.page-btn {
-  padding: 0.75rem 1.5rem;
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.page-btn:hover:not(:disabled) {
-  border-color: var(--acid);
-  background: rgba(167, 138, 254, 0.1);
-}
-
-.page-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+  gap: 2rem;
+  padding: 4rem 0 8rem;
 }
 
 .page-info {
-  color: var(--text-dim);
-  font-weight: 600;
+  font-family: 'Manrope', sans-serif;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 0.9375rem;
 }
 
 @media (max-width: 768px) {
-  .hero {
-    min-height: auto;
-    padding: 7rem 1rem 3rem;
-  }
-  .headline {
-    font-size: 2.5rem;
-  }
-  .content-container {
-    padding: 0 4%;
-  }
-  .jobs-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-  .section-header {
-    margin-bottom: 1.5rem;
-  }
-  .pagination {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .page-btn {
-    width: 100%;
-  }
+  .hero { padding: 100px 20px 40px; }
+  .headline { font-size: 3rem; }
+  .jobs-grid { grid-template-columns: 1fr; }
+  .pagination { flex-direction: column; gap: 1rem; }
+  .btn { width: 100%; }
 }
 </style>
+e>

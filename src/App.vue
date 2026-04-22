@@ -1,10 +1,5 @@
 <template>
   <div class="app-wrapper">
-    <div class="noise-bg"></div>
-    <div class="glow glow-1"></div>
-    <div class="glow glow-2"></div>
-    <div class="grid-pattern"></div>
-
     <NavBar />
 
     <main class="page" id="main-content">
@@ -33,11 +28,11 @@ onMounted(() => {
         url: 'https://zentor.in',
         logo: {
           '@type': 'ImageObject',
-          url: 'https://zentor.in/logos/zentor_for_darkbg.png',
+          url: 'https://zentor.in/logos/zentor_for_lightbg.png',
           width: 400,
           height: 150
         },
-        description: 'Tech education platform for Gen Z. Job-ready courses in AI, Fullstack, Data Analytics with placement support.',
+        description: 'Tech education platform for Gen Z. Job-ready courses in AI, Fullstack, Data Analytics with career support.',
         foundingDate: '2025',
         areaServed: {
           '@type': 'Place',
@@ -73,7 +68,7 @@ onMounted(() => {
         name: 'Zentor — Tech Courses',
         isPartOf: { '@id': 'https://zentor.in/#website' },
         about: { '@id': 'https://zentor.in/#organization' },
-        description: 'Tech courses for placement preparation. AI Agent Building, Gen AI, Data Analytics, Fullstack, Python with resume prep and mock interviews.',
+        description: 'Tech courses for career preparation. AI Agent Building, Gen AI, Data Analytics, Fullstack, Python with resume prep and mock interviews.',
         datePublished: '2025-01-01',
         dateModified: new Date().toISOString().split('T')[0]
       },
@@ -84,7 +79,7 @@ onMounted(() => {
         serviceType: 'Educational Consulting',
         provider: { '@id': 'https://zentor.in/#organization' },
         areaServed: ['India'],
-        description: 'Tech courses with placement support, resume prep, mock interviews, and certification.',
+        description: 'Tech courses with career support, resume prep, mock interviews, and certification.',
         hasOfferCatalog: {
           '@type': 'OfferCatalog',
           name: 'Courses',

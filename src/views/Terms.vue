@@ -192,7 +192,8 @@ onMounted(() => {
 }
 
 .content-section {
-  padding: 4rem 1rem;
+  padding: var(--section-gap) 1.5rem;
+  background: white;
 }
 
 .content-wrapper {
@@ -201,91 +202,92 @@ onMounted(() => {
 }
 
 .terms-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 2rem;
-  margin-bottom: 1.5rem;
-  backdrop-filter: blur(10px);
+  background: white;
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 }
 
 .terms-card h3 {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.25rem;
+  font-family: 'Newsreader', serif;
+  font-size: 2rem;
   font-weight: 600;
-  color: var(--acid);
-  margin-bottom: 1rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
 }
 
 .terms-card p {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1rem;
-  color: var(--muted);
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.0625rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
 }
 
 .terms-card ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 1.5rem 0;
 }
 
 .terms-card li {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.95rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
   color: var(--text);
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
+  padding: 0.75rem 0;
+  padding-left: 2rem;
   position: relative;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .terms-card li::before {
   content: '→';
   position: absolute;
   left: 0;
-  color: var(--acid);
+  color: var(--secondary);
+  font-weight: 800;
 }
 
 .contact-card {
-  border-color: var(--acid);
-  background: linear-gradient(135deg, rgba(212, 255, 0, 0.05) 0%, rgba(75, 0, 255, 0.05) 100%);
+  border-color: var(--primary);
+  background: var(--bg);
 }
 
 .contact-info {
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .contact-info p {
-  margin: 0.5rem 0;
+  margin: 0.75rem 0;
 }
 
 .contact-info a {
-  color: var(--acid);
+  color: var(--secondary);
+  font-weight: 800;
   text-decoration: none;
-  transition: opacity 0.3s;
+  transition: all 0.3s ease;
 }
 
 .contact-info a:hover {
-  opacity: 0.8;
+  color: var(--primary);
+  text-decoration: underline;
 }
 
 .last-updated {
   text-align: center;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-size: 0.875rem;
-  color: var(--muted);
-  margin-top: 2rem;
+  color: var(--text-muted);
+  margin-top: 4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 @media (max-width: 768px) {
-  .terms-card {
-    padding: 1.5rem;
-  }
-  
-  .terms-card h3 {
-    font-size: 1.1rem;
-  }
+  .terms-card { padding: 2rem 1.5rem; }
+  .terms-card h3 { font-size: 1.5rem; }
 }
 </style>

@@ -91,25 +91,30 @@ function onSortChange() {
 
 <style scoped>
 .jobs-filters {
-  padding: 2rem 0;
-  border-bottom: 1px solid var(--border);
+  padding: 3rem 0;
+  border-bottom: 1px solid rgba(0, 24, 25, 0.05);
 }
 
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.25rem;
   align-items: center;
+  background: white;
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 }
 
 .filter-group {
   flex: 1;
-  min-width: 160px;
+  min-width: 180px;
 }
 
 .filter-group.search {
   flex: 2;
-  min-width: 250px;
+  min-width: 280px;
 }
 
 .input-wrapper {
@@ -120,43 +125,54 @@ function onSortChange() {
 
 .search-icon {
   position: absolute;
-  left: 1rem;
-  color: var(--muted);
+  left: 1.25rem;
+  color: var(--primary);
+  opacity: 0.5;
   pointer-events: none;
 }
 
 .filter-input {
-  padding-left: 2.75rem !important;
+  padding-left: 3rem !important;
 }
 
 .filter-input,
 .filter-select {
   width: 100%;
   padding: 0.875rem 1.25rem;
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text);
-  font-size: 0.95rem;
-  transition: all 0.2s;
+  background: var(--bg);
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  border-radius: var(--radius-md);
+  color: var(--primary);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  appearance: none;
+}
+
+.filter-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23001819' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
 }
 
 .filter-input:focus,
 .filter-select:focus {
   outline: none;
-  border-color: var(--acid);
-  background: var(--bg);
-  box-shadow: 0 0 0 4px rgba(167, 138, 254, 0.1);
+  border-color: var(--secondary);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.1);
+}
+
+.filter-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
 }
 
 @media (max-width: 768px) {
-  .jobs-filters {
-    padding: 1.5rem 0;
-  }
-  .filter-group {
-    flex: none;
-    width: 100%;
-    min-width: 0;
-  }
+  .jobs-filters { padding: 2rem 0; }
+  .filter-bar { padding: 0.75rem; gap: 0.75rem; }
+  .filter-group { flex: none; width: 100%; }
 }
 </style>

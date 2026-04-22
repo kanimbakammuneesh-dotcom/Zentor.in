@@ -90,43 +90,39 @@ function formatDate(dateStr) {
 
 <style scoped>
 .job-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 1.75rem;
+  background: white;
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 }
 
 .job-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--acid);
-  box-shadow: 0 20px 40px rgba(167, 138, 254, 0.15);
-}
-
-.job-card:active {
-  transform: translateY(-4px) scale(0.98);
+  transform: translateY(-6px);
+  border-color: var(--secondary);
+  box-shadow: 0 20px 40px rgba(0, 24, 25, 0.08);
 }
 
 .job-card-header {
   display: flex;
-  align-items: flex-start;
-  gap: 1.25rem;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .company-logo {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   flex-shrink: 0;
   background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 10px;
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  border-radius: var(--radius-md);
+  padding: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -144,9 +140,9 @@ function formatDate(dateStr) {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  font-size: 1.75rem;
-  font-weight: 800;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: white;
 }
 
@@ -156,19 +152,21 @@ function formatDate(dateStr) {
 }
 
 .job-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--text);
-  margin: 0 0 0.4rem;
-  line-height: 1.3;
+  font-family: 'Newsreader', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0 0 0.25rem;
+  line-height: 1.2;
 }
 
 .job-company {
-  color: var(--acid);
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-family: 'Manrope', sans-serif;
+  color: var(--secondary);
+  font-size: 1rem;
+  font-weight: 700;
   margin: 0;
+  letter-spacing: 0.02em;
 }
 
 .job-card-body {
@@ -178,78 +176,58 @@ function formatDate(dateStr) {
 .job-meta-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem 1.5rem;
+  gap: 1rem 2rem;
 }
 
 .meta-item {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 0.9rem;
-  color: var(--text-dim);
-  font-weight: 500;
+  gap: 0.5rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
 .meta-item svg {
-  color: var(--muted);
+  color: var(--primary);
+  opacity: 0.7;
 }
 
 .meta-item.remote {
-  color: var(--cyan);
-}
-
-.meta-item.remote svg {
-  color: var(--cyan);
+  color: var(--primary);
 }
 
 .job-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 24, 25, 0.05);
 }
 
 .job-salary {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--primary);
 }
 
 .job-date {
-  font-size: 0.85rem;
-  color: var(--muted);
-  font-weight: 500;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 @media (max-width: 768px) {
-  .job-card {
-    padding: 1.5rem;
-    gap: 1.25rem;
-  }
-  .company-logo {
-    width: 52px;
-    height: 52px;
-    padding: 8px;
-  }
-  .job-title {
-    font-size: 1.15rem;
-  }
-  .job-company {
-    font-size: 0.95rem;
-  }
-  .job-meta-grid {
-    gap: 0.75rem 1rem;
-  }
-  .meta-item {
-    font-size: 0.8rem;
-  }
-  .job-salary {
-    font-size: 1rem;
-  }
-  .job-date {
-    font-size: 0.75rem;
-  }
+  .job-card { padding: 1.5rem; }
+  .company-logo { width: 56px; height: 56px; padding: 10px; }
+  .job-title { font-size: 1.25rem; }
+  .job-company { font-size: 0.9375rem; }
+  .meta-item { font-size: 0.8125rem; }
+  .job-salary { font-size: 1rem; }
 }
 </style>

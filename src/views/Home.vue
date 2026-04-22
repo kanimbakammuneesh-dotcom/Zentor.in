@@ -3,51 +3,53 @@
     <HeroSection
       eyebrow="Zentor"
       eyebrow-slash="/"
-      headline="Master Tech. Get Hired."
-      headline-highlight="Scale Your Future."
-      tagline="Your Future Starts Here"
-      subheadline="Transition from student to professional with expert career guidance. Access top-tier AI courses, high-growth internships, and direct job placements built for the Gen Z generation."
+      headline="Master <span class='highlight-amber'>Tech.</span>"
+      headline-highlight="Scale Your <span class='highlight-coral'>Future.</span>"
+      tagline="Your Future <span class='highlight-teal'>Starts Here</span>"
+      subheadline="Transition from student to professional with expert career guidance. Access top-tier AI courses, high-growth internships, and land <span class='highlight-amber'>career opportunities</span> built for the Gen Z generation."
       cta-text="Explore Careers"
       cta-link="/jobs/"
       cta-aria="Start your career journey with Zentor"
     />
 
     <CardGrid
-      title="Scale Your Career"
+      title="Scale Your <span class='highlight-teal'>Career</span>"
       :cards="features"
-      accent-color="acid"
+      accent-color="primary"
     />
 
     <JobScroller :jobs="latestJobs" />
 
     <section class="programs-section">
-      <h2 class="section-title">Career Ecosystem</h2>
-      <p class="section-intro">Everything you need to go from student to professional</p>
-      <div class="programs-grid">
-        <a href="/courses/" class="program-card">
-          <div class="program-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-          </div>
-          <h3>Courses</h3>
-          <p>AI Agent, Gen AI, Data Analytics, Fullstack & Python. Get job-ready with expert-led training.</p>
-          <span class="program-link">Explore Courses</span>
-        </a>
-        <a href="/internship/" class="program-card">
-          <div class="program-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-          </div>
-          <h3>Internship</h3>
-          <p>Gain real-world experience with live projects and career-defining certificates.</p>
-          <span class="program-link">View Internships</span>
-        </a>
-        <a href="/jobs/" class="program-card">
-          <div class="program-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/><path d="M10 12h4"/><path d="M12 10v4"/><path d="M7 6v-2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2"/></svg>
-          </div>
-          <h3>Jobs</h3>
-          <p>Direct placements in top tech companies for freshers and Gen Z talent.</p>
-          <span class="program-link">Browse Jobs</span>
-        </a>
+      <div class="container">
+        <h2 class="section-title">Career <span class="highlight-amber">Ecosystem</span></h2>
+        <p class="section-intro">Everything you need to go from student to professional</p>
+        <div class="programs-grid">
+          <router-link to="/courses/" class="program-card">
+            <div class="program-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            </div>
+            <h3>Courses</h3>
+            <p>AI Agent, Gen AI, Data Analytics, Fullstack & Python. Get job-ready with expert-led training.</p>
+            <span class="program-link">Explore Courses →</span>
+          </router-link>
+          <router-link to="/internship/" class="program-card">
+            <div class="program-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+            </div>
+            <h3>Internship</h3>
+            <p>Gain real-world experience with live projects and career-defining certificates.</p>
+            <span class="program-link">View Internships →</span>
+          </router-link>
+          <router-link to="/jobs/" class="program-card">
+            <div class="program-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/><path d="M10 12h4"/><path d="M12 10v4"/><path d="M7 6v-2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2"/></svg>
+            </div>
+            <h3>Jobs</h3>
+            <p>Access career opportunities in top tech companies tailored for freshers and Gen Z talent.</p>
+            <span class="program-link">Browse Jobs →</span>
+          </router-link>
+        </div>
       </div>
     </section>
 
@@ -57,13 +59,14 @@
     />
 
     <section class="cta-section" aria-labelledby="cta-heading">
-      <h2 id="cta-heading" class="sr-only">Ready to Start</h2>
-      <div class="cta-content">
-        <h3>Ready to Build Your Career?</h3>
-        <p>Join thousands of Gen Z professionals who started their journey with Zentor</p>
-        <a href="/jobs/" class="btn-cta-secondary">
-          Browse Opportunities
-        </a>
+      <div class="container">
+        <div class="cta-content">
+          <h2 id="cta-heading">Ready to Build Your <span class="highlight-coral">Career?</span></h2>
+          <p>Join thousands of Gen Z professionals who started their journey with Zentor</p>
+          <router-link to="/jobs/" class="btn btn-amber btn-lg">
+            Browse Opportunities
+          </router-link>
+        </div>
       </div>
     </section>
   </div>
@@ -107,8 +110,8 @@ const features = [
   },
   {
     icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/><path d="M10 12h4"/><path d="M12 10v4"/><path d="M7 6v-2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2"/></svg>',
-    title: 'Direct Placements',
-    text: 'Skip the line with direct job placements and internship opportunities at high-growth tech companies.'
+    title: 'Career Opportunities',
+    text: 'Gain an edge with internship and job opportunities at high-growth tech companies.'
   }
 ]
 
@@ -121,20 +124,20 @@ const processSteps = [
 
 onMounted(() => {
   fetchLatestJobs()
-  document.title = 'Zentor — Career Guidance, Tech Courses & Job Placements for Gen Z'
+  document.title = 'Zentor — Career Guidance, Tech Courses & Job Opportunities for Gen Z'
   
   const metaTags = [
-    { name: 'description', content: 'Your journey from student to professional starts here. Get expert career guidance, master AI courses, find high-growth internships, and land direct job placements.' },
-    { property: 'og:title', content: 'Zentor — Career Guidance, Tech Courses & Job Placements' },
-    { property: 'og:description', content: 'Transition from student to professional with AI courses, internships, and job placements for Gen Z.' },
-    { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
+    { name: 'description', content: 'Your journey from student to professional starts here. Get expert career guidance, master AI courses, find high-growth internships, and discover job opportunities.' },
+    { property: 'og:title', content: 'Zentor — Career Guidance, Tech Courses & Job Opportunities' },
+    { property: 'og:description', content: 'Transition from student to professional with AI courses, internships, and job opportunities for Gen Z.' },
+    { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_lightbg.png' },
     { property: 'og:url', content: 'https://zentor.in' },
     { property: 'og:type', content: 'website' },
     { property: 'og:site_name', content: 'Zentor' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: 'Zentor — Career Guidance & Placements' },
     { name: 'twitter:description', content: 'Career guidance, AI courses, and tech jobs for Gen Z professionals.' },
-    { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
+    { name: 'twitter:image', content: 'https://zentor.in/logos/zentor_for_lightbg.png' },
     { name: 'twitter:site', content: '@zentoredu' },
   ]
   
@@ -152,49 +155,33 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .section-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 700;
-  color: var(--text);
+  font-family: 'Newsreader', serif;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 600;
+  color: var(--primary);
   text-align: center;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
 .section-intro {
   text-align: center;
+  font-family: 'Manrope', sans-serif;
   font-size: 1.125rem;
-  color: var(--muted);
-  margin-bottom: 3rem;
+  color: var(--text-muted);
+  margin-bottom: 4rem;
 }
 
 .programs-section {
-  padding: 4rem 1rem 6rem;
-  background: var(--glass-bg);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
+  padding: var(--section-gap) 0;
+  background: var(--bg-subtle);
 }
 
 .programs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
 }
 
 .program-card {
@@ -202,105 +189,107 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 2.5rem 2rem;
-  background: var(--glass-bg-surface);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
+  padding: 3rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(26, 20, 8, 0.04);
 }
 
 .program-card:hover {
-  border-color: var(--cyan);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 240, 255, 0.1);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 48px rgba(26, 20, 8, 0.08);
+  border-color: var(--secondary);
 }
 
 .program-icon {
-  color: var(--cyan);
-  margin-bottom: 1.25rem;
+  color: var(--secondary);
+  background: var(--bg);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.program-card:hover .program-icon {
+  background: var(--secondary);
+  color: white;
+  transform: scale(1.1);
 }
 
 .program-card h3 {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+  font-family: 'Newsreader', serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
 }
 
 .program-card p {
-  font-size: 0.95rem;
-  color: var(--muted);
-  line-height: 1.5;
-  margin-bottom: 1.25rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
 }
 
 .program-link {
+  font-family: 'Manrope', sans-serif;
   font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--cyan);
+  font-weight: 700;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .cta-section {
-  padding: 6rem 1rem;
-  border-top: 1px solid var(--glass-border);
+  padding: var(--section-gap) 0;
+  background: linear-gradient(160deg, #FBF5E8 0%, #F5ECd6 40%, #FBF8F2 100%);
+  color: var(--text);
+  border-top: 1px solid var(--border);
 }
 
 .cta-content {
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
   text-align: center;
+  background: var(--surface);
+  padding: 4rem 2rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: 0 16px 48px rgba(26, 20, 8, 0.08);
 }
 
-.cta-content h3 {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 1rem;
+.cta-content h2 {
+  font-family: 'Newsreader', serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
 }
 
 .cta-content p {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1.125rem;
-  color: var(--muted);
-  margin-bottom: 2rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
 }
 
-.btn-cta-secondary {
-  font-family: 'DM Sans', sans-serif;
+.btn-lg {
+  padding: 1.25rem 3.5rem;
   font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--text);
-  padding: 1.25rem 3rem;
-  border-radius: 8px;
-  background: transparent;
-  border: 2px solid var(--acid);
-  text-decoration: none;
-  transition: all 0.3s;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
 }
 
-.btn-cta-secondary:hover {
-  background: var(--acid);
-  color: var(--bg);
+@media (max-width: 1024px) {
+  .programs-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
 }
 
 @media (max-width: 640px) {
-  .programs-grid {
-    grid-template-columns: 1fr;
-  }
+  .programs-grid { grid-template-columns: 1fr; }
+  .program-card { padding: 2.5rem 1.5rem; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .program-card, .btn-cta-secondary {
-    transition: none;
-  }
-}
-
 </style>
