@@ -3,10 +3,10 @@
     <HeroSection
       eyebrow="Courses 2026"
       eyebrow-slash="/"
-      headline="Master Tech Skills."
-      headline-highlight="Get Job Ready."
-      tagline="Placement Preparation"
-      subheadline="Master in-demand tech skills with expert-led courses. Get the career guidance you need to transition from student to professional with our industry-recognized certification and placement support."
+      headline="Master <span class='highlight-amber'>Tech Skills.</span>"
+      headline-highlight="Get <span class='highlight-coral'>Job Ready.</span>"
+      tagline="Career <span class='highlight-teal'>Preparation</span>"
+      subheadline="Master in-demand tech skills with expert-led courses. Get the career guidance you need to transition from student to professional with our industry-recognized certification and <span class='highlight-amber'>career support.</span>"
     />
 
     <CardGrid
@@ -16,7 +16,7 @@
     />
 
     <section class="courses-section">
-      <h2 class="section-title">Our Courses</h2>
+      <h2 class="section-title">Our <span class="highlight-amber">Courses</span></h2>
       <p class="section-intro">All courses include free resume prep, mock interviews, and certification</p>
       <div class="courses-grid">
         <article v-for="course in courses" :key="course.title" class="course-card">
@@ -29,7 +29,7 @@
     </section>
 
     <ProcessSteps
-      title="How It Works"
+      title="How It <span class='highlight-coral'>Works</span>"
       :steps="processSteps"
     />
   </div>
@@ -44,7 +44,7 @@ import ProcessSteps from '@/components/ProcessSteps.vue'
 const features = [
   {
     icon: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
-    title: 'Job Guarantee',
+    title: 'Career Support',
     text: 'Mock interviews and resume prep included with every course.'
   },
   {
@@ -95,10 +95,10 @@ const processSteps = [
 ]
 
 onMounted(() => {
-  document.title = 'Tech Courses for Placement | Zentor - AI, Fullstack, Data Analytics'
+  document.title = 'Tech Courses & Career Guidance | Zentor - AI, Fullstack, Data Analytics'
   
   const metaTags = [
-    { name: 'description', content: 'Master tech skills with expert-led courses in AI, Fullstack, and Data Analytics. Transition from student to professional with our career guidance and placement support.' },
+    { name: 'description', content: 'Master tech skills with expert-led courses in AI, Fullstack, and Data Analytics. Transition from student to professional with our career guidance and support.' },
     { property: 'og:title', content: 'Zentor — Tech Courses & Career Guidance' },
     { property: 'og:description', content: 'Master tech skills and get job-ready with AI, Fullstack, and Data Analytics courses. Expert career guidance included.' },
     { property: 'og:image', content: 'https://zentor.in/logos/zentor_for_darkbg.png' },
@@ -126,97 +126,93 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.courses-section {
+  padding: var(--section-gap) 1.5rem;
+  background: var(--bg-subtle);
+}
+
 .section-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 700;
-  color: var(--text);
+  font-family: 'Newsreader', serif;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 600;
+  color: var(--primary);
   text-align: center;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
 .section-intro {
   text-align: center;
+  font-family: 'Manrope', sans-serif;
   font-size: 1.125rem;
-  color: var(--muted);
-  margin-bottom: 3rem;
-}
-
-.courses-section {
-  padding: 4rem 1rem 6rem;
-  background: var(--glass-bg);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  margin-bottom: 5rem;
+  font-weight: 500;
 }
 
 .courses-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  max-width: 1200px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  max-width: var(--container-max);
   margin: 0 auto;
 }
 
 .course-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2rem;
   text-align: center;
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(26, 20, 8, 0.04);
 }
 
 .course-card:hover {
-  border-color: var(--acid);
-  transform: translateY(-4px);
-  box-shadow: 0 10px 40px rgba(212, 255, 0, 0.1);
+  border-color: var(--secondary);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 48px rgba(26, 20, 8, 0.08);
 }
 
 .course-icon {
   display: flex;
   justify-content: center;
-  color: var(--acid);
-  margin-bottom: 1rem;
+  color: var(--secondary);
+  margin-bottom: 2rem;
 }
 
 .course-card h3 {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.course-card p {
-  font-size: 0.95rem;
-  color: var(--muted);
-  line-height: 1.5;
+  font-family: 'Newsreader', serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--primary);
   margin-bottom: 1rem;
 }
 
+.course-card p {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
 .course-bonus {
-  font-size: 0.8rem;
-  color: var(--cyan);
-  font-weight: 600;
-  padding: 0.5rem 1rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  color: var(--secondary);
+  font-weight: 800;
+  padding: 0.6rem 1.25rem;
   border-radius: 100px;
-  background: rgba(0, 240, 255, 0.1);
+  background: var(--bg);
   display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--border);
 }
 
 @media (max-width: 640px) {
-  .courses-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .course-card {
-    transition: none;
-  }
+  .courses-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .course-card { padding: 2.5rem 1.5rem; }
 }
 </style>

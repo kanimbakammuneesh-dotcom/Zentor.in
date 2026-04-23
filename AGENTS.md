@@ -54,7 +54,28 @@ Zentor uses a component-based architecture. Use existing components before creat
 | `FormContainer` | Fillout iframe wrapper | Pass `src` for form URL |
 | `ProcessSteps` | Step-by-step process flow | Pass `steps` array |
 | `BenefitGrid` | Benefits with emoji icons | Pass `cards` array |
-| `NavBar` | Navigation with PNG logo | Already in App.vue |
+**NavBar:**
+- `NavBar` component includes mobile hamburger menu
+- Mobile menu uses `IntersectionObserver` for lazy-loading when menu is open
+- Logo sizing: `56px` desktop, `44px` scrolled, `40px` mobile
+- `z-index: 1002` for nav, `1001` for mobile menu overlay
+
+**Mobile Menu Pattern:**
+```vue
+<button class="burger-btn" @click="toggleMenu" aria-label="Menu">
+  <span class="burger-line"></span>
+  <span class="burger-line"></span>
+  <span class="burger-line"></span>
+</button>
+
+<div class="mobile-menu" :class="{ 'open': isMenuOpen }">
+  <div class="mobile-menu-overlay" @click="closeMenu"></div>
+  <div class="mobile-menu-panel">
+    <router-link to="/courses/" @click="closeMenu">Courses</router-link>
+    ...
+  </div>
+</div>
+```
 | `Footer` | Footer with UDYAM code | Already in App.vue |
 | `JobCard` | Responsive job tile with animations | Pass `job` object |
 | `JobFilters` | Glassmorphism job search/filter bar | Pass props for search/filter |
@@ -155,7 +176,7 @@ const features = [
 ### Monetag Scoped Integration
 Zentor uses **Monetag** for monetization. To maintain high UX standards, ads are strictly localized to the Jobs section.
 
-1.  **Injection**: Monetag scripts (Global Tag & Popunder) are injected via `onMounted` in `Jobs.vue` and `JobDetail.vue`.
+1.  **Lazy Injection**: Monetag scripts are injected via `IntersectionObserver` when user scrolls past the hero section. This prevents ad interference on page load.
 2.  **Scoped Purging**: A global navigation guard in `src/main.js` (`router.afterEach`) monitors route changes. If the user leaves the `/jobs/` path, all ad scripts are physically removed from the DOM by their IDs (`monetag-tag`, `monetag-popunder`).
 3.  **Initialization**: Global window flags (`_monetagInitialized`) are used to prevent duplicate script injection. These are reset by the navigation guard upon cleanup.
 

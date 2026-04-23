@@ -17,17 +17,17 @@ defineProps({
 
 <style scoped>
 .stats-section {
-  padding: 4rem 1rem;
-  background: var(--glass-bg);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
+  padding: var(--section-gap) 1.5rem;
+  background: var(--bg);
+  border-top: 1px solid rgba(0, 24, 25, 0.05);
+  border-bottom: 1px solid rgba(0, 24, 25, 0.05);
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  max-width: 900px;
+  gap: 3rem;
+  max-width: var(--container-max);
   margin: 0 auto;
   text-align: center;
 }
@@ -35,25 +35,27 @@ defineProps({
 .stat-item {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .stat-number {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 900;
-  color: var(--acid);
+  font-family: 'Newsreader', serif;
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1;
 }
 
 .stat-label {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1rem;
-  color: var(--muted);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  color: var(--secondary);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
+  font-weight: 800;
 }
 
 @media (max-width: 768px) {
-  .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .stats-grid { grid-template-columns: 1fr; gap: 3rem; }
 }
 </style>

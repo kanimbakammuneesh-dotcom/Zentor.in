@@ -48,13 +48,14 @@ onMounted(() => {
   justify-content: center;
   text-align: center;
   padding: 8rem 2rem 4rem;
+  background: white;
 }
 
 .lottie-wrap {
   width: 100%;
   max-width: 500px;
   height: 400px;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .lottie-wrap iframe {
@@ -64,63 +65,64 @@ onMounted(() => {
 }
 
 .error-code {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(4rem, 15vw, 12rem);
-  font-weight: 900;
-  color: var(--acid);
+  font-family: 'Newsreader', serif;
+  font-size: clamp(6rem, 20vw, 15rem);
+  font-weight: 800;
+  color: var(--primary);
   line-height: 1;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 0 60px rgba(212, 255, 0, 0.3);
+  margin-bottom: 1rem;
+  letter-spacing: -0.05em;
+  opacity: 0.1;
+  position: absolute;
+  z-index: 0;
 }
 
 .error-title {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 1rem;
+  font-family: 'Newsreader', serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
+  position: relative;
+  z-index: 1;
 }
 
 .error-message {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1rem;
-  color: var(--muted);
-  margin-bottom: 2rem;
-  max-width: 400px;
-  line-height: 1.5;
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  max-width: 480px;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
 }
 
 .btn-home {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Manrope', sans-serif;
   font-size: 0.9rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--bg);
-  padding: 1rem 2rem;
-  border-radius: 4px;
-  background: var(--acid);
+  color: white;
+  padding: 1.25rem 3rem;
+  border-radius: var(--radius-md);
+  background: var(--primary);
   text-decoration: none;
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  z-index: 1;
 }
 
 .btn-home:hover {
-  background: var(--cyan);
-  box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+  background: var(--secondary);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 24, 25, 0.15);
 }
 
 @media (max-width: 768px) {
-  .error-page {
-    padding: 6rem 1.5rem 3rem;
-  }
-
-  .lottie-wrap {
-    height: 300px;
-  }
-
-  .error-code {
-    font-size: clamp(3rem, 20vw, 8rem);
-  }
+  .error-page { padding: 6rem 1.5rem 3rem; }
+  .lottie-wrap { height: 300px; }
 }
 </style>

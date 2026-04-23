@@ -85,40 +85,42 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 2rem;
+  gap: 1.5rem;
+  padding: 4rem 2rem;
+  background: white;
 }
 
 .dot-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
+  gap: 8px;
 }
 
 .dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.15);
-  transition: background 0.1s ease;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0, 24, 25, 0.05);
+  transition: all 0.2s ease;
 }
 
 .dot.active {
-  background: var(--acid, #D4FF00);
+  background: var(--primary);
+  transform: scale(1.2);
 }
 
 .loader-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: rgba(243, 244, 246, 0.6);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.2em;
 }
 
 .dot-flow-loader.ready {
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.5s ease;
 }
 </style>

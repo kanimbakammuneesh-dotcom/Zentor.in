@@ -105,112 +105,110 @@ onMounted(() => {
 }
 
 .contact-section {
-  padding: 4rem 1rem;
-  max-width: 1000px;
+  padding: var(--section-gap) 1.5rem;
+  max-width: var(--container-max);
   margin: 0 auto;
 }
 
 .contact-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-bottom: 4rem;
 }
 
 .contact-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 2rem;
+  background: white;
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 3.5rem 2rem;
   text-align: center;
-  backdrop-filter: blur(10px);
-  transition: transform 0.3s, border-color 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 }
 
 .contact-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--acid);
+  border-color: var(--secondary);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 24, 25, 0.08);
 }
 
 .icon-wrapper {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--acid) 0%, var(--magenta) 100%);
-  margin-bottom: 1.5rem;
-}
-
-.icon-wrapper svg {
-  color: var(--bg);
+  background: var(--tertiary);
+  margin-bottom: 2rem;
+  color: var(--primary);
+  border: 1px solid rgba(0, 24, 25, 0.05);
 }
 
 .contact-card h3 {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.25rem;
+  font-family: 'Newsreader', serif;
+  font-size: 1.75rem;
   font-weight: 600;
-  color: var(--text);
-  margin-bottom: 0.5rem;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
 }
 
 .contact-card p {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.95rem;
-  color: var(--muted);
-  margin-bottom: 1.25rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
 }
 
 .contact-link {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--acid);
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--secondary);
   text-decoration: none;
-  transition: opacity 0.3s;
+  transition: all 0.3s ease;
 }
 
 .contact-link:hover {
-  opacity: 0.8;
+  color: var(--primary);
+  text-decoration: underline;
 }
 
 .hours-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 2rem;
+  background: var(--bg);
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
   text-align: center;
-  backdrop-filter: blur(10px);
 }
 
 .hours-card h3 {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.125rem;
+  font-family: 'Newsreader', serif;
+  font-size: 1.5rem;
   font-weight: 600;
-  color: var(--text);
+  color: var(--primary);
   margin-bottom: 1rem;
 }
 
 .hours-card p {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1rem;
-  color: var(--muted);
-  margin-bottom: 0.5rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.0625rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
 }
 
 .hours-card .note {
   font-size: 0.875rem;
-  color: var(--magenta);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .contact-card { transition: none; }
+  font-weight: 800;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 @media (max-width: 768px) {
-  .contact-cards {
-    grid-template-columns: 1fr;
-  }
+  .contact-cards { grid-template-columns: 1fr; gap: 1.5rem; }
+  .contact-card { padding: 2.5rem 1.5rem; }
 }
 </style>

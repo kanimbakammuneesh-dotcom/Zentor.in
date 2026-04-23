@@ -57,14 +57,10 @@ function handleApply() {
   }
 }
 
-onMounted(() => {
-  fetchJob()
-  
-  // Monetag Integration
+function injectMonetag() {
   if (!window._monetagInitializedDetail) {
     window._monetagInitializedDetail = true
     
-    // Global Tag
     const tag = document.createElement('script')
     tag.id = 'monetag-tag'
     tag.src = 'https://quge5.com/88/tag.min.js'
@@ -73,13 +69,29 @@ onMounted(() => {
     tag.setAttribute('data-cfasync', 'false')
     document.head.appendChild(tag)
 
-    // Popunder
     const pop = document.createElement('script')
     pop.id = 'monetag-popunder'
     pop.dataset.zone = '10902056'
     pop.src = 'https://al5sm.com/tag.min.js'
     pop.setAttribute('data-cfasync', 'false')
     document.body.appendChild(pop)
+  }
+}
+
+onMounted(() => {
+  fetchJob()
+  
+  const hero = document.querySelector('.hero')
+  if (hero) {
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) {
+        injectMonetag()
+        observer.disconnect()
+      }
+    }, { threshold: 0 })
+    observer.observe(hero)
+  } else {
+    injectMonetag()
   }
 })
 
@@ -194,7 +206,6 @@ watch(job, (newJob) => {
         </span>
       </div>
 
-      <!-- <AdsterraBanner /> -->
       <div class="skills-section" v-if="job.skills && job.skills.length">
         <h3>Required Skills</h3>
         <div class="skills-list">
@@ -214,7 +225,6 @@ watch(job, (newJob) => {
         <p class="apply-note">Opening job posting...</p>
       </div>
 
-      <!-- <AdsterraBanner /> -->
       <div class="job-footer">
         <p class="posted-date">Posted {{ formatDate(job.created_at) }}</p>
       </div>
@@ -225,68 +235,66 @@ watch(job, (newJob) => {
 <style scoped>
 .page {
   min-height: 100vh;
-  padding-top: 6rem;
+  padding-top: 100px;
+  background: white;
 }
 
 .job-detail {
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 4rem 5% 6rem;
+  padding: 60px 24px 120px;
 }
 
 .detail-header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
 .btn-back-nav {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--acid);
+  color: var(--primary);
   text-decoration: none;
-  padding: 0.75rem 1.25rem;
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.75rem 1.5rem;
+  background: var(--bg);
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
 }
 
 .btn-back-nav:hover {
-  border-color: var(--acid);
-  background: rgba(167, 138, 254, 0.1);
-  transform: translateX(-5px);
-  box-shadow: 0 0 20px rgba(167, 138, 254, 0.2);
-}
-
-.back-icon {
-  font-size: 1.2rem;
-  line-height: 1;
+  background: white;
+  border-color: var(--secondary);
+  color: var(--secondary);
+  transform: translateX(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .job-hero {
   display: flex;
-  gap: 2.5rem;
+  gap: 3rem;
   align-items: flex-start;
-  margin-bottom: 3rem;
-  background: var(--glass-bg);
-  padding: 2.5rem;
-  border: 1px solid var(--border);
-  border-radius: 24px;
+  margin-bottom: 4rem;
+  padding-bottom: 4rem;
+  border-bottom: 1px solid rgba(0, 24, 25, 0.05);
 }
 
 .company-logo {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   flex-shrink: 0;
   background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 15px;
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo-img {
@@ -302,8 +310,8 @@ watch(job, (newJob) => {
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-size: 3rem;
+  font-weight: 700;
   color: white;
 }
 
@@ -312,143 +320,152 @@ watch(job, (newJob) => {
 }
 
 .job-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: var(--text);
+  font-family: 'Newsreader', serif;
+  font-size: 3.5rem;
+  font-weight: 600;
+  color: var(--primary);
   margin: 0 0 0.5rem;
-  line-height: 1.2;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .job-company {
+  font-family: 'Manrope', sans-serif;
   font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--acid);
-  margin: 0 0 1.5rem;
+  font-weight: 700;
+  color: var(--secondary);
+  margin: 0 0 2rem;
 }
 
 .job-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .meta-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 0.95rem;
-  color: var(--text-dim);
+  gap: 0.5rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-muted);
   background: var(--bg);
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.25rem;
   border-radius: 100px;
-  border: 1px solid var(--border);
+  font-weight: 700;
 }
 
-.meta-item.remote {
-  color: var(--cyan);
-  border-color: rgba(0, 255, 255, 0.2);
+.meta-item svg {
+  color: var(--primary);
+  opacity: 0.6;
 }
 
 .salary-range {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, rgba(167, 138, 254, 0.1), rgba(0, 255, 255, 0.05));
-  padding: 1.5rem 2rem;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  margin-bottom: 3rem;
+  background: var(--tertiary);
+  padding: 2rem 2.5rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 4rem;
+  border: 1px solid rgba(0, 24, 25, 0.05);
 }
 
 .salary-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Manrope', sans-serif;
   text-transform: uppercase;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 0.1em;
+  opacity: 0.6;
 }
 
 .salary-value {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text);
+  font-family: 'Newsreader', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary);
 }
 
 .skills-section, .description-section {
-  margin-bottom: 3.5rem;
+  margin-bottom: 4rem;
 }
 
 h3 {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  color: var(--text);
+  font-family: 'Newsreader', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: var(--primary);
 }
 
 .skills-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .skill-tag {
-  background: var(--glass-bg);
-  color: var(--text);
-  padding: 0.6rem 1.25rem;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  font-size: 0.9rem;
-  font-weight: 600;
+  background: white;
+  color: var(--primary);
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 24, 25, 0.1);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
 }
 
 .apply-section {
   text-align: center;
-  background: var(--glass-bg);
-  padding: 3rem;
-  border-radius: 24px;
-  border: 1px solid var(--border);
-  margin-bottom: 3rem;
+  padding: 4rem 2rem;
+  background: var(--primary);
+  border-radius: var(--radius-lg);
+  color: white;
+  margin-bottom: 4rem;
+  box-shadow: 0 20px 40px rgba(0, 24, 25, 0.15);
 }
 
 .btn-apply {
-  padding: 1.25rem 3.5rem;
-  background: var(--acid);
+  padding: 1.25rem 4rem;
+  background: var(--secondary);
   border: none;
-  border-radius: 12px;
-  font-family: 'Unbounded', sans-serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--bg);
+  border-radius: var(--radius-md);
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: white;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: 1rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  margin-bottom: 1.5rem;
 }
 
 .btn-apply:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(167, 138, 254, 0.4);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(217, 119, 6, 0.3);
 }
 
 .apply-note {
-  font-size: 0.85rem;
-  color: var(--muted);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .loading-state, .error-state {
   text-align: center;
-  padding: 10rem 5%;
+  padding: 120px 24px;
 }
 
 .spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid var(--border);
-  border-top-color: var(--acid);
+  width: 56px;
+  height: 56px;
+  border: 3px solid var(--surface);
+  border-top-color: var(--secondary);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 1.5rem;
+  animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  margin: 0 auto 2rem;
 }
 
 @keyframes spin {
@@ -457,49 +474,26 @@ h3 {
 
 .job-footer {
   text-align: center;
-  border-top: 1px solid var(--border);
-  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 24, 25, 0.05);
+  padding-top: 3rem;
 }
 
 .posted-date {
-  font-size: 0.85rem;
-  color: var(--text-dim);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 @media (max-width: 768px) {
-  .job-detail {
-    padding: 2rem 5% 4rem;
-  }
-  .job-hero {
-    flex-direction: column;
-    padding: 1.5rem;
-    gap: 1.5rem;
-    text-align: center;
-    align-items: center;
-  }
-  .job-title {
-    font-size: 1.75rem;
-  }
-  .job-company {
-    font-size: 1.2rem;
-  }
-  .job-meta {
-    justify-content: center;
-    gap: 1rem;
-  }
-  .salary-range {
-    flex-direction: column;
-    gap: 0.75rem;
-    text-align: center;
-    padding: 1.25rem;
-  }
-  .salary-value {
-    font-size: 1.25rem;
-  }
-  .btn-apply {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.1rem;
-  }
+  .job-detail { padding: 40px 20px 80px; }
+  .job-hero { flex-direction: column; gap: 2rem; padding-bottom: 2.5rem; }
+  .job-title { font-size: 2.25rem; }
+  .job-company { font-size: 1.25rem; margin-bottom: 1.5rem; }
+  .salary-range { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; }
+  .salary-value { font-size: 1.5rem; }
+  .btn-apply { width: 100%; padding: 1rem; }
 }
 </style>
