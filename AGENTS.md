@@ -140,34 +140,62 @@ const features = [
 
 ### Always Use These Skills
 
-1. **@.agent/skills/vue-best-practices** - For any Vue.js work
+1. **@.agent/skills/caveman** — For ALL communication
+   - Active mode: full (default)
+   - Response pattern: `[thing] [action] [reason]. [next step].`
+   - No: filler, articles (a/an/the), hedging, pleasantries
+   - Yes: concise, technical, fragments OK
+   - Invoke: "caveman mode" or auto-triggered
+
+2. **@.agent/skills/brainstorming** — Before ANY creative work
+   - BEFORE implementing: features, components, UI changes, behavior
+   - Process: Explore → Clarify → Propose → Get approval
+   - NO code until design approved
+   - Invoke: automatic before creative tasks
+
+3. **@.agent/skills/frontend-design** — For ALL UI work
+   - Design thinking before code
+   - Typography, color, motion, spatial composition
+   - No generic AI aesthetics
+   - Invoke: when building/fixing UI components/pages
+
+4. **@.agent/skills/task-breakdown** — For COMPLEX tasks
+   - Break into executable tasks with acceptance criteria
+   - Each task: ONE testable outcome
+   - Output: `.agents/tasks.md`
+   - Invoke: when task has multiple steps
+
+5. **@.agent/skills/vue-best-practices** — For ANY Vue.js work
    - Use Composition API with `<script setup>`
    - Create reusable components, avoid duplicate code
    - Split large components into smaller focused ones
 
-2. **@.agent/skills/ui-ux-pro-max** - For UI/UX decisions
+6. **@.agent/skills/ui-ux-pro-max** — For UI/UX decisions
    - Design system, colors, typography
    - Accessibility (contrast, touch targets, ARIA)
    - Layout and responsive behavior
 
-3. **@.agent/skills/best-practices** - For prompt transformation
+7. **@.agent/skills/best-practices** — For prompt transformation
    - When unclear about requirements
    - For complex multi-step tasks
 
-4. **@.agent/skills/graphify** - For code traversal
-   - Use to explore the codebase and find symbols
+8. **@.agent/skills/graphify** — For CODE TRAVERSAL
+   - Use to explore codebase and find symbols
    - MANDATORY: Use graphify query before manual grep search
 
 ### When to Use Skills
 
 | Task | Skill(s) | Notes |
 |------|----------|-------|
-| Create new component | vue-best-practices | Follow component patterns |
+| Any communication | caveman | Terse, technical, no filler |
+| Create feature | brainstorming → frontend-design → task-breakdown | Explore before code |
+| Build UI component | frontend-design | Design first, get approval |
+| Complex multi-step | task-breakdown | Decompose before implementing |
+| Vue component | vue-best-practices | Follow patterns |
+| Find code symbols | graphify | NEVER grep before graphify |
 | Design new page section | ui-ux-pro-max | Match design system |
 | Fix accessibility issues | ui-ux-pro-max | Check contrast, ARIA |
-| Complex refactoring | vue + best-practices | Plan first, then implement |
 | SEO improvements | ui-ux-pro-max | Meta tags, structured data |
-| Search code symbols | graphify | Find locations before editing |
 
 ---
 
