@@ -2,58 +2,107 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
 >
   <url>
     <loc>https://zentor.in/</loc>
-    <lastmod>2026-04-21</lastmod>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://zentor.in/logos/zentor_for_darkbg.png</image:loc>
-      <image:title>Zentor — Career Guidance & Placements</image:title>
-      <image:caption>Your journey from student to professional starts here. AI courses, career guidance, and job placements for Gen Z.</image:caption>
+      <image:title>Zentor — Career Guidance & Placements for Gen Z</image:title>
+      <image:caption>AI courses, career guidance, and job placements for Gen Z students in India.</image:caption>
     </image:image>
     <xhtml:link rel="alternate" hreflang="en" href="https://zentor.in/" />
     <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/" />
   </url>
   <url>
-    <loc>https://zentor.in/jobs/</loc>
-    <lastmod>2026-04-21</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://zentor.in/courses/</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://zentor.in/logos/zentor_for_darkbg.png</image:loc>
-      <image:title>Tech Jobs in India — Zentor</image:title>
-      <image:caption>Find latest full-stack, AI, and developer jobs in Chennai, Bengaluru and Remote</image:caption>
+      <image:title>Tech Courses for Placement — Zentor</image:title>
+      <image:caption>Fullstack, AI, Data Analytics, and Python courses for career growth.</image:caption>
     </image:image>
-    <xhtml:link rel="alternate" hreflang="en" href="https://zentor.in/jobs/" />
-    <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/jobs/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://zentor.in/courses/" />
+    <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/courses/" />
   </url>
   <url>
     <loc>https://zentor.in/admissions/</loc>
-    <lastmod>2026-04-21</lastmod>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <image:image>
       <image:loc>https://zentor.in/logos/zentor_for_darkbg.png</image:loc>
-      <image:title>University Guidance 2026 — Zentor</image:title>
-      <image:caption>Get expert guidance for your university journey and career transitions.</image:caption>
+      <image:title>College Admissions Guidance — Zentor</image:title>
+      <image:caption>Get expert guidance for university admissions in Chennai and Bengaluru.</image:caption>
     </image:image>
     <xhtml:link rel="alternate" hreflang="en" href="https://zentor.in/admissions/" />
     <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/admissions/" />
   </url>
   <url>
+    <loc>https://zentor.in/internship/</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zentor.in/logos/zentor_for_darkbg.png</image:loc>
+      <image:title>Internship Program — Zentor</image:title>
+      <image:caption>Fullstack and AI internships with certifications.</image:caption>
+    </image:image>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zentor.in/internship/" />
+    <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/internship/" />
+  </url>
+  <url>
+    <loc>https://zentor.in/jobs/</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://zentor.in/logos/zentor_for_darkbg.png</image:loc>
+      <image:title>Tech Jobs in India — Zentor</image:title>
+      <image:caption>Find latest full-stack, AI, and developer jobs in Chennai, Bengaluru and Remote.</image:caption>
+    </image:image>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zentor.in/jobs/" />
+    <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/jobs/" />
+  </url>
+  <url>
     <loc>https://zentor.in/referrals/</loc>
-    <lastmod>2026-04-21</lastmod>
+    <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://zentor.in/logos/zentor_for_darkbg.png</image:loc>
       <image:title>Refer and Earn — Zentor</image:title>
-      <image:caption>Share Zentor with friends and earn rewards</image:caption>
+      <image:caption>Share Zentor with friends and earn rewards.</image:caption>
     </image:image>
     <xhtml:link rel="alternate" hreflang="en" href="https://zentor.in/referrals/" />
     <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/referrals/" />
+  </url>
+  <url>
+    <loc>https://zentor.in/privacy/</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zentor.in/privacy/" />
+    <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/privacy/" />
+  </url>
+  <url>
+    <loc>https://zentor.in/terms/</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zentor.in/terms/" />
+    <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/terms/" />
+  </url>
+  <url>
+    <loc>https://zentor.in/contact/</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zentor.in/contact/" />
+    <xhtml:link rel="alternate" hreflang="en-IN" href="https://zentor.in/contact/" />
   </url>
 </urlset>
