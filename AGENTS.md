@@ -176,7 +176,7 @@ const features = [
 ### Monetag Scoped Integration
 Zentor uses **Monetag** for monetization. To maintain high UX standards, ads are strictly localized to the Jobs section.
 
-1.  **Injection**: Monetag scripts (Global Tag & Popunder) are injected via `onMounted` in `Jobs.vue` and `JobDetail.vue`.
+1.  **Lazy Injection**: Monetag scripts are injected via `IntersectionObserver` when user scrolls past the hero section. This prevents ad interference on page load.
 2.  **Scoped Purging**: A global navigation guard in `src/main.js` (`router.afterEach`) monitors route changes. If the user leaves the `/jobs/` path, all ad scripts are physically removed from the DOM by their IDs (`monetag-tag`, `monetag-popunder`).
 3.  **Initialization**: Global window flags (`_monetagInitialized`) are used to prevent duplicate script injection. These are reset by the navigation guard upon cleanup.
 
