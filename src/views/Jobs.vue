@@ -66,14 +66,10 @@ async function fetchJobs() {
   }
 }
 
-onMounted(() => {
-  document.title = 'Tech Jobs in India | Zentor'
-  
-  // Monetag Integration
+function injectMonetag() {
   if (!window._monetagInitialized) {
     window._monetagInitialized = true
     
-    // Global Tag
     const tag = document.createElement('script')
     tag.id = 'monetag-tag'
     tag.src = 'https://quge5.com/88/tag.min.js'
@@ -82,13 +78,29 @@ onMounted(() => {
     tag.setAttribute('data-cfasync', 'false')
     document.head.appendChild(tag)
 
-    // Popunder
     const pop = document.createElement('script')
     pop.id = 'monetag-popunder'
     pop.dataset.zone = '10902056'
     pop.src = 'https://al5sm.com/tag.min.js'
     pop.setAttribute('data-cfasync', 'false')
     document.body.appendChild(pop)
+  }
+}
+
+onMounted(() => {
+  document.title = 'Tech Jobs in India | Zentor'
+  
+  const hero = document.querySelector('.hero')
+  if (hero) {
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) {
+        injectMonetag()
+        observer.disconnect()
+      }
+    }, { threshold: 0 })
+    observer.observe(hero)
+  } else {
+    injectMonetag()
   }
 
   const metaTags = [
