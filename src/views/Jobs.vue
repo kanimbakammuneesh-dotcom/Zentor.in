@@ -66,43 +66,9 @@ async function fetchJobs() {
   }
 }
 
-function injectMonetag() {
-  if (!window._monetagInitialized) {
-    window._monetagInitialized = true
-    
-    const tag = document.createElement('script')
-    tag.id = 'monetag-tag'
-    tag.src = 'https://quge5.com/88/tag.min.js'
-    tag.dataset.zone = '231794'
-    tag.async = true
-    tag.setAttribute('data-cfasync', 'false')
-    document.head.appendChild(tag)
-
-    const pop = document.createElement('script')
-    pop.id = 'monetag-popunder'
-    pop.dataset.zone = '10902056'
-    pop.src = 'https://al5sm.com/tag.min.js'
-    pop.setAttribute('data-cfasync', 'false')
-    document.body.appendChild(pop)
-  }
-}
-
 onMounted(() => {
   document.title = 'Tech Jobs in India | Zentor'
   
-  const hero = document.querySelector('.hero')
-  if (hero) {
-    const observer = new IntersectionObserver((entries) => {
-      if (!entries[0].isIntersecting) {
-        injectMonetag()
-        observer.disconnect()
-      }
-    }, { threshold: 0 })
-    observer.observe(hero)
-  } else {
-    injectMonetag()
-  }
-
   const metaTags = [
     { name: 'description', content: 'Find the latest tech jobs in India. Filter by full-stack, AI, location, and experience. Apply to top companies and startups.' },
     { property: 'og:title', content: 'Tech Jobs in India | Zentor' },
@@ -342,4 +308,3 @@ onMounted(() => {
   .btn { width: 100%; }
 }
 </style>
-e>
