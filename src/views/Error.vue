@@ -22,7 +22,7 @@ onMounted(() => {
   document.title = '404 — Page Not Found | Zentor'
   
   const metaTags = [
-    { name: 'description', content: 'The page you were looking for could not be found. Return to the Zentor homepage.' },
+    { name: 'description', content: 'The page you were looking for could not be found. Return to the Zentor homepage to explore our tech courses, college admissions, internships, and job opportunities.' },
     { name: 'robots', content: 'noindex, nofollow' },
     { name: 'googlebot', content: 'noindex, nofollow' },
   ]
