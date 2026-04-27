@@ -55,6 +55,50 @@
         <p>Monday - Saturday: 9:00 AM - 7:00 PM IST</p>
         <p class="note">We typically respond within 24 hours</p>
       </div>
+
+      <div class="faq-section">
+        <h2 class="faq-title">Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+          <h3>What services does Zentor provide?</h3>
+          <p>Zentor provides AI-powered college admission guidance, career counseling, and placement support for students in India. We help students find the right colleges in Chennai and Bengaluru, prepare for admissions, and connect with job opportunities in tech.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>How do I apply for admissions through Zentor?</h3>
+          <p>Simply visit our admissions page and fill out the form. Our team will contact you within 24 hours to discuss your academic profile, preferences, and guide you through the admission process for partner colleges.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Are your services free?</h3>
+          <p>Yes, our basic counseling and guidance services are completely free. We partner with colleges who support our platform, allowing us to offer quality guidance at no cost to students.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Which colleges do you work with?</h3>
+          <p>We work with top colleges in Chennai and Bengaluru offering courses in Engineering, Business, Arts, and Science streams. Our partner institutions are recognized by UGC and offer quality education with placement opportunities.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Do you provide job placement assistance?</h3>
+          <p>Yes! We offer a dedicated job board with opportunities in full-stack development, AI, data analytics, and Python programming. Students can browse and apply to relevant positions directly through our platform.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>How long does the admission process take?</h3>
+          <p>The admission process varies depending on the college and course. Typically, it takes 2-4 weeks from application to securing admission. Our team keeps you updated throughout the process.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Can I get career counseling before choosing a course?</h3>
+          <p>Absolutely! Our expert counselors help you understand your strengths, interests, and career goals to recommend the most suitable courses and colleges for your future success.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>What documents do I need for the admission process?</h3>
+          <p>Common documents include your 10th and 12th mark sheets, passport-size photos, ID proof, and category certificates if applicable. Our team will provide a complete checklist based on your chosen college and course.</p>
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -205,6 +249,45 @@ onMounted(() => {
   color: var(--secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.faq-section {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-title {
+  font-family: 'Newsreader', serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.faq-item {
+  background: white;
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.faq-item h3 {
+  font-family: 'Newsreader', serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.faq-item p {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
 }
 
 @media (max-width: 768px) {

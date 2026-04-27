@@ -26,6 +26,45 @@
       src="https://zentor.fillout.com/referral_form"
       aria-label="Referral signup form"
     />
+
+    <section class="faq-section">
+      <h2 class="faq-title">Frequently Asked Questions</h2>
+      
+      <div class="faq-item">
+        <h3>How do I earn rewards through referrals?</h3>
+        <p>Simply share your unique referral link with friends and family. When someone uses your link to apply and successfully enrolls in a college through Zentor, you both qualify for exclusive rewards and benefits.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What rewards can I earn?</h3>
+        <p>Referral rewards include cash bonuses, exclusive scholarships for your referrals, priority counseling sessions, and special merchandise for top referrers. The more people you refer, the higher your rewards!</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Is there a limit on how many friends I can refer?</h3>
+        <p>No limit at all! You can refer as many friends and family members as you like. There's no cap on earning potential - every successful referral counts toward your rewards.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>When do I receive my referral rewards?</h3>
+        <p>Rewards are processed once your referral completes their admission process and enrolls in a college. You'll receive your reward within 30 days of their enrollment confirmation.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Who can I refer?</h3>
+        <p>You can refer anyone who is looking for college admission guidance in India, particularly those interested in institutions in Chennai and Bengaluru. This includes recent 12th graduates, transfer students, and parents looking for guidance for their children.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I track my referrals?</h3>
+        <p>After you sign up for the referral program, you'll receive a unique dashboard where you can track your referral links, see who has used them, and monitor your reward status.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What if my friend doesn't get admitted?</h3>
+        <p>Rewards are only given for successful enrollments. However, we encourage you to refer anyone interested in higher education - our team provides free guidance to all applicants regardless of admission outcome.</p>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -91,3 +130,53 @@ onMounted(() => {
   })
 })
 </script>
+
+<style scoped>
+.faq-section {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--section-gap) 1.5rem;
+}
+
+.faq-title {
+  font-family: 'Newsreader', serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.faq-item {
+  background: white;
+  border: 1px solid rgba(0, 24, 25, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.faq-item:hover {
+  border-color: var(--secondary);
+}
+
+.faq-item h3 {
+  font-family: 'Newsreader', serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.faq-item p {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .faq-item { padding: 2rem 1.5rem; }
+}
+</style>
