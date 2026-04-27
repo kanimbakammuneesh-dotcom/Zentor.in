@@ -10,7 +10,7 @@
     </div>
     <h1 class="error-code">404</h1>
     <p class="error-title">Page Not Found</p>
-    <p class="error-message">The page you're looking for couldn't be loaded. Let's get you back on track.</p>
+    <p class="error-message">The page you're looking for doesn't exist or may have been moved. Explore our courses, admissions, internships, or job listings to find what you need. We're here to help you build your career in tech.</p>
     <router-link to="/" class="btn-home">Back to Home</router-link>
   </section>
 </template>
